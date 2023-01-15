@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from administrador.models import Categorias
 from administrador.forms import CategoriasForm
 # Listas basadas en Clases
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 
 class CategoryListView(ListView):
@@ -30,9 +30,8 @@ class CategoryListView(ListView):
         context['title'] = 'Listado de Categorías'
         context['create_url'] = reverse_lazy('erp:category_create')
         context['list_url'] = reverse_lazy('erp:category_list')
-        context['entity'] = 'Categorias'
+        context['entity'] = 'Categorías'
         return context
-
 
 class CategoryCreateView(CreateView):
     model = Categorias
@@ -66,11 +65,10 @@ class CategoryCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear nueva Categoría'
-        context['entity'] = 'Categorias'
+        context['entity'] = 'Categorías'
         context['list_url'] = reverse_lazy('erp:category_list')
         context['action'] = 'create'
         return context
-
 
 class CategoryUpdateView(UpdateView):
     model = Categorias
@@ -101,8 +99,33 @@ class CategoryUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editar Categoría'
-        context['entity'] = 'Categorias'
+        context['entity'] = 'Categorías'
         context['list_url'] = reverse_lazy('erp:category_list')
         context['action'] = 'editar'
         return context;
+
+class CategoryDeleteView(DeleteView):
+    model = Categorias
+    template_name = 'pages/category/category_delete.html'
+    success_url = reverse_lazy('erp:category_list')
+    
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete() 
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Eliminar Categoría' 
+        context['entity'] = 'Categorías' 
+        context['list_url'] = reverse_lazy('erp:category_list')
+        return context
     
