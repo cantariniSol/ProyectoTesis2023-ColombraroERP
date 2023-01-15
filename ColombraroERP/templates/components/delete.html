@@ -1,0 +1,53 @@
+{% extends 'components/body.html' %}
+
+{% block content %}
+    <form method='POST' action=".">
+        <div class="card card-default">
+            <div class="card-header bg-info">
+                <h3 class="card-title">
+                    <i class="fas fa-trash"></i>
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+                <div class="alert alert-danger alert-dismissible">
+                    <h5><i class="icon fas fa-ban"></i>CUIDADO!!</h5>
+                    Se está por eliminar la categoría "{{object.nombre |upper}}"
+                    <br>
+                    ¿Estás segura/o?
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-danger btnTest" data-toggle="tooltip" data-placement="right" title="Aceptar">
+                    <i class="fas fa-save"></i> Si, aceptar!
+                </button>
+                <a href="{{list_url}}" type="submit" class="btn btn-primary btnTest" data-toggle="tooltip" data-placement="right" title="Cancelar">
+                    <i class="fas fa-times"></i> No, cancelar!
+                </a>
+            </div>
+        </div>
+    </form>
+    <script> 
+        $('form').on('submit', function(e){
+            e.preventDefault();
+            /*this hace referencia a los valores del forms*/
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {},
+                dataType: 'json'
+            }).done((data)=>{
+                if(!data.hasOwnProperty('error')){
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+            message_error(data.error);
+            }).fail((jqXHR, textStatus, errorThrown)=>{
+                alert(textStatus+ ': ' + errorThrown)
+            }).always((data)=>{
+                
+            });
+        }); 
+    </script>
+{% endblock %}

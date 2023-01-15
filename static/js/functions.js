@@ -1,13 +1,13 @@
 function message_error(obj) {
     var html = ''
     if (typeof (obj) === 'object') {
-        html = '<ul style="text-aling: left;">';
+        html = '<p style="text-aling: left;">';
         $.each(obj, (key, value) => {
-            html += '<li>' + key + ': ' + value + '</li>';
+            html += '<span>' + key + ': ' + value + '</span>';
         });
-        html += '</ul>';
+        html += '</p>';
     } else {
-        html = '<p>'+obj+'</p>'
+        html = '<p>' + obj + '</p>'
     }
     Swal.fire({
         title: 'Error!',

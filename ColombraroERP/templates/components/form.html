@@ -1,0 +1,75 @@
+{% extends 'components/body.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <form method='POST' action=".">
+        <div class="card card-default">
+            <div class="card-header bg-info">
+                <h3 class="card-title">
+                {% if action == 'create' %}
+                    <i class="fas fa-plus"></i>
+                {% else %}
+                    <i class="fas fa-edit"></i>
+                {% endif %}
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="{{ action }}">
+                {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <!--Labels --> 
+                    <label for="nombre_cat" class="form-label">{{field.label}}</label>
+                    <!-- Campos -->
+                    <!--Libreria django-widget-tweaks -->
+                    {{ field |add_class:"form-control" |attr:"autocomplete:off" |attr:"rows:3"|attr:"cols:5" |attr:"autofocus" }}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-success btnTest" data-toggle="tooltip" data-placement="right" title="Guardar registro">
+                    <i class="fas fa-save"></i> Gurdar registro
+                </button>
+            </div>
+        </div>
+    </form>
+    <script>
+        {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n'
+                    Swal.fire({
+                        title: 'Error!',
+                        text: errors,
+                        icon: 'error', 
+                    }) 
+                {% endfor %}
+            {% endfor %}
+        {% endif %} 
+
+        $('form').on('submit', function(e){
+            e.preventDefault();
+            /*this hace referencia a los valores del forms*/
+            var parameters = $(this).serializeArray();
+            console.log(parameters)
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json'
+            }).done((data)=>{
+                if(!data.hasOwnProperty('error')){
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+            message_error(data.error);
+            }).fail((jqXHR, textStatus, errorThrown)=>{
+                alert(textStatus+ ': ' + errorThrown)
+            }).always((data)=>{
+                
+            });
+        }); 
+    </script>
+{% endblock %}

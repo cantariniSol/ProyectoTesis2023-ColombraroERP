@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # App
-    'administrador.apps.AdministradorConfig',
+    'ColombraroERP.apps.ColombraroERPConfig',
     # Librerias
     'widget_tweaks',
 
