@@ -12,11 +12,14 @@
             </div>
             <div class="card-body">
                 {% csrf_token %}
+                <input type="hidden" name="action" value="{{ action }}">
                 {% for field in form.visible_fields %}
                 <div class="form-group">
-                    <!--Campo Nombre de la Categoría-->
+                    <!--Labels --> 
                     <label for="nombre_cat" class="form-label">{{field.label}}</label>
-                    {{field |add_class:'form-control' |attr:'autocomplete:off'}}
+                    <!-- Campos -->
+                    <!--Libreria django-widget-tweaks -->
+                    {{ field |add_class:"form-control" |attr:"autocomplete:off" |attr:"rows:3"|attr:"cols:5" |attr:"autofocus" }}
                 </div>
                 {% endfor %}
             </div>
@@ -41,5 +44,28 @@
                 {% endfor %}
             {% endfor %}
         {% endif %} 
+
+        $('form').on('submit', function(e){
+            e.preventDefault();
+            /*this hace referencia a los valores del forms*/
+            var parameters = $(this).serializeArray();
+            console.log(parameters)
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json'
+            }).done((data)=>{
+                if(!data.hasOwnProperty('error')){
+                    location.href = '{{ list_url }}';
+                    return false;
+                }
+            message_error(data.error);
+            }).fail((jqXHR, textStatus, errorThrown)=>{
+                alert(textStatus+ ': ' + errorThrown)
+            }).always((data)=>{
+                
+            });
+        }); 
     </script>
 {% endblock %}

@@ -16,12 +16,12 @@
             <td>{{ c.nombre }}</td>
             <td>{{ c.descripcion }}</td>
             <td>
-                <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">
+                <a href="{% url 'erp:category_edit' c.id %}" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">
                     <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar">
+                </a>
+                <a type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar">
                     <i class="fas fa-trash-alt"></i>
-                </button>
+                </a>
             </td>
         </tr>
     {% endfor %}
