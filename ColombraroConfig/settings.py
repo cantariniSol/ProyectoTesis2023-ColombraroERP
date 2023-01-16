@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # App
     'ColombraroERP.apps.ColombraroERPConfig',
+    'ColombraroHomePage.apps.ColombrarohomepageConfig',
+    
     # Librerias
     'widget_tweaks',
 
@@ -55,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ProyectoColombraro.urls'
+ROOT_URLCONF = 'ColombraroConfig.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ProyectoColombraro.wsgi.application'
+WSGI_APPLICATION = 'ColombraroConfig.wsgi.application'
 
 
 # Database

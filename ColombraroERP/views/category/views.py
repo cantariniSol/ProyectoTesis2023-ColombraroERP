@@ -136,3 +136,4 @@ class CategoryDeleteView(DeleteView):
         context['entity'] = 'Categorías' 
         context['list_url'] = reverse_lazy('erp:category_list')
         return context
+
