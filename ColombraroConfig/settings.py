@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # App
+    # APPs
     'ColombraroERP.apps.ColombraroERPConfig',
     'ColombraroHomePage.apps.ColombrarohomepageConfig',
-    
+    'ColombraroLogin.apps.ColombrarologinConfig',
     # Librerias
     'widget_tweaks',
 
@@ -132,3 +132,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/erp/category/list/'
