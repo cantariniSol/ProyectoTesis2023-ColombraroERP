@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.contrib.auth.views import LoginView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView, LogoutView
 
 # Create your views here.
 class LoginFormView(LoginView):
@@ -8,7 +9,7 @@ class LoginFormView(LoginView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('erp:category_list')
-        return super().dispatch(self, request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
