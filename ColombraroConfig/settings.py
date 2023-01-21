@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # APPs
     'ColombraroERP.apps.ColombraroERPConfig',
-    'ColombraroHomePage.apps.ColombrarohomepageConfig',
     'ColombraroLogin.apps.ColombrarologinConfig',
     # Librerias
     'widget_tweaks',
@@ -134,6 +133,8 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login y Logout
-LOGIN_REDIRECT_URL = '/erp/category/list/'
+LOGIN_REDIRECT_URL = '/erp/dashboard/'
 
 LOGOUT_REDIRECT_URL = '/login/'
+
+LOGIN_URL = 'login'

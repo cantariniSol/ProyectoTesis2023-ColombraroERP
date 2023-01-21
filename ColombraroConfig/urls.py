@@ -17,8 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('ColombraroHomePage.urls')),
+    path('', include('ColombraroLogin.urls')),
     path('erp/', include('ColombraroERP.urls')),
-    path('login/', include('ColombraroLogin.urls')),
     path('admin/', admin.site.urls),
 ]
