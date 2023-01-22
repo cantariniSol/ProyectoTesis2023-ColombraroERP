@@ -1,0 +1,46 @@
+{% extends 'components/table.html' %}
+
+{% block columns %}
+    <tr>
+        <th scope="col">Articulo</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Ancho</th>
+        <th scope="col">Largo</th>
+        <th scope="col">Alto</th>
+        <th scope="col">Volumen</th>
+        <th scope="col">Diametro</th>
+        <th scope="col">Imagen</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Precio Venta</th>
+        <th scope="col">Opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+    {% for p in object_list %}
+        <tr>
+            <td>{{ p.articulo }}</td>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.categoria.nombre }}</td>
+            <td>{{ p.ancho }}</td>
+            <td>{{ p.largo }}</td>
+            <td>{{ p.alto }}</td>
+            <td>{{ p.volumen }}</td>
+            <td>{{ p.diametro }}</td>
+            <td>
+                <img src="{{ p.get_imagen }}" class="img-fluid d-block mx-auto" style="width: 50px; height: 50px;">
+            </td>
+            <td>{{ p.precio }}</td>
+            <td>{{ p.precio_venta }}</td>
+            <td>
+                <a href="{% url 'erp:product_update' p.id %}" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'erp:product_delete' p.id %}" type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

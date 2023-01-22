@@ -2,6 +2,8 @@ from django.db import models
 from django.forms import model_to_dict
 from datetime import datetime as date
 
+from ColombraroConfig.settings import MEDIA_URL, STATIC_URL
+
 # Create your models here.
 
 # ================== Modelo: TIPO DE DOCUMENTOS ===========================================
@@ -125,7 +127,8 @@ class Productos(models.Model):
     articulo = models.PositiveIntegerField()
     nombre = models.CharField(
         max_length=150, verbose_name='Nombre', unique=True)
-    categoria = models.ForeignKey(Categorias, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(
+        Categorias, on_delete=models.CASCADE, verbose_name='Categoría')
     ancho = models.DecimalField(
         default=0.00, max_digits=5, decimal_places=2, verbose_name='Ancho (cm)')
     largo = models.DecimalField(
@@ -135,9 +138,9 @@ class Productos(models.Model):
     volumen = models.DecimalField(
         default=0.00, max_digits=5, decimal_places=2, verbose_name='Volumen (lts)')
     diametro = models.DecimalField(
-        default=0.00, max_digits=5, decimal_places=2, verbose_name='Diametro (cm)')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Díametro (cm)')
     imagen = models.ImageField(
-        upload_to='static/img/productos', null=True, blank=True)
+        upload_to='product/', null=True, blank=True)
     precio = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     precio_venta = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
@@ -148,6 +151,14 @@ class Productos(models.Model):
     def delete(self, using=None, keep_parents=False):
         self.imagen.storage.delete(self.imagen.name)
         super().delete()
+
+    def __str__(self):
+        return str(self.articulo) + ' ' + self.nombre
+    
+    def get_imagen(self):
+        if self.imagen:
+            return '{}{}'.format(MEDIA_URL, self.imagen)
+        return '{}{}'.format(STATIC_URL, 'img/empty/empty.png')
 
     class Meta:
         verbose_name = 'Producto'

@@ -53,6 +53,10 @@ class CategoryCreateView(CreateView):
     form_class = CategoriasForm
     template_name = 'pages/category/category_create.html'
     success_url = reverse_lazy('erp:category_list')
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *arg, **kwargs):
         data = {}
