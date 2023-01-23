@@ -148,9 +148,9 @@ class Productos(models.Model):
     def __str__(self):
         return str(self.articulo) + ' ' + self.nombre
 
-    def delete(self, using=None, keep_parents=False):
-        self.imagen.storage.delete(self.imagen.name)
-        super().delete()
+    # def delete(self, using=None, keep_parents=False):
+    #     self.imagen.storage.delete(self.imagen.name)
+    #     super().delete()
 
     def __str__(self):
         return str(self.articulo) + ' ' + self.nombre

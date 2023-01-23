@@ -117,6 +117,6 @@ class ProductDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Eliminar Producto'
-        context['entity'] = 'Productos'
+        context['entity'] = 'Producto'
         context['list_url'] = reverse_lazy('erp:product_list')
         return context
