@@ -44,25 +44,12 @@
         </div>
     </form>
     <script>
-       $('form').on('submit', function(e){
+        $('form').on('submit', function (e) {
             e.preventDefault();
-            /*this hace referencia a los valores del forms*/
-            $.ajax({
-                url: window.location.pathname,
-                type: 'POST',
-                data: {},
-                dataType: 'json'
-            }).done((data)=>{
-                if(!data.hasOwnProperty('error')){
-                    location.href = '{{ list_url }}';
-                    return false;
-                }
-            message_error(data.error);
-            }).fail((jqXHR, textStatus, errorThrown)=>{
-                alert(textStatus+ ': ' + errorThrown)
-            }).always((data)=>{
-                
+            var parameters = $(this).serializeArray();
+            submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de eliminar el siguiente registro?', parameters, function () {
+                location.href = '{{ list_url }}';
             });
-        }); 
+        });
     </script>
 {% endblock %}
