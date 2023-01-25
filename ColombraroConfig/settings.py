@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # APPs
     'ColombraroERP.apps.ColombraroERPConfig',
     'ColombraroLogin.apps.ColombrarologinConfig',
+    'ColombraroUser.apps.ColombrarouserConfig',
     # Librerias
     'widget_tweaks',
 
@@ -144,3 +145,5 @@ LOGIN_URL = 'login'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'ColombraroUser.User'
