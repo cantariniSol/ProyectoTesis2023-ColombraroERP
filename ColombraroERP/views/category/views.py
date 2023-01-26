@@ -27,7 +27,7 @@ class CategoryListView(ListView):
         data = {}
         try:
             action = request.POST['action']
-            if action == 'searchdata':
+            if action == 'category_list':
                 data = []
                 for i in Categorias.objects.all():
                     data.append(i.toJSON())
@@ -45,6 +45,7 @@ class CategoryListView(ListView):
         context['create_url'] = reverse_lazy('erp:category_create')
         context['list_url'] = reverse_lazy('erp:category_list')
         context['entity'] = 'Categorías'
+        context['action'] = 'category_list'
         return context
 
 
@@ -53,7 +54,7 @@ class CategoryCreateView(CreateView):
     form_class = CategoriasForm
     template_name = 'pages/category/category_create.html'
     success_url = reverse_lazy('erp:category_list')
-    
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)

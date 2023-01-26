@@ -75,11 +75,6 @@ class ClientesForm(ModelForm):
                     'placeholder': 'Apellido',
                 }
             ),
-            'tipo_documento': TextInput(
-                attrs={
-                    'placeholder': 'Tipo de Documento',
-                }
-            ),
             'num_documento': NumberInput(
                 attrs={
                     'placeholder': 'Número de Documento',
