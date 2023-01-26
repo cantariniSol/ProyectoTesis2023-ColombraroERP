@@ -16,7 +16,7 @@ class ProductListView(ListView):
     model = Productos
     template_name = 'pages/product/product_list.html'
 
-    @method_decorator(csrf_exempt)
+    @csrf_exempt
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)

@@ -177,9 +177,16 @@ class Clientes(models.Model):
     )
     nombre = models.CharField(max_length=60, verbose_name='Nombre')
     apellido = models.CharField(max_length=60, verbose_name='Apellido')
-    fecha_nacimiento = models.DateField()
-    nacionalidad = models.CharField(max_length=60, verbose_name='Nacionalidad')
-    genero = models.CharField(max_length=4, choices=GENERO)
+    tipo_documento = models.ForeignKey(
+        TipoDocumentos, on_delete=models.CASCADE, verbose_name='Tipo documento')
+    num_documento = models.CharField(
+        max_length=16, unique=True, verbose_name='Número de documento')
+    fecha_nacimiento = models.DateField(default=date.now, verbose_name='Fecha de Nacimiento')
+    genero = models.CharField(max_length=4, choices=GENERO, default='Otro', verbose_name='Género')
+    pais = models.CharField(max_length=60, verbose_name='Pais')
+    provincia = models.CharField(max_length=60, verbose_name='Provincia')
+    localidad = models.CharField(max_length=60, verbose_name='Localidad')
+    barrio = models.CharField(max_length=60, verbose_name='Barrio')
     direccion = models.CharField(max_length=150, verbose_name='Dirección')
     num_telefono = models.IntegerField()
     email = models.EmailField()
@@ -188,6 +195,13 @@ class Clientes(models.Model):
 
     def __str__(self):
         return self.nombre + ' ' + self.apellido
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['genero'] = self.get_gender_display()
+        item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%Y-%m-%d')
+        item['fecha_alta'] = self.fecha_alta.strftime('%Y-%m-%d')
+        return item
 
     class Meta:
         verbose_name = 'Cliente'

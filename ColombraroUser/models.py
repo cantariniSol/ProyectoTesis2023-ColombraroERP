@@ -8,8 +8,8 @@ from ColombraroConfig.settings import MEDIA_URL, STATIC_URL
 
 class User(AbstractUser):
     imagen = models.ImageField(
-        upload_to=' users/', null=True,  blank=True)
-
+        upload_to='users/', null=True,  blank=True)
+    
     def get_imagen(self):
         if self.imagen:
             return '{}{}'.format(MEDIA_URL, self.imagen)
