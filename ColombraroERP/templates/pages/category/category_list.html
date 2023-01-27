@@ -14,7 +14,7 @@
         <tr>
             <td>{{ c.id }}</td>
             <td>{{ c.nombre }}</td>
-            <td>{{ c.descripcion }}</td>
+            <td>{{ c.descripcion | truncatechars:30}} </td>
             <td>
                 <a href="{% url 'erp:category_update' c.id %}" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">
                     <i class="fas fa-edit"></i>

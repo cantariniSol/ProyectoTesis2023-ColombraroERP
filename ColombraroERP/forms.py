@@ -35,8 +35,7 @@ class ProductosForm(ModelForm):
         widgets = {
             'articulo': NumberInput(
                 attrs={
-                    'placeholder': 'Número de Artículo',
-                    'maxlength': 4
+                    'placeholder': 'Artículo',
                 }
             ),
             'nombre': TextInput(
@@ -80,6 +79,11 @@ class ClientesForm(ModelForm):
                     'placeholder': 'Apellido',
                 }
             ),
+            'razon_social': TextInput(
+                attrs={
+                    'placeholder': 'Razón Social',
+                }
+            ),
             'num_documento': NumberInput(
                 attrs={
                     'placeholder': 'Número de Documento',
@@ -87,10 +91,9 @@ class ClientesForm(ModelForm):
                 }
             ),
             'fecha_nacimiento': DateInput(format='%Y-%m-%d',
-                                          attrs={
-                                              'value': datetime.now().strftime('%Y-%m-%d'),
-                                          }
-                                          ),
+            attrs={'value': datetime.now().strftime('%Y-%m-%d'),
+                }
+            ),
             'pais': TextInput(
                 attrs={
                     'placeholder': 'Pais',
@@ -128,6 +131,7 @@ class ClientesForm(ModelForm):
                     'placeholder': 'Email',
                 }
             ),
+            'tipo_factura': Select(),
             'fecha_alta': DateInput(format='%Y-%m-%d',
                                     attrs={
                                         'value': datetime.now().strftime('%Y-%m-%d'),

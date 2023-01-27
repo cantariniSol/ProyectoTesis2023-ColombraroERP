@@ -4,15 +4,7 @@
     <tr>
         <th scope="col" >Nombre</th>
         <th scope="col" >Apellido</th>
-        <th scope="col" >Tipo Doc</th>
-        <th scope="col" >Num Doc</th>
-        <th scope="col" >Fecha de Nac</th>
-        <th scope="col" >Género</th>
-        <th scope="col" >Pais</th>
-        <th scope="col" >Provincia</th>
-        <th scope="col" >Localidad</th>
-        <th scope="col" >Barrio</th>
-        <th scope="col" >Dirección</th>
+        <th scope="col" >Documento</th>
         <th scope="col" >Teléfono</th>
         <th scope="col" >Email</th>
         <th scope="col" >Fecha Alta</th>
@@ -25,15 +17,7 @@
         <tr>
             <td>{{ c.nombre }}</td>
             <td>{{ c.apellido }}</td>
-            <td>{{ c.tipo_documento }}</td>
             <td>{{ c.num_documento }}</td>
-            <td>{{ c.fecha_nacimiento |date:'Y-m-d' }}</td>
-            <td>{{ c.genero }}</td>
-            <td>{{ c.pais }}</td>
-            <td>{{ c.provincia }}</td>
-            <td>{{ c.localidad }}</td>
-            <td>{{ c.barrio }}</td>
-            <td>{{ c.direccion }}</td>
             <td>{{ c.num_telefono }}</td>
             <td>{{ c.email }}</td>
             <td>{{ c.fecha_alta |date:'Y-m-d' }}</td>

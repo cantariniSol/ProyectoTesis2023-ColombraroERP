@@ -13,9 +13,10 @@ from ColombraroConfig.settings import MEDIA_URL, STATIC_URL
 class TipoDocumentos(models.Model):
     TIPO_DOCUMENTOS = (
         ('DNI', 'Documento Nacional de Identidad'),
+        ('CUIL', 'Código Único de Identificación Laboral'),
+        ('Pasaporte', 'Pasaporte'),
         ('LC', 'Librta Cívica'),
         ('LR', 'Libreta de Enrolamiento'),
-        ('Pasaporte', 'Pasaporte'),
     )
     nombre = models.CharField(
         max_length=20, choices=TIPO_DOCUMENTOS, verbose_name='Tipo de documentos')
@@ -125,23 +126,23 @@ class Categorias(models.Model):
 
 
 class Productos(models.Model):
-    articulo = models.PositiveIntegerField(validators=[MinValueValidator(0),MaxValueValidator(15000)])
+    articulo = models.DecimalField(max_digits=4, decimal_places=0, verbose_name="Artículo")
     nombre = models.CharField(
-        max_length=20, verbose_name='Nombre', unique=True)
+        max_length=30, verbose_name='Nombre', unique=True)
     categoria = models.ForeignKey(
         Categorias, on_delete=models.CASCADE, verbose_name='Categoría')
     ancho = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Ancho (cm)')
+        default=0.00, max_digits=3, decimal_places=2, verbose_name='Ancho(cm)')
     largo = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Largo (cm)')
+        default=0.00, max_digits=3, decimal_places=2, verbose_name='Largo(cm)')
     alto = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Alto (cm)')
+        default=0.00, max_digits=3, decimal_places=2, verbose_name='Alto(cm)')
     volumen = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Volumen (lts)')
+        default=0.00, max_digits=3, decimal_places=2, verbose_name='Volumen(lts)')
     diametro = models.DecimalField(
-        default=0.00, max_digits=30, decimal_places=2, verbose_name='Díametro (cm)')
+        default=0.00, max_digits=30, decimal_places=2, verbose_name='Díametro(cm)')
     imagen = models.ImageField(
-        upload_to='product/', null=True, blank=True)
+        upload_to='product/', null=True, blank=True, verbose_name='Imágen')
     precio = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     precio_venta = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
@@ -176,22 +177,32 @@ class Clientes(models.Model):
         ('M', 'Masculino'),
         ('Otro', 'Otro')
     )
-    nombre = models.CharField(max_length=25, verbose_name='Nombre')
-    apellido = models.CharField(max_length=25, verbose_name='Apellido')
+    TIPO_FACTURA = (
+        ('Factura A', 'Factura A'),
+        ('Factura B', 'Factura B'),
+        ('Factura C', 'Factura C'),
+        ('Factura M', 'Factura M'),
+    )
+    nombre = models.CharField(max_length=25, verbose_name='Nombre', null=False)
+    apellido = models.CharField(
+        max_length=25, verbose_name='Apellido', null=False)
+    razon_social = models.CharField(max_length=40, verbose_name='Razón Social', null=True, blank=True)
     tipo_documento = models.ForeignKey(
         TipoDocumentos, on_delete=models.CASCADE, verbose_name='Tipo documento')
     num_documento = models.CharField(
         max_length=16, unique=True, verbose_name='Número de documento')
     fecha_nacimiento = models.DateField(default=date.now, verbose_name='Fecha de Nacimiento')
     genero = models.CharField(max_length=10, choices=GENERO,
-                              default='Otro', verbose_name='Género')
+    default='Otro', verbose_name='Género')
     pais = models.CharField(max_length=25, verbose_name='Pais')
     provincia = models.CharField(max_length=25, verbose_name='Provincia')
     localidad = models.CharField(max_length=25, verbose_name='Localidad')
     barrio = models.CharField(max_length=25, verbose_name='Barrio')
     direccion = models.CharField(max_length=30, verbose_name='Dirección')
-    num_telefono = models.IntegerField(verbose_name='Número de teléfono')
+    num_telefono = models.DecimalField(max_digits=12, decimal_places=0, verbose_name="Número de Teléfono")
     email = models.EmailField(verbose_name="Email")
+    tipo_factura = models.CharField(max_length=10, choices=TIPO_FACTURA,
+                               default='Factura B', verbose_name='Tipo de factura')
     fecha_alta = models.DateField(
         default=date.now, verbose_name='Fecha de alta')
 
@@ -201,8 +212,8 @@ class Clientes(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['genero'] = self.get_gender_display()
-        item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%Y-%m-%d')
-        item['fecha_alta'] = self.fecha_alta.strftime('%Y-%m-%d')
+        item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%d-%m-%Y')
+        item['fecha_alta'] = self.fecha_alta.strftime('%d-%m-%Y')
         return item
 
     class Meta:
