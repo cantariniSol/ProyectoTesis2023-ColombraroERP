@@ -21,8 +21,10 @@ class CategoriasForm(ModelForm):
             data['error'] = str(e)
         return data
 
+
 # --------------- PRODUCTOS FORMS -----------------------
 class ProductosForm(ModelForm):
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['nombre'].widget.attrs['autofocus'] = True
@@ -34,6 +36,7 @@ class ProductosForm(ModelForm):
             'articulo': NumberInput(
                 attrs={
                     'placeholder': 'Número de Artículo',
+                    'maxlength': 4
                 }
             ),
             'nombre': TextInput(
@@ -54,18 +57,20 @@ class ProductosForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
-    
+
 # --------------- CLIENTES FORMS -----------------------
+
+
 class ClientesForm(ModelForm):
+   
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['nombre'].widget.attrs['autofocus'] = True
-
     class Meta:
         model = Clientes
         fields = '__all__'
         widgets = {
-            'nombres': TextInput(
+            'nombre': TextInput(
                 attrs={
                     'placeholder': 'Nombre',
                 }
@@ -78,20 +83,36 @@ class ClientesForm(ModelForm):
             'num_documento': NumberInput(
                 attrs={
                     'placeholder': 'Número de Documento',
+                    'maxlength': 20
                 }
             ),
             'fecha_nacimiento': DateInput(format='%Y-%m-%d',
-                attrs={
-                    'value': datetime.now().strftime('%Y-%m-%d'),
-                }
-            ),
+                                          attrs={
+                                              'value': datetime.now().strftime('%Y-%m-%d'),
+                                          }
+                                          ),
             'pais': TextInput(
                 attrs={
-                    'placeholder': 'pais',
+                    'placeholder': 'Pais',
+                }
+            ),
+            'provincia': TextInput(
+                attrs={
+                    'placeholder': 'Provincia',
+                }
+            ),
+            'localidad': TextInput(
+                attrs={
+                    'placeholder': 'Localidad',
+                }
+            ),
+            'barrio': TextInput(
+                attrs={
+                    'placeholder': 'Barrio',
                 }
             ),
             'gendero': Select(),
-            
+
             'direccion': TextInput(
                 attrs={
                     'placeholder': 'Dirección',
@@ -108,11 +129,11 @@ class ClientesForm(ModelForm):
                 }
             ),
             'fecha_alta': DateInput(format='%Y-%m-%d',
-                attrs={
-                    'value': datetime.now().strftime('%Y-%m-%d'),
-                }
-            )
-            
+                                    attrs={
+                                        'value': datetime.now().strftime('%Y-%m-%d'),
+                                    }
+                                    )
+
         }
 
     def save(self, commit=True):

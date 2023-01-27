@@ -12,7 +12,7 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{request.user.get_imagen}}" class="img-circle elevation-2 bg-light" alt="Imagen de Usuario">
+                <img src="{{request.user.get_imagen}}" class="img-circle elevation-2 bg-light p-1" alt="Imagen de Usuario">
             </div>
             <div class="info ">
                 {% if request.user.first_name == "" or request.user.last_name == "" %}

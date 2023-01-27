@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block content %}
-        <form  action="{{ action }}" method='POST' enctype="multipart/form-data">
+        <form  action="{{ action }}" method='POST' enctype="multipart/form-data" class="form-inline">
             <div class="card card-default">
                 <div class="card-header bg-info">
                     <h3 class="card-title">
@@ -14,7 +14,7 @@
                         {{ title }}
                     </h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body form-group">
                     <input type="hidden" name="action" value="{{ action }}">
                     {% csrf_token %}
                     {% if form.errors %}
@@ -33,10 +33,10 @@
                     {% for field in form.visible_fields %}
                     <div class="form-group">
                         <!--Labels --> 
-                        <label for="nombre_cat" class="form-label">{{field.label}}</label>
+                        <label for="nombre_cat" class="form-label pb-2  pt-3 pl-3">{{field.label}}</label>
                         <!-- Campos -->
                         <!--Libreria django-widget-tweaks -->
-                        {{ field |add_class:"form-control" |attr:"autocomplete:off" |attr:"rows:3"|attr:"cols:5" |attr:"autofocus" }}
+                        {{ field |add_class:"form-control" |attr:"autocomplete:off" |attr:"rows:2"|attr:"cols:65" |attr:"autofocus"}}
                     </div>
                     {% endfor %}
                 </div>

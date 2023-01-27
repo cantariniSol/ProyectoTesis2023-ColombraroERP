@@ -3,7 +3,7 @@ function message_error(obj) {
     if (typeof (obj) === 'object') {
         html = '<p style="text-align:center;">';
         $.each(obj, function (key, value) {
-            html += '<span>' + value + '</span>';
+            html += '<span><b>' + key + ':</b>' + ' ' + value + '</span><br>';
         });
         html += '</p>';
     } else {
