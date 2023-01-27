@@ -1,0 +1,15 @@
+#nav-sidebar .nav-item:hover {
+    background-color: #e8dedf;
+    border-radius: 10px;
+    height: 50px;
+}
+
+#nav-sidebar .nav-link{
+    color:rgb(246, 246, 239);
+}
+
+#nav-sidebar .nav-link:hover {
+    color: rgb(37, 35, 35);
+    letter-spacing: 1px;
+}
+
