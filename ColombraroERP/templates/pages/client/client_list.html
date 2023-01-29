@@ -4,7 +4,8 @@
     <tr>
         <th scope="col" >Nombre</th>
         <th scope="col" >Apellido</th>
-        <th scope="col" >Documento</th>
+        <th scope="col" >Tipo Doc</th>
+        <th scope="col" >Núm Doc</th>
         <th scope="col" >Teléfono</th>
         <th scope="col" >Email</th>
         <th scope="col" >Fecha Alta</th>
@@ -17,12 +18,16 @@
         <tr>
             <td>{{ c.nombre }}</td>
             <td>{{ c.apellido }}</td>
+            <td>{{ c.tipo_documento }}</td>
             <td>{{ c.num_documento }}</td>
             <td>{{ c.num_telefono }}</td>
             <td>{{ c.email }}</td>
             <td>{{ c.fecha_alta |date:'Y-m-d' }}</td>
             <td>
-                <a href="{% url 'erp:client_update' c.id %}" type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">
+                <a href="#" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Ver">
+                    <i class="fas fa-search"></i>
+                </a>
+                <a href="{% url 'erp:client_update' c.id %}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">
                     <i class="fas fa-edit"></i>
                 </a>
                 <a href="{% url 'erp:client_delete' c.id %}" type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar">

@@ -1,4 +1,5 @@
 {% extends 'components/body.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block head_table %}
@@ -13,12 +14,24 @@
 {% block content %}
     <div class="card card-default">
         <div class="card-header bg-info">
-            <h3 class="card-title">
-                <i class="fas fa-list"></i>
-                {{ title }}
-            </h3>
-        </div>
+                <div class="row">
+                            <div class="col-lg-8">
+                                <h3 class="card-title mt-2">
+                                    <i class="fas fa-list"></i>
+                                        {{ title }}
+                                </h3>
+                            </div>
+                            <div class="col-lg-4">
+                                    <a href="{{ create_url }}" class="btn btnTest btn-light" data-toggle="tooltip" data-placement="right" title="Agregar nuevo registro"
+                                    style="margin-left:35%;">
+                                        <i class="fas fa-plus"></i> Nuevo registro
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+            
         <div class="card-body">
+             <!-- Tabla-->
             <table class="table" id="data">
                 <thead>
                 {% block columns %}
@@ -32,20 +45,17 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-footer">
-            <a href="{{ create_url }}" class="btn btn-success btnTest" data-toggle="tooltip" data-placement="right" title="Agregar nuevo registro">
-                <i class="fas fa-plus"></i> Nuevo registro
-            </a>
-        </div>
-    </div>
+    </div>    
 {% endblock %}
 
-{%block javaScript%}
+{% block javaScript %}
+
 <script type="application/javascript">
         $(function () {
             $('#data').DataTable({
                 responsive: true,
-                autoWidth: false
+                autoWidth: false,
+
             });
 
             $('.btnTest').on('click', function () {
@@ -59,10 +69,9 @@
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alert(textStatus + ': ' + errorThrown);
                 }).always(function (data) {
-
                 });
             });
         });
-    </script>
+</script>
 {% endblock %}
 

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
 # Listas basadas en Clases
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 # Categorias
 from ColombraroERP.models import Categorias
 from ColombraroERP.forms import CategoriasForm
@@ -46,6 +46,19 @@ class CategoryListView(ListView):
         context['list_url'] = reverse_lazy('erp:category_list')
         context['entity'] = 'Categorías'
         context['action'] = 'category_list'
+        return context
+
+
+class CategoryDetailView(DetailView):
+    model = Categorias
+    template_name = 'pages/category/category_detail.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Eliminar Categoría'
+        context['entity'] = 'Categorías'
+        context['list_url'] = reverse_lazy('erp:category_list')
         return context
 
 

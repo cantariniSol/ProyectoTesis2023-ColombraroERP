@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.forms import *
-from .models import Categorias, Productos, Clientes
+from .models import Categorias, Productos, Clientes, Ventas
 
 
 # --------------- CATEGORÍAS FORMS -----------------------
@@ -24,7 +24,7 @@ class CategoriasForm(ModelForm):
 
 # --------------- PRODUCTOS FORMS -----------------------
 class ProductosForm(ModelForm):
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['nombre'].widget.attrs['autofocus'] = True
@@ -42,8 +42,12 @@ class ProductosForm(ModelForm):
                 attrs={
                     'placeholder': 'Nombre',
                 }
-            ),
+            )
         }
+        
+
+
+
 
     def save(self, commit=True):
         data = {}
@@ -58,13 +62,11 @@ class ProductosForm(ModelForm):
         return data
 
 # --------------- CLIENTES FORMS -----------------------
-
-
 class ClientesForm(ModelForm):
-   
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['nombre'].widget.attrs['autofocus'] = True
+
     class Meta:
         model = Clientes
         fields = '__all__'
@@ -91,12 +93,12 @@ class ClientesForm(ModelForm):
                 }
             ),
             'fecha_nacimiento': DateInput(format='%Y-%m-%d',
-            attrs={'value': datetime.now().strftime('%Y-%m-%d'),
-                }
-            ),
+                                          attrs={'value': datetime.now().strftime('%Y-%m-%d'),
+                                                 }
+                                          ),
             'pais': TextInput(
                 attrs={
-                    'placeholder': 'Pais',
+                    'placeholder': 'País',
                 }
             ),
             'provincia': TextInput(
@@ -114,7 +116,7 @@ class ClientesForm(ModelForm):
                     'placeholder': 'Barrio',
                 }
             ),
-            'gendero': Select(),
+            'genero': Select(),
 
             'direccion': TextInput(
                 attrs={
@@ -123,7 +125,7 @@ class ClientesForm(ModelForm):
             ),
             'num_telefono': NumberInput(
                 attrs={
-                    'placeholder': 'Número de teléfono',
+                    'placeholder': 'Número de Teléfono',
                 }
             ),
             'email': EmailInput(
@@ -131,7 +133,7 @@ class ClientesForm(ModelForm):
                     'placeholder': 'Email',
                 }
             ),
-            'tipo_factura': Select(),
+            'factura': Select(),
             'fecha_alta': DateInput(format='%Y-%m-%d',
                                     attrs={
                                         'value': datetime.now().strftime('%Y-%m-%d'),
@@ -158,3 +160,24 @@ class ClientesForm(ModelForm):
     #         raise forms.ValidationError('Validacion xxx')
     #         # self.add_error('name', 'Le faltan caracteres')
     #     return cleaned
+
+
+# --------------- VENTAS FORMS -----------------------
+class VentasForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class'] = 'form-control'
+            form.field.widget.attrs['autocomplete'] = 'off'
+            
+        self.fields['cliente'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Ventas
+        fields = '__all__'
+        widgets = {
+            'cliente': Select(),
+            'fecha_venta': DateInput(format='%Y-%m-%d',
+            attrs={'value': datetime.now().strftime('%Y-%m-%d'),}
+            )  
+        }

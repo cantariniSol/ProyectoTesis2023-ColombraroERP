@@ -8,8 +8,6 @@ from ColombraroConfig.settings import MEDIA_URL, STATIC_URL
 # Create your models here.
 
 # ================== Modelo: TIPO DE DOCUMENTOS ===========================================
-
-
 class TipoDocumentos(models.Model):
     TIPO_DOCUMENTOS = (
         ('DNI', 'Documento Nacional de Identidad'),
@@ -31,8 +29,6 @@ class TipoDocumentos(models.Model):
         ordering = ['id']
 
 # ================== Modelo: TIPO EMPLEADOS ===============================================
-
-
 class TipoEmpleados(models.Model):
     TIPO_EMPLEADOS = (
         ('Gerente General', 'Gerente General'),
@@ -56,8 +52,6 @@ class TipoEmpleados(models.Model):
         ordering = ['id']
 
 # ================== Modelo: EMPLEADOS =====================================================
-
-
 class Empleados(models.Model):
     GENERO = (
         ('F', 'Femenimo'),
@@ -100,8 +94,6 @@ class Empleados(models.Model):
         ordering = ['id']
 
 # ================== Modelo: CATEGORÍA DE PRODUCTOS ========================================
-
-
 class Categorias(models.Model):
     nombre = models.CharField(
         max_length=20, verbose_name='Nombre', unique=True)
@@ -123,8 +115,6 @@ class Categorias(models.Model):
         ordering = ['nombre']
 
 # ================== Modelo: PRODUCTOS =====================================================
-
-
 class Productos(models.Model):
     articulo = models.DecimalField(max_digits=4, decimal_places=0, verbose_name="Artículo")
     nombre = models.CharField(
@@ -169,8 +159,6 @@ class Productos(models.Model):
         ordering = ['articulo']
 
 # ================== Modelo: CLIENTES ======================================================
-
-
 class Clientes(models.Model):
     GENERO = (
         ('F', 'Femenimo'),
@@ -188,20 +176,20 @@ class Clientes(models.Model):
         max_length=25, verbose_name='Apellido', null=False)
     razon_social = models.CharField(max_length=40, verbose_name='Razón Social', null=True, blank=True)
     tipo_documento = models.ForeignKey(
-        TipoDocumentos, on_delete=models.CASCADE, verbose_name='Tipo documento')
+        TipoDocumentos, on_delete=models.CASCADE, verbose_name='Tipo de Documento')
     num_documento = models.CharField(
-        max_length=16, unique=True, verbose_name='Número de documento')
+        max_length=16, unique=True, verbose_name='Número de Documento')
     fecha_nacimiento = models.DateField(default=date.now, verbose_name='Fecha de Nacimiento')
     genero = models.CharField(max_length=10, choices=GENERO,
     default='Otro', verbose_name='Género')
-    pais = models.CharField(max_length=25, verbose_name='Pais')
+    pais = models.CharField(max_length=25, verbose_name='País')
     provincia = models.CharField(max_length=25, verbose_name='Provincia')
     localidad = models.CharField(max_length=25, verbose_name='Localidad')
     barrio = models.CharField(max_length=25, verbose_name='Barrio')
     direccion = models.CharField(max_length=30, verbose_name='Dirección')
     num_telefono = models.DecimalField(max_digits=12, decimal_places=0, verbose_name="Número de Teléfono")
     email = models.EmailField(verbose_name="Email")
-    tipo_factura = models.CharField(max_length=10, choices=TIPO_FACTURA,
+    factura = models.CharField(max_length=10, choices=TIPO_FACTURA,
                                default='Factura B', verbose_name='Tipo de factura')
     fecha_alta = models.DateField(
         default=date.now, verbose_name='Fecha de alta')
@@ -211,7 +199,8 @@ class Clientes(models.Model):
     
     def toJSON(self):
         item = model_to_dict(self)
-        item['genero'] = self.get_gender_display()
+        item['genero'] = self.get_gendero_display()
+        item['factura'] = self.get_factura_display()
         item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%d-%m-%Y')
         item['fecha_alta'] = self.fecha_alta.strftime('%d-%m-%Y')
         return item
@@ -227,7 +216,7 @@ class Clientes(models.Model):
 
 class Ventas(models.Model):
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-    fecha_compra = models.DateField(default=date.now, verbose_name="Fecha compra")
+    fecha_venta = models.DateField(default=date.now, verbose_name="Fecha compra")
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
     iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)

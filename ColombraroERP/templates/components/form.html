@@ -31,9 +31,9 @@
                         </div>
                     {% endif %}
                     {% for field in form.visible_fields %}
-                    <div class="form-group">
+                    <div class="form-group m-2">
                         <!--Labels --> 
-                        <label for="nombre_cat" class="form-label pb-2  pt-3 pl-3 px-1">{{field.label}}</label>
+                        <label for="nombre_cat" class="form-label px-1">{{field.label}}</label>
                         <!-- Campos -->
                         <!--Libreria django-widget-tweaks -->
                         {{ field |add_class:"form-control" |attr:"autocomplete:off" |attr:"rows:2"|attr:"cols:65" |attr:"autofocus"}}
