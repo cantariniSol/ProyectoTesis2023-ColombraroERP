@@ -27,14 +27,12 @@ class CategoryListView(ListView):
         data = {}
         try:
             action = request.POST['action']
-            if action == 'category_list':
+            if action == 'searchdata':
                 data = []
                 for i in Categorias.objects.all():
                     data.append(i.toJSON())
             else:
                 data['error'] = 'Se produjo un error'
-                # La variable form obtiene los datos del formulario.
-                # Esta opción es mejor usarla ya que obtiene imagenes a diferencia de: form = CategoriasForm(request.POST)
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
@@ -45,14 +43,12 @@ class CategoryListView(ListView):
         context['create_url'] = reverse_lazy('erp:category_create')
         context['list_url'] = reverse_lazy('erp:category_list')
         context['entity'] = 'Categorías'
-        context['action'] = 'category_list'
         return context
 
 
 class CategoryDetailView(DetailView):
     model = Categorias
     template_name = 'pages/category/category_detail.html'
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

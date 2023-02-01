@@ -93,7 +93,7 @@ class Empleados(models.Model):
         db_table = 'empleados'
         ordering = ['id']
 
-# ================== Modelo: CATEGORÍA DE PRODUCTOS ========================================
+# ================== Modelo: CATEGORÍA DE PRODUCTOS ==============
 class Categorias(models.Model):
     nombre = models.CharField(
         max_length=20, verbose_name='Nombre', unique=True)
@@ -114,7 +114,7 @@ class Categorias(models.Model):
         db_table = 'categorias'
         ordering = ['nombre']
 
-# ================== Modelo: PRODUCTOS =====================================================
+# ================== Modelo: PRODUCTOS ============================
 class Productos(models.Model):
     articulo = models.DecimalField(max_digits=4, decimal_places=0, verbose_name="Artículo")
     nombre = models.CharField(
@@ -158,7 +158,7 @@ class Productos(models.Model):
         db_table = 'productos'
         ordering = ['articulo']
 
-# ================== Modelo: CLIENTES ======================================================
+# ================== Modelo: CLIENTES =============================
 class Clientes(models.Model):
     GENERO = (
         ('F', 'Femenimo'),
@@ -211,9 +211,7 @@ class Clientes(models.Model):
         db_table = 'clientes'
         ordering = ['nombre']
 
-# ================== Modelo: VENTAS ========================================================
-
-
+# ================== Modelo: VENTAS ===============================
 class Ventas(models.Model):
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     fecha_venta = models.DateField(default=date.now, verbose_name="Fecha compra")
@@ -233,9 +231,7 @@ class Ventas(models.Model):
         db_table = 'ventas'
         ordering = ['id']
 
-# ================== Modelo: DetallesVentas =====================================================
-
-
+# ================== Modelo: DetallesVentas =======================
 class DetallesVentas(models.Model):
     venta = models.ForeignKey(Ventas, on_delete=models.CASCADE)
     producto = models.ForeignKey(Productos, on_delete=models.CASCADE)

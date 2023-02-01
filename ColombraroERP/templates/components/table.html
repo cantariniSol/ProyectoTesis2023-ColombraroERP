@@ -9,7 +9,14 @@
     <script src="{% static 'lib/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'lib/datatables/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static 'lib/datatables/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+    {%  block head_list  %}
+
+    {% endblock %}
+    
 {% endblock %}
+
+
 
 {% block content %}
     <div class="card card-default">
@@ -49,13 +56,12 @@
 {% endblock %}
 
 {% block javaScript %}
-
 <script type="application/javascript">
         $(function () {
             $('#data').DataTable({
                 responsive: true,
                 autoWidth: false,
-
+                
             });
 
             $('.btnTest').on('click', function () {
@@ -74,4 +80,3 @@
         });
 </script>
 {% endblock %}
-
