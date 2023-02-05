@@ -8,6 +8,8 @@ from ColombraroConfig.settings import MEDIA_URL, STATIC_URL
 # Create your models here.
 
 # ================== Modelo: TIPO DE DOCUMENTOS ===========================================
+
+
 class TipoDocumentos(models.Model):
     TIPO_DOCUMENTOS = (
         ('DNI', 'Documento Nacional de Identidad'),
@@ -29,6 +31,8 @@ class TipoDocumentos(models.Model):
         ordering = ['id']
 
 # ================== Modelo: TIPO EMPLEADOS ===============================================
+
+
 class TipoEmpleados(models.Model):
     TIPO_EMPLEADOS = (
         ('Gerente General', 'Gerente General'),
@@ -52,6 +56,8 @@ class TipoEmpleados(models.Model):
         ordering = ['id']
 
 # ================== Modelo: EMPLEADOS =====================================================
+
+
 class Empleados(models.Model):
     GENERO = (
         ('F', 'Femenimo'),
@@ -94,6 +100,8 @@ class Empleados(models.Model):
         ordering = ['id']
 
 # ================== Modelo: CATEGORÍA DE PRODUCTOS ==============
+
+
 class Categorias(models.Model):
     nombre = models.CharField(
         max_length=20, verbose_name='Nombre', unique=True)
@@ -115,22 +123,25 @@ class Categorias(models.Model):
         ordering = ['nombre']
 
 # ================== Modelo: PRODUCTOS ============================
+
+
 class Productos(models.Model):
-    articulo = models.DecimalField(max_digits=4, decimal_places=0, verbose_name="Artículo")
+    articulo = models.DecimalField(
+        max_digits=4, decimal_places=0, verbose_name="Artículo")
     nombre = models.CharField(
         max_length=30, verbose_name='Nombre', unique=True)
     categoria = models.ForeignKey(
         Categorias, on_delete=models.CASCADE, verbose_name='Categoría')
     ancho = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Ancho(cm)')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Ancho')
     largo = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Largo(cm)')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Largo')
     alto = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Alto(cm)')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Alto')
     volumen = models.DecimalField(
-        default=0.00, max_digits=3, decimal_places=2, verbose_name='Volumen(lts)')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Volumen')
     diametro = models.DecimalField(
-        default=0.00, max_digits=30, decimal_places=2, verbose_name='Díametro(cm)')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Díametro(cm)')
     imagen = models.ImageField(
         upload_to='product/', null=True, blank=True, verbose_name='Imágen')
     precio = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -146,7 +157,13 @@ class Productos(models.Model):
 
     def __str__(self):
         return str(self.articulo) + ' ' + self.nombre
-    
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['categoria'] = self.categoria.toJSON()
+        item['imagen'] = self.get_image()
+        return item
+
     def get_imagen(self):
         if self.imagen:
             return '{}{}'.format(MEDIA_URL, self.imagen)
@@ -159,6 +176,8 @@ class Productos(models.Model):
         ordering = ['articulo']
 
 # ================== Modelo: CLIENTES =============================
+
+
 class Clientes(models.Model):
     GENERO = (
         ('F', 'Femenimo'),
@@ -174,20 +193,23 @@ class Clientes(models.Model):
     nombre = models.CharField(max_length=25, verbose_name='Nombre', null=False)
     apellido = models.CharField(
         max_length=25, verbose_name='Apellido', null=False)
-    razon_social = models.CharField(max_length=40, verbose_name='Razón Social', null=True, blank=True)
+    razon_social = models.CharField(
+        max_length=40, verbose_name='Razón Social', null=True, blank=True)
     tipo_documento = models.ForeignKey(
         TipoDocumentos, on_delete=models.CASCADE, verbose_name='Tipo de Documento')
     num_documento = models.CharField(
         max_length=16, unique=True, verbose_name='Número de Documento')
-    fecha_nacimiento = models.DateField(default=date.now, verbose_name='Fecha de Nacimiento')
+    fecha_nacimiento = models.DateField(
+        default=date.now, verbose_name='Fecha de Nacimiento')
     genero = models.CharField(max_length=10, choices=GENERO,
-    default='Otro', verbose_name='Género')
+                              default='Otro', verbose_name='Género')
     pais = models.CharField(max_length=25, verbose_name='País')
     provincia = models.CharField(max_length=25, verbose_name='Provincia')
     localidad = models.CharField(max_length=25, verbose_name='Localidad')
     barrio = models.CharField(max_length=25, verbose_name='Barrio')
     direccion = models.CharField(max_length=30, verbose_name='Dirección')
-    num_telefono = models.DecimalField(max_digits=12, decimal_places=0, verbose_name="Número de Teléfono")
+    num_telefono = models.DecimalField(
+        max_digits=12, decimal_places=0, verbose_name="Número de Teléfono")
     email = models.EmailField(verbose_name="Email")
     factura = models.CharField(max_length=10, choices=TIPO_FACTURA,
                                default='Factura B', verbose_name='Tipo de factura')
@@ -196,7 +218,7 @@ class Clientes(models.Model):
 
     def __str__(self):
         return self.nombre + ' ' + self.apellido
-    
+
     def toJSON(self):
         item = model_to_dict(self)
         item['genero'] = self.get_gendero_display()
@@ -212,9 +234,12 @@ class Clientes(models.Model):
         ordering = ['nombre']
 
 # ================== Modelo: VENTAS ===============================
+
+
 class Ventas(models.Model):
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-    fecha_venta = models.DateField(default=date.now, verbose_name="Fecha compra")
+    fecha_venta = models.DateField(
+        default=date.now, verbose_name="Fecha compra")
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
     iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -232,6 +257,8 @@ class Ventas(models.Model):
         ordering = ['id']
 
 # ================== Modelo: DetallesVentas =======================
+
+
 class DetallesVentas(models.Model):
     venta = models.ForeignKey(Ventas, on_delete=models.CASCADE)
     producto = models.ForeignKey(Productos, on_delete=models.CASCADE)

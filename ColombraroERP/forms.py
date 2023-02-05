@@ -21,13 +21,8 @@ class CategoriasForm(ModelForm):
             data['error'] = str(e)
         return data
 
-
 # --------------- PRODUCTOS FORMS -----------------------
 class ProductosForm(ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['nombre'].widget.attrs['autofocus'] = True
 
     class Meta:
         model = Productos
@@ -41,13 +36,19 @@ class ProductosForm(ModelForm):
             'nombre': TextInput(
                 attrs={
                     'placeholder': 'Nombre',
+                    'autofocus': True
                 }
-            )
+            ),
+            'ancho': TextInput(),
+            'largo': TextInput(),
+            'alto': TextInput(),
+            'volumen': TextInput(),
+            'diametro': TextInput(),
+            'precio': TextInput(),
+            'precio_venta': TextInput(),
+            'imagen': FileInput(),
+            'articulo': TextInput()
         }
-        
-
-
-
 
     def save(self, commit=True):
         data = {}
@@ -63,9 +64,6 @@ class ProductosForm(ModelForm):
 
 # --------------- CLIENTES FORMS -----------------------
 class ClientesForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['nombre'].widget.attrs['autofocus'] = True
 
     class Meta:
         model = Clientes
@@ -74,6 +72,7 @@ class ClientesForm(ModelForm):
             'nombre': TextInput(
                 attrs={
                     'placeholder': 'Nombre',
+                    'autofocus': True
                 }
             ),
             'apellido': TextInput(
@@ -82,64 +81,53 @@ class ClientesForm(ModelForm):
                 }
             ),
             'razon_social': TextInput(
-                attrs={
-                    'placeholder': 'Razón Social',
-                }
+                attrs={'placeholder': 'Razón Social'}
             ),
             'num_documento': NumberInput(
-                attrs={
-                    'placeholder': 'Número de Documento',
-                    'maxlength': 20
-                }
+                attrs={'placeholder': 'Número de Documento',
+                       'maxlength': 20}
             ),
-            'fecha_nacimiento': DateInput(format='%Y-%m-%d',
-                                          attrs={'value': datetime.now().strftime('%Y-%m-%d'),
-                                                 }
-                                          ),
+            'fecha_nacimiento': DateInput(
+                format='%d/%m/%Y',
+                attrs={'value': datetime.now().strftime('%d/%m/%Y'),
+                       'class': 'form-control datetimepicker-input',
+                       'id': 'fecha_nacimiento',
+                       'data-target': '#fecha_nacimiento',
+                       'data-toggle': 'datetimepicker'
+                       }
+            ),
             'pais': TextInput(
-                attrs={
-                    'placeholder': 'País',
-                }
+                attrs={'placeholder': 'País'}
             ),
             'provincia': TextInput(
-                attrs={
-                    'placeholder': 'Provincia',
-                }
+                attrs={'placeholder': 'Provincia'}
             ),
             'localidad': TextInput(
-                attrs={
-                    'placeholder': 'Localidad',
-                }
+                attrs={'placeholder': 'Localidad'}
             ),
             'barrio': TextInput(
-                attrs={
-                    'placeholder': 'Barrio',
-                }
+                attrs={'placeholder': 'Barrio'}
             ),
             'genero': Select(),
-
             'direccion': TextInput(
-                attrs={
-                    'placeholder': 'Dirección',
-                }
+                attrs={'placeholder': 'Dirección'}
             ),
             'num_telefono': NumberInput(
-                attrs={
-                    'placeholder': 'Número de Teléfono',
-                }
+                attrs={'placeholder': 'Número de Teléfono'}
             ),
             'email': EmailInput(
-                attrs={
-                    'placeholder': 'Email',
-                }
+                attrs={'placeholder': 'Email'}
             ),
             'factura': Select(),
-            'fecha_alta': DateInput(format='%Y-%m-%d',
-                                    attrs={
-                                        'value': datetime.now().strftime('%Y-%m-%d'),
-                                    }
-                                    )
-
+            'fecha_alta': DateInput(
+                format='%d/%m/%Y',
+                attrs={'value': datetime.now().strftime('%d/%m/%Y'),
+                       'class': 'form-control datetimepicker-input',
+                       'id': 'fecha_alta',
+                       'data-target': '#fecha_alta',
+                       'data-toggle': 'datetimepicker'
+                       }
+            )
         }
 
     def save(self, commit=True):
@@ -154,14 +142,6 @@ class ClientesForm(ModelForm):
             data['error'] = str(e)
         return data
 
-    # def clean(self):
-    #     cleaned = super().clean()
-    #     if len(cleaned['name']) <= 50:
-    #         raise forms.ValidationError('Validacion xxx')
-    #         # self.add_error('name', 'Le faltan caracteres')
-    #     return cleaned
-
-
 # --------------- VENTAS FORMS -----------------------
 class VentasForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -169,15 +149,37 @@ class VentasForm(ModelForm):
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control'
             form.field.widget.attrs['autocomplete'] = 'off'
-            
-        self.fields['cliente'].widget.attrs['autofocus'] = True
 
     class Meta:
         model = Ventas
         fields = '__all__'
         widgets = {
-            'cliente': Select(),
-            'fecha_venta': DateInput(format='%Y-%m-%d',
-            attrs={'value': datetime.now().strftime('%Y-%m-%d'),}
-            )  
+            'cliente': Select(attrs={
+                'class': 'form-control select2',
+                'style': 'width:100%',
+                'autofocus': True
+            }
+            ),
+            'fecha_venta': DateInput(
+                format='%d/%m/%Y',
+                attrs={
+                    'value': datetime.now().strftime('%d/%m/%Y'),
+                    'class': 'form-control datetimepicker-input',
+                    'id': 'fecha_venta',
+                    'data-target': '#fecha_venta',
+                    'data-toggle': 'datetimepicker'
+                }
+            ),
+            'subtotal': TextInput(attrs={
+                'class': 'form-control',
+                'readonly': True
+            }
+            ),
+            'iva': TextInput(),
+            'descuento': TextInput(),
+            'total': TextInput(attrs={
+                'class': 'form-control',
+                'readonly': True
+            }
+            )
         }

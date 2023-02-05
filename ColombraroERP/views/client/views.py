@@ -26,14 +26,9 @@ class ClientListView(ListView):
         data = {}
         try:
             action = request.POST['action']
-            if action == 'cliente_list':
-                data = []
-                for i in Clientes.objects.all():
-                    data.append(i.toJSON())
-            else:
-                data['error'] = 'Se produjo un error'
-                # La variable form obtiene los datos del formulario.
-                # Esta opción es mejor usarla ya que obtiene imagenes a diferencia de: form = CategoriasForm(request.POST)
+            data = []
+            for i in Clientes.objects.all():
+                data.append(i.toJSON())
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
@@ -44,7 +39,6 @@ class ClientListView(ListView):
         context['create_url'] = reverse_lazy('erp:client_create')
         context['list_url'] = reverse_lazy('erp:client_list')
         context['entity'] = 'Clientes'
-        context['action'] = 'client_list'
         return context
 
 
@@ -63,8 +57,6 @@ class ClientCreateView(CreateView):
         try:
             action = request.POST['action']
             if action == 'create':
-                # La variable form obtiene los datos del formulario.
-                # Esta opción es mejor usarla ya que obtiene imagenes a diferencia de: form = CategoriasForm(request.POST)
                 form = self.get_form()
                 data = form.save()
             else:
@@ -73,13 +65,6 @@ class ClientCreateView(CreateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-
-        # Antes de usar AJAX
-        #     return HttpResponseRedirect(self.success_url)
-        # self.object = None
-        # context = self.get_context_data(**kwargs)
-        # context['form'] = form
-        # return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,5 +1,17 @@
 {% extends 'components/body.html' %}
+{% load static %}
 {% load widget_tweaks %}
+
+{% block head_table %}
+    <!-- Moment -->
+    <script src="{% static 'lib/moment/moment-with-locales.js' %}"></script>
+    <!-- Tempusdominus-->
+    <script src="{% static 'lib/tempusdominus/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus/tempusdominus-bootstrap-4.min.css' %}"/>
+    <!--Touchspin -->
+    <script src="{% static 'lib/touchspin/jquery.bootstrap-touchspin.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/touchspin/jquery.bootstrap-touchspin.css' %}"/>
+{% endblock %}
 
 {% block content %}
         <form  action="{{ action }}" method='POST' enctype="multipart/form-data" class="form-inline">
@@ -76,5 +88,86 @@
                 location.href = '{{ list_url }}';
             });
         });
+
+        $(function () {
+                $('#fecha_nacimiento').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    date: moment().format('DD/MM/YYYY'),
+                    locale: 'es'
+                });
+            });
+        $(function () {
+                $('#fecha_alta').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    date: moment().format('DD/MM/YYYY'),
+                    locale: 'es',
+                    maxDate: moment().format('DD/MM/YYYY')
+                });
+            });
+            $("input[name='ancho']").TouchSpin({
+            min:0,
+            max:100,
+            step:0.1,
+            decimals:2,
+            boostat: 5,
+            maxboostedstep : 10,
+            postfix: 'cm'
+        })
+        $("input[name='largo']").TouchSpin({
+            min:0,
+            max:100,
+            step:0.1,
+            decimals:2,
+            boostat: 5,
+            maxboostedstep : 10,
+            postfix: 'cm'
+        })
+        $("input[name='alto']").TouchSpin({
+            min:0,
+            max:100,
+            step:0.1,
+            decimals:2,
+            boostat: 5,
+            maxboostedstep : 10,
+            postfix: 'cm'
+        })
+        $("input[name='volumen']").TouchSpin({
+            min:0,
+            max:100,
+            step:0.1,
+            decimals:2,
+            boostat: 5,
+            maxboostedstep : 10,
+            postfix: 'lts'
+        })
+        $("input[name='diametro']").TouchSpin({
+            min:0,
+            max:100,
+            step:0.1,
+            decimals:2,
+            boostat: 5,
+            maxboostedstep : 10,
+            postfix: 'cm'
+        })
+        $("input[name='precio']").TouchSpin({
+            min: 0,
+            max: 100000000,
+            stepinterval: 50,
+            maxboostedstep: 1000000,
+            prefix: '$'
+        })
+        $("input[name='precio_venta']").TouchSpin({
+            min: 0,
+            max: 100000000,
+            stepinterval: 50,
+            maxboostedstep: 1000000,
+            prefix: '$'
+        })
+        $("input[name='articulo']").TouchSpin({
+            min:0,
+            max:15000,
+            stepinterval: 1,
+            maxboostedstep: 10,
+        })
     </script>
 {% endblock %}

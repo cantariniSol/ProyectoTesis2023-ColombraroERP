@@ -2,6 +2,26 @@
 {% load widget_tweaks %}
 {% load static %}
 
+{% block head_table %}
+    <link rel="stylesheet" href="{% static 'lib/datatables/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/datatables/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <!-- Moment -->
+    <script src="{% static 'lib/moment/moment-with-locales.js' %}"></script>
+    <!-- Tempusdominus-->
+    <script src="{% static 'lib/tempusdominus/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus/tempusdominus-bootstrap-4.min.css' %}"/>
+    <!--Touchspin -->
+    <script src="{% static 'lib/touchspin/jquery.bootstrap-touchspin.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/touchspin/jquery.bootstrap-touchspin.css' %}"/>
+    <!--  Select2 -->
+    <link rel="stylesheet" href="{% static 'lib/select2/css/select2.min.css' %}">
+    <script  src="{% static 'lib/select2/js/select2.min.js' %}"></script>
+    
+{% endblock %}
+
 {% block content %}
     <div class="card card-default">
         <div class="card-header bg-info">
@@ -33,7 +53,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-boxes"></i> 
-                                Detalle de Producto
+                                Detalle de Productos
                             </h3>
                         </div>
                         <div class="card-body">
@@ -77,7 +97,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-shopping-cart"></i> 
-                                Detelle de Factura
+                                Detalle de Factura
                             </h3>
                         </div>
                         <div class="card-body">
@@ -90,20 +110,20 @@
                                     {{form.cliente}}
                                 </div>
                                 <div class="form-group">
+                                    <label>Subtotal: </label>
+                                    {{form.subtotal}}
+                                </div>
+                                <div class="form-group">
                                     <label>IVA: </label>
-                                    {{form.descuento}}
+                                    {{form.iva}}
                                 </div>
                                 <div class="form-group">
                                     <label>Descuento: </label>
                                     {{form.descuento}}
                                 </div>
                                 <div class="form-group">
-                                    <label>Subtotal: </label>
-                                    {{form.subtotal}}
-                                </div>
-                                <div class="form-group">
                                     <label>Total: </label>
-                                    {{form.descuento}}
+                                    {{form.total}}
                                 </div>
                         </div>
                     </div>
@@ -148,5 +168,32 @@
                 });
             });
         });
+
+        $(function () {
+                $('#fecha_venta').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    date: moment().format('DD/MM/YYYY'),
+                    locale: 'es',
+                    maxDate: moment().format('DD/MM/YYYY')
+                });
+            });
+        $("input[name='iva']").TouchSpin({
+            min:0,
+            max:100,
+            step:0.1,
+            decimals:2,
+            boostat: 5,
+            maxboostedstep : 10,
+            postfix: '%'
+        })
+        $("input[name='descuento']").TouchSpin({
+            min:0,
+            max:100,
+            step:0.1,
+            decimals:2,
+            boostat: 5,
+            maxboostedstep : 10,
+            postfix: '%'
+        })
 </script>
 {% endblock %}
