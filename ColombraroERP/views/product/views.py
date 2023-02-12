@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 # Listas basadas en Clases
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 # Productos
 from ColombraroERP.models import Productos
 from ColombraroERP.forms import ProductosForm
@@ -41,6 +41,18 @@ class ProductListView(ListView):
         context['create_url'] = reverse_lazy('erp:product_create')
         context['list_url'] = reverse_lazy('erp:product_list')
         context['entity'] = 'Productos'
+        return context
+
+
+class ProductDetailView(DetailView):
+    model = Productos
+    template_name = 'pages/product/product_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Detalle de Producto'
+        context['entity'] = 'Productos'
+        context['list_url'] = reverse_lazy('erp:product_list')
         return context
 
 

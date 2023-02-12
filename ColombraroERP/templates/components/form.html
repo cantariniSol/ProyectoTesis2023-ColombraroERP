@@ -11,10 +11,15 @@
     <!--Touchspin -->
     <script src="{% static 'lib/touchspin/jquery.bootstrap-touchspin.js' %}"></script>
     <link rel="stylesheet" href="{% static 'lib/touchspin/jquery.bootstrap-touchspin.css' %}"/>
+     <!--  Select2 -->
+    <link href="{% static 'lib/select2/css/select2.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/select2/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2/js/i18n/es.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-        <form  action="{{ action }}" method='POST' enctype="multipart/form-data" class="form-inline">
+        <form  action="{{ action }}" method='POST' enctype="multipart/form-data">
             <div class="card card-default">
                 <div class="card-header bg-info">
                     <h3 class="card-title">
@@ -26,7 +31,7 @@
                         {{ title }}
                     </h3>
                 </div>
-                <div class="card-body form-group">
+                <div class="card-body form-row">
                     <input type="hidden" name="action" value="{{ action }}">
                     {% csrf_token %}
                     {% if form.errors %}
@@ -43,7 +48,7 @@
                         </div>
                     {% endif %}
                     {% for field in form.visible_fields %}
-                    <div class="form-group m-2">
+                    <div class="form-group col-md-4">
                         <!--Labels --> 
                         <label for="nombre_cat" class="form-label px-1">{{field.label}}</label>
                         <!-- Campos -->
@@ -80,7 +85,7 @@
             });
         {% endif %}
 
-     $('form').on('submit', function (e) {
+    $('form').on('submit', function (e) {
             e.preventDefault();
             //var parameters = $(this).serializeArray();
             var parameters = new FormData(this);
@@ -91,83 +96,65 @@
 
         $(function () {
                 $('#fecha_nacimiento').datetimepicker({
-                    format: 'DD/MM/YYYY',
-                    date: moment().format('DD/MM/YYYY'),
+                    format: 'YYYY-MM-DD',
+                    date: moment().format('YYYY-MM-DD'),
                     locale: 'es'
                 });
             });
         $(function () {
                 $('#fecha_alta').datetimepicker({
-                    format: 'DD/MM/YYYY',
-                    date: moment().format('DD/MM/YYYY'),
+                    format: 'YYYY-MM-DD',
+                    date: moment().format('YYYY-MM-DD'),
                     locale: 'es',
-                    maxDate: moment().format('DD/MM/YYYY')
+                    maxDate : moment().format('YYYY-MM-DD')
                 });
             });
-            $("input[name='ancho']").TouchSpin({
-            min:0,
-            max:100,
-            step:0.1,
-            decimals:2,
-            boostat: 5,
-            maxboostedstep : 10,
-            postfix: 'cm'
-        })
-        $("input[name='largo']").TouchSpin({
-            min:0,
-            max:100,
-            step:0.1,
-            decimals:2,
-            boostat: 5,
-            maxboostedstep : 10,
-            postfix: 'cm'
-        })
-        $("input[name='alto']").TouchSpin({
-            min:0,
-            max:100,
-            step:0.1,
-            decimals:2,
-            boostat: 5,
-            maxboostedstep : 10,
-            postfix: 'cm'
-        })
-        $("input[name='volumen']").TouchSpin({
-            min:0,
-            max:100,
-            step:0.1,
-            decimals:2,
-            boostat: 5,
-            maxboostedstep : 10,
-            postfix: 'lts'
-        })
-        $("input[name='diametro']").TouchSpin({
-            min:0,
-            max:100,
-            step:0.1,
-            decimals:2,
-            boostat: 5,
-            maxboostedstep : 10,
-            postfix: 'cm'
-        })
-        $("input[name='precio']").TouchSpin({
-            min: 0,
-            max: 100000000,
-            stepinterval: 50,
-            maxboostedstep: 1000000,
-            prefix: '$'
-        })
-        $("input[name='precio_venta']").TouchSpin({
-            min: 0,
-            max: 100000000,
-            stepinterval: 50,
-            maxboostedstep: 1000000,
-            prefix: '$'
-        })
-        $("input[name='articulo']").TouchSpin({
-            min:0,
-            max:15000,
-            stepinterval: 1,
-            maxboostedstep: 10,
-        })
+
+            //---------------Selección  con select2------------------
+        var select_productos = $('select[name="productos"]')
+        $(function(){
+            $('.select2').select2({
+                theme:"bootstrap4",
+                language: 'es'
+            });
+
+        //---------------Selección anidadas con AJAX ------------------
+        $('select[name="categorias"]').on('change', function(){
+            var id = $(this).val();
+            var opciones = '<option value="">---------------------------</option>'
+            if(id == ''){
+                select_productos.html(opciones);
+                return false;
+            }
+            $.ajax({
+                url: window.location.pathname,
+                type:'POST',
+                data: {
+                    'action': 'buscar_producto_id',
+                    'id' : id
+                },
+                dataType:'json'
+            }).done(function(data){
+                console.log(data);
+                if(!data.hasOwnProperty('error')){
+                    select_productos.html('').select2({
+                        theme:"bootstrap4",
+                        language: 'es',
+                        data: data
+                    });
+                    return false;
+                }
+                messagee_error(data.error);
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function(data){
+                //select_productos.html(opciones);
+            });
+        });
+        }); 
     </script>
 {% endblock %}
+
+
+
+

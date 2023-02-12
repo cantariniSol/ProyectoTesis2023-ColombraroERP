@@ -1,0 +1,90 @@
+{% extends 'components/body.html' %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header bg-info">
+    <h3 class="card-title">
+      <i class="fas fa-search"></i>
+      {{title}}
+    </h3>
+
+    </div>
+  <div class="card-body">
+        <div class="row">
+          <div class="col-8 px-4">
+              <form action="." method='POST' enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Artículo</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.articulo}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Nombre</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.nombre}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Categoría</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.categoria.nombre}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Ancho(cm)</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.ancho}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Largo(cm)</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.largo}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Alto(cm)</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.alto}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Volumen(ltr)</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.volumen}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Diámetro(cm)</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.diametro}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Precio</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.precio}}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Precio Venta</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.precio_venta}}" readonly>
+                    </div>
+                </div>
+          </form>
+          </div>
+          <div class="col-4">
+              <img src="{{ object.get_imagen }}" class="img-fluid d-block mt-5" style="width: 500px; height: 500px;border-radius:10px;">
+          </div>
+        </div>
+  </div>
+  <div class="card-footer">
+    <a href="{{list_url}}" type="submit" class="btn btn-success btnTest" data-toggle="tooltip" data-placement="right" title="Volver">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+  </div>
+</div>
+{% endblock %}

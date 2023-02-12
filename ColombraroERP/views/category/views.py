@@ -20,7 +20,6 @@ class CategoryListView(ListView):
     @csrf_exempt
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        print(request)
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *arg, **kwargs):
@@ -52,7 +51,7 @@ class CategoryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminar Categoría'
+        context['title'] = 'Detalle de Categoría'
         context['entity'] = 'Categorías'
         context['list_url'] = reverse_lazy('erp:category_list')
         return context

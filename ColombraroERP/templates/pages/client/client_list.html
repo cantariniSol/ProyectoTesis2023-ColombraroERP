@@ -24,7 +24,7 @@
             <td>{{ c.email }}</td>
             <td>{{ c.fecha_alta | date:'d/m/Y' }}</td>
             <td>
-                <a href="#" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Ver">
+                <a href="{% url 'erp:client_detail' c.id %}" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Detalle">
                     <i class="fas fa-search"></i>
                 </a>
                 <a href="{% url 'erp:client_update' c.id %}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">

@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 # Listas basadas en Clases
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 # Clientes
 from ColombraroERP.models import Clientes
 from ColombraroERP.forms import ClientesForm
@@ -41,6 +41,16 @@ class ClientListView(ListView):
         context['entity'] = 'Clientes'
         return context
 
+class ClientDetailView(DetailView):
+    model = Clientes
+    template_name = 'pages/client/client_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Detalle de Cliente'
+        context['entity'] = 'Cliente'
+        context['list_url'] = reverse_lazy('erp:client_list')
+        return context
 
 class ClientCreateView(CreateView):
     model = Clientes

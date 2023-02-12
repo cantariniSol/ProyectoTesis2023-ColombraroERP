@@ -107,6 +107,8 @@ class Categorias(models.Model):
         max_length=20, verbose_name='Nombre', unique=True)
     descripcion = models.TextField(
         max_length=60, null=True, blank=True, verbose_name='Descripción')
+    imagen = models.ImageField(
+        upload_to='category/', null=True, blank=True, verbose_name='Imágen')
 
     def __str__(self):
         return self.nombre
@@ -114,7 +116,13 @@ class Categorias(models.Model):
     def toJSON(self):
         #item = {'id': self.id, 'name': self.nombre}
         item = model_to_dict(self)
+        item['imagen'] = self.get_image()
         return item
+    
+    def get_imagen(self):
+        if self.imagen:
+            return '{}{}'.format(MEDIA_URL, self.imagen)
+        return '{}{}'.format(STATIC_URL, 'img/empty/empty.png')
 
     class Meta:
         verbose_name = 'Categoria'
@@ -133,13 +141,13 @@ class Productos(models.Model):
     categoria = models.ForeignKey(
         Categorias, on_delete=models.CASCADE, verbose_name='Categoría')
     ancho = models.DecimalField(
-        default=0.00, max_digits=5, decimal_places=2, verbose_name='Ancho')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Ancho(cm)')
     largo = models.DecimalField(
-        default=0.00, max_digits=5, decimal_places=2, verbose_name='Largo')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Largo(cm)')
     alto = models.DecimalField(
-        default=0.00, max_digits=5, decimal_places=2, verbose_name='Alto')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Alto(cm)')
     volumen = models.DecimalField(
-        default=0.00, max_digits=5, decimal_places=2, verbose_name='Volumen')
+        default=0.00, max_digits=5, decimal_places=2, verbose_name='Volumen(lts)')
     diametro = models.DecimalField(
         default=0.00, max_digits=5, decimal_places=2, verbose_name='Díametro(cm)')
     imagen = models.ImageField(
@@ -161,7 +169,7 @@ class Productos(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['categoria'] = self.categoria.toJSON()
-        item['imagen'] = self.get_image()
+        item['imagen'] = self.get_imagen()
         return item
 
     def get_imagen(self):
@@ -185,10 +193,10 @@ class Clientes(models.Model):
         ('Otro', 'Otro')
     )
     TIPO_FACTURA = (
-        ('Factura A', 'Factura A'),
-        ('Factura B', 'Factura B'),
-        ('Factura C', 'Factura C'),
-        ('Factura M', 'Factura M'),
+        ('A', 'Factura A'),
+        ('B', 'Factura B'),
+        ('C', 'Factura C'),
+        ('M', 'Factura M'),
     )
     nombre = models.CharField(max_length=25, verbose_name='Nombre', null=False)
     apellido = models.CharField(
@@ -223,8 +231,8 @@ class Clientes(models.Model):
         item = model_to_dict(self)
         item['genero'] = self.get_gendero_display()
         item['factura'] = self.get_factura_display()
-        item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%d-%m-%Y')
-        item['fecha_alta'] = self.fecha_alta.strftime('%d-%m-%Y')
+        item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%Y-%m-%d')
+        item['fecha_alta'] = self.fecha_alta.strftime('%Y-%m-%d')
         return item
 
     class Meta:

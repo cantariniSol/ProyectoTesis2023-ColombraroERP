@@ -8,6 +8,9 @@ class CategoriasForm(ModelForm):
     class Meta:
         model = Categorias
         fields = '__all__'
+        widgets = {
+            'imagen': FileInput()
+        }
 
     def save(self, commit=True):
         data = {}
@@ -39,15 +42,13 @@ class ProductosForm(ModelForm):
                     'autofocus': True
                 }
             ),
-            'ancho': TextInput(),
-            'largo': TextInput(),
-            'alto': TextInput(),
-            'volumen': TextInput(),
-            'diametro': TextInput(),
-            'precio': TextInput(),
-            'precio_venta': TextInput(),
-            'imagen': FileInput(),
-            'articulo': TextInput()
+            'categoria': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width: 100%'
+                }
+            ),
+            'imagen': FileInput()
         }
 
     def save(self, commit=True):
@@ -88,8 +89,8 @@ class ClientesForm(ModelForm):
                        'maxlength': 20}
             ),
             'fecha_nacimiento': DateInput(
-                format='%d/%m/%Y',
-                attrs={'value': datetime.now().strftime('%d/%m/%Y'),
+                format='%Y-%m-%d',
+                attrs={'value': datetime.now().strftime('%Y-%m-%d'),
                        'class': 'form-control datetimepicker-input',
                        'id': 'fecha_nacimiento',
                        'data-target': '#fecha_nacimiento',
@@ -120,8 +121,8 @@ class ClientesForm(ModelForm):
             ),
             'factura': Select(),
             'fecha_alta': DateInput(
-                format='%d/%m/%Y',
-                attrs={'value': datetime.now().strftime('%d/%m/%Y'),
+                format='%Y-%m-%d',
+                attrs={'value': datetime.now().strftime('%Y-%m-%d'),
                        'class': 'form-control datetimepicker-input',
                        'id': 'fecha_alta',
                        'data-target': '#fecha_alta',
@@ -161,9 +162,9 @@ class VentasForm(ModelForm):
             }
             ),
             'fecha_venta': DateInput(
-                format='%d/%m/%Y',
+                format='%Y/%m/%d',
                 attrs={
-                    'value': datetime.now().strftime('%d/%m/%Y'),
+                    'value': datetime.now().strftime('%Y/%m/%d'),
                     'class': 'form-control datetimepicker-input',
                     'id': 'fecha_venta',
                     'data-target': '#fecha_venta',
@@ -183,3 +184,14 @@ class VentasForm(ModelForm):
             }
             )
         }
+
+# --------------- TEST FORMS -----------------------
+class TestForm(Form):
+    categorias = ModelChoiceField(queryset=Categorias.objects.all() ,widget=Select(attrs={
+        'class':'form-control select2'
+    }
+    ))
+    productos = ModelChoiceField(queryset=Productos.objects.none() ,widget=Select(attrs={
+        'class':'form-control select2'
+    }
+    ))
