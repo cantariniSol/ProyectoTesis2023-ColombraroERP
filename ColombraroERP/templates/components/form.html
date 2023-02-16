@@ -67,7 +67,7 @@
                 </div>
             </div>
     </form>
-    <script>
+    <script type="application/javascript">
         {% if form.errors %}
             var errors = '';
             {% for field in form %}
@@ -110,7 +110,7 @@
                 });
             });
 
-            //---------------Selección  con select2------------------
+        //---------------Selección  con select2------------------
         var select_productos = $('select[name="productos"]')
         $(function(){
             $('.select2').select2({

@@ -159,8 +159,7 @@ class VentasForm(ModelForm):
                 'class': 'form-control select2',
                 'style': 'width:100%',
                 'autofocus': True
-            }
-            ),
+            }),
             'fecha_venta': DateInput(
                 format='%Y/%m/%d',
                 attrs={
@@ -189,9 +188,11 @@ class VentasForm(ModelForm):
 class TestForm(Form):
     categorias = ModelChoiceField(queryset=Categorias.objects.all() ,widget=Select(attrs={
         'class':'form-control select2'
-    }
-    ))
+    }))
     productos = ModelChoiceField(queryset=Productos.objects.none() ,widget=Select(attrs={
         'class':'form-control select2'
-    }
-    ))
+    }))
+    search = CharField(widget=TextInput(attrs={
+        'class':'form-control',
+        'placeholder': 'Ingrese una descripción'
+    }))

@@ -116,9 +116,9 @@ class Categorias(models.Model):
     def toJSON(self):
         #item = {'id': self.id, 'name': self.nombre}
         item = model_to_dict(self)
-        item['imagen'] = self.get_image()
+        item['imagen'] = self.get_imagen()
         return item
-    
+
     def get_imagen(self):
         if self.imagen:
             return '{}{}'.format(MEDIA_URL, self.imagen)
@@ -155,6 +155,7 @@ class Productos(models.Model):
     precio = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     precio_venta = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
+    stock = models.IntegerField(verbose_name="Stock")
 
     def __str__(self):
         return str(self.articulo) + ' ' + self.nombre
@@ -170,6 +171,7 @@ class Productos(models.Model):
         item = model_to_dict(self)
         item['categoria'] = self.categoria.toJSON()
         item['imagen'] = self.get_imagen()
+
         return item
 
     def get_imagen(self):

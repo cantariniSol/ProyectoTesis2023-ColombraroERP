@@ -77,7 +77,13 @@
           </form>
           </div>
           <div class="col-4">
-              <img src="{{ object.get_imagen }}" class="img-fluid d-block mt-5" style="width: 500px; height: 500px;border-radius:10px;">
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label-fluid"><span class="badge bg-warning text-dark" style="font-size:30px">Stock</span></label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control" value="{{object.stock}}" readonly>
+                    </div>
+                </div>
+              <img src="{{ object.get_imagen }}" class="img-fluid d-block" style="width: 500px; height: 500px;border-radius:10px;border:15px solid #F6E6C2">
           </div>
         </div>
   </div>

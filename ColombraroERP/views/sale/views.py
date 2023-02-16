@@ -27,8 +27,8 @@ class SaleCreateView(CreateView):
         try:
             action = request.POST['action']
             if action == 'create':
-                form = self.get_form()
-                data = form.save()
+                    form = self.get_form()
+                    data = form.save()
             else:
                 # Usando AJAX
                 data['error'] = 'No ha ingresado a ninguna opción'

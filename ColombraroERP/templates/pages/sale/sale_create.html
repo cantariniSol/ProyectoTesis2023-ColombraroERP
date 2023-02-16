@@ -153,28 +153,61 @@
 
 {% block javaScript %}
 <script type="application/javascript">
-        $(function () {
-            $('#data').DataTable({
-                responsive: true,
-                autoWidth: false,
-
+        //---------------Selección  con select2------------------
+        var select_clientes = $('select[name="cliente"]')
+        $(function(){
+            $('.select2').select2({
+                theme:"bootstrap4",
+                language: 'es'
             });
 
-            $('.btnTest').on('click', function () {
-                $.ajax({
-                    url: '{% url 'erp:category_list' %}',
-                    type: 'POST',
-                    data: {id: 1},
-                    dataType: 'json'
-                }).done(function (data) {
-                    console.log(data);
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert(textStatus + ': ' + errorThrown);
-                }).always(function (data) {
-                });
+        //---------------Selección anidadas con AJAX ------------------
+        $('select[name="cliente"]').on('change', function(){
+            var id = $(this).val();
+            var opciones = '<option value="">---------------------------</option>'
+            if(id == ''){
+                select_clientes.html(opciones);
+                return false;
+            }
+            $.ajax({
+                url: window.location.pathname,
+                type:'POST',
+                data: {
+                    'action': 'buscar_cliente_id',
+                    'id' : id
+                },
+                dataType:'json'
+            }).done(function(data){
+                console.log(data);
+                if(!data.hasOwnProperty('error')){
+                    select_clientes.html('').select2({
+                        theme:"bootstrap4",
+                        language: 'es',
+                        data: data
+                    });
+                    return false;
+                }
+                messagee_error(data.error);
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function(data){
+                //select_productos.html(opciones);
             });
         });
+        }); 
 
-       
+        $('.btnTest').on('click', function () {
+            $.ajax({
+                url: '{% url 'erp:category_list' %}',
+                type: 'POST',
+                data: {id: 1},
+                dataType: 'json'
+            }).done(function (data) {
+                console.log(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data) {
+            });
+        });
 </script>
 {% endblock %}
