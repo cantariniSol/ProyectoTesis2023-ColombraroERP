@@ -5,9 +5,9 @@
         <th scope="col">Articulo</th>
         <th scope="col">Nombre</th>
         <th scope="col">Categoria</th>
-        <th scope="col">Imagen</th>
         <th scope="col">Precio Venta</th>
         <th scope="col">Stock</th>
+        <th scope="col">Imagen</th>
         <th scope="col">Opciones</th>
     </tr>
 {% endblock %}
@@ -18,21 +18,26 @@
             <td>{{ p.articulo }}</td>
             <td>{{ p.nombre }}</td>
             <td>{{ p.categoria.nombre }}</td>
+            {% if user.is_superuser %}
+            <td>{{ p.precio }}</td>
+            {% endif  %}
+            <td>{{ p.precio_venta }}</td>
+            <td>{{ p.stock }}</td>
             <td>
                 <img src="{{ p.get_imagen }}" class="img-fluid d-block" style="width: 65px; height: 65px; border-radius:10px;">
             </td>
-            <td>{{ p.precio_venta }}</td>
-            <td>{{ p.stock }}</td>
             <td>
                 <a href="{% url 'erp:product_detail' p.id %}" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Detalle">
                     <i class="fas fa-search"></i>
                 </a>
+                {% if user.is_superuser %}
                 <a href="{% url 'erp:product_update' p.id %}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="{% url 'erp:product_delete' p.id %}" type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                <a href="{% url 'erp:product_delete' p.id %}" type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar">
                     <i class="fas fa-trash"></i>
                 </a>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

@@ -1,9 +1,10 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import JsonResponse
+# Mixines
+from ColombraroERP.mixins import IsSuperUserMixins
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Decoradores
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 # Listas basadas en Clases
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -12,12 +13,11 @@ from ColombraroERP.models import Clientes
 from ColombraroERP.forms import ClientesForm
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Clientes
     template_name = 'pages/client/client_list.html'
 
     @csrf_exempt
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         print(request)
         return super().dispatch(request, *args, **kwargs)
@@ -41,7 +41,7 @@ class ClientListView(ListView):
         context['entity'] = 'Clientes'
         return context
 
-class ClientDetailView(DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Clientes
     template_name = 'pages/client/client_detail.html'
 
@@ -52,13 +52,13 @@ class ClientDetailView(DetailView):
         context['list_url'] = reverse_lazy('erp:client_list')
         return context
 
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin,CreateView):
     model = Clientes
     form_class = ClientesForm
     template_name = 'pages/client/client_create.html'
     success_url = reverse_lazy('erp:client_list')
 
-    @method_decorator(login_required)
+
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -85,13 +85,12 @@ class ClientCreateView(CreateView):
         return context
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(LoginRequiredMixin,UpdateView):
     model = Clientes
     form_class = ClientesForm
     template_name = 'pages/client/client_create.html'
     success_url = reverse_lazy('erp:client_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -120,13 +119,12 @@ class ClientUpdateView(UpdateView):
         return context
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin,DeleteView):
     model = Clientes
     template_name = 'pages/client/client_delete.html'
     success_url = reverse_lazy('erp:client_list')
 
     @csrf_exempt
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

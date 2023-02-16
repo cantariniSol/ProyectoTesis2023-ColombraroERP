@@ -25,6 +25,8 @@ class CategoriasForm(ModelForm):
         return data
 
 # --------------- PRODUCTOS FORMS -----------------------
+
+
 class ProductosForm(ModelForm):
 
     class Meta:
@@ -64,6 +66,8 @@ class ProductosForm(ModelForm):
         return data
 
 # --------------- CLIENTES FORMS -----------------------
+
+
 class ClientesForm(ModelForm):
 
     class Meta:
@@ -144,12 +148,11 @@ class ClientesForm(ModelForm):
         return data
 
 # --------------- VENTAS FORMS -----------------------
+
+
 class VentasForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for form in self.visible_fields():
-            form.field.widget.attrs['class'] = 'form-control'
-            form.field.widget.attrs['autocomplete'] = 'off'
 
     class Meta:
         model = Ventas
@@ -158,7 +161,8 @@ class VentasForm(ModelForm):
             'cliente': Select(attrs={
                 'class': 'form-control select2',
                 'style': 'width:100%',
-                'autofocus': True
+                'autofocus': True,
+                'autocomplete': 'off'
             }),
             'fecha_venta': DateInput(
                 format='%Y/%m/%d',
@@ -185,14 +189,19 @@ class VentasForm(ModelForm):
         }
 
 # --------------- TEST FORMS -----------------------
+
+
 class TestForm(Form):
-    categorias = ModelChoiceField(queryset=Categorias.objects.all() ,widget=Select(attrs={
-        'class':'form-control select2'
+    categorias = ModelChoiceField(queryset=Categorias.objects.all(), widget=Select(attrs={
+        'class': 'form-control select2'
     }))
-    productos = ModelChoiceField(queryset=Productos.objects.none() ,widget=Select(attrs={
-        'class':'form-control select2'
+    productos = ModelChoiceField(queryset=Productos.objects.none(), widget=Select(attrs={
+        'class': 'form-control select2'
     }))
-    search = CharField(widget=TextInput(attrs={
-        'class':'form-control',
-        'placeholder': 'Ingrese una descripción'
+    # search = CharField(widget=TextInput(attrs={
+    #     'class':'form-control',
+    #     'placeholder': 'Ingrese una descripción'
+    # }))
+    search = ModelChoiceField(queryset=Categorias.objects.all(), widget=Select(attrs={
+        'class': 'form-control select2'
     }))

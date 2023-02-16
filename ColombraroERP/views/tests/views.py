@@ -31,7 +31,7 @@ class TestView(TemplateView):
                 data = []
                 for i in Categorias.objects.filter(nombre__icontains=request.POST['term']):
                     item = i.toJSON()
-                    item['value'] = i.nombre
+                    item['text'] = i.nombre
                     data.append(item)
 
             else:

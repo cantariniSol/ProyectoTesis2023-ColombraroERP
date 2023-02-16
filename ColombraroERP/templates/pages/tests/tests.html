@@ -7,7 +7,7 @@
     <link href="{% static 'lib/select2/css/select2.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'lib/select2/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
     <script src="{% static 'lib/select2/js/select2.min.js' %}"></script>
-    <link href="{% static 'lib/select2/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/select2/js/i18n/es.js' %}"></script>
     <!--  jQuery UI-->
     <link href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}" rel="stylesheet"/>
     <script src="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
@@ -127,6 +127,31 @@
             select: function(event, ui){
                 console.log(ui.item);
             }
+            });
+
+            $('select[name="search"]').select2({
+                theme:"bootstrap4",
+                language: 'es',
+                allowClear: True,
+                ajax:{
+                    delay: 250,
+                    type: 'POST',
+                    url: window.location.pathname,
+                    data: function(params){
+                        var queryParameters = {
+                            term: params.term,
+                            action: 'autocomplete'
+                        }
+                        return queryParameters;
+                    },
+                    processResults: function(data){
+                        return{
+                            results: data
+                        };
+                    },
+                },
+                placeholder: 'Buscar por categorías',
+                minimunInputLength: 1,
             });
         }); 
     </script>

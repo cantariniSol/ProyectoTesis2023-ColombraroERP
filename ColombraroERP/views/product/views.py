@@ -1,9 +1,10 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import JsonResponse
+# Mixines
+from django.contrib.auth.mixins import LoginRequiredMixin
+from ColombraroERP.mixins import IsSuperUserMixins
 # Decoradores
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 # Listas basadas en Clases
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -12,12 +13,11 @@ from ColombraroERP.models import Productos
 from ColombraroERP.forms import ProductosForm
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin,ListView):
     model = Productos
     template_name = 'pages/product/product_list.html'
 
     @csrf_exempt
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
     
@@ -44,7 +44,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin,DetailView):
     model = Productos
     template_name = 'pages/product/product_detail.html'
 
@@ -56,13 +56,12 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
     model = Productos
     form_class = ProductosForm
     template_name = 'pages/product/product_create.html'
     success_url = reverse_lazy('erp:product_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -88,13 +87,12 @@ class ProductCreateView(CreateView):
         return context
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
     model = Productos
     form_class = ProductosForm
     template_name = 'pages/product/product_create.html'
     success_url = reverse_lazy('erp:product_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -121,13 +119,12 @@ class ProductUpdateView(UpdateView):
         return context
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin,IsSuperUserMixins,DeleteView):
     model = Productos
     template_name = 'pages/product/product_delete.html'
     success_url = reverse_lazy('erp:product_list')
 
     @csrf_exempt
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

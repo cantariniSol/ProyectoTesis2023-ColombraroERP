@@ -2,10 +2,10 @@ from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 # Decoradores
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-
+# Mixines
+from ColombraroERP.mixins import IsSuperUserMixins
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Listas basadas en Clases
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 # Categorias
@@ -13,12 +13,11 @@ from ColombraroERP.models import Categorias
 from ColombraroERP.forms import CategoriasForm
 
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Categorias
     template_name = 'pages/category/category_list.html'
 
     @csrf_exempt
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -45,7 +44,7 @@ class CategoryListView(ListView):
         return context
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(LoginRequiredMixin,DetailView):
     model = Categorias
     template_name = 'pages/category/category_detail.html'
 
@@ -54,16 +53,16 @@ class CategoryDetailView(DetailView):
         context['title'] = 'Detalle de Categoría'
         context['entity'] = 'Categorías'
         context['list_url'] = reverse_lazy('erp:category_list')
+
         return context
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
     model = Categorias
     form_class = CategoriasForm
     template_name = 'pages/category/category_create.html'
     success_url = reverse_lazy('erp:category_list')
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -72,23 +71,13 @@ class CategoryCreateView(CreateView):
         try:
             action = request.POST['action']
             if action == 'create':
-                # La variable form obtiene los datos del formulario.
-                # Esta opción es mejor usarla ya que obtiene imagenes a diferencia de: form = CategoriasForm(request.POST)
                 form = self.get_form()
                 data = form.save()
             else:
-                # Usando AJAX
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-
-        # Antes de usar AJAX
-        #     return HttpResponseRedirect(self.success_url)
-        # self.object = None
-        # context = self.get_context_data(**kwargs)
-        # context['form'] = form
-        # return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -99,13 +88,13 @@ class CategoryCreateView(CreateView):
         return context
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
     model = Categorias
     form_class = CategoriasForm
     template_name = 'pages/category/category_create.html'
     success_url = reverse_lazy('erp:category_list')
 
-    @method_decorator(login_required)
+    
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -134,13 +123,12 @@ class CategoryUpdateView(UpdateView):
         return context
 
 
-class CategoryDeleteView(DeleteView):
+class CategoryDeleteView(LoginRequiredMixin,IsSuperUserMixins,DeleteView):
     model = Categorias
     template_name = 'pages/category/category_delete.html'
     success_url = reverse_lazy('erp:category_list')
 
     @csrf_exempt
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

@@ -24,12 +24,14 @@
                 <a href="{% url 'erp:category_detail' p.id %}" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Detalle">
                     <i class="fas fa-search"></i>
                 </a>
-                <a href="{% url 'erp:category_update' p.id %}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="left" title="Editar">
+                {% if user.is_superuser %}
+                <a href="{% url 'erp:category_update' p.id %}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">
                     <i class="fas fa-edit"></i>
                 </a>
                 <a href="{% url 'erp:category_delete' p.id %}" type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar">
                     <i class="fas fa-trash"></i>
                 </a>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

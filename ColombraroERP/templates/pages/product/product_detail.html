@@ -12,7 +12,7 @@
     </div>
   <div class="card-body">
         <div class="row">
-          <div class="col-8 px-4">
+          <div class="col-8 pl-4">
               <form action="." method='POST' enctype="multipart/form-data">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Artículo</label>
@@ -62,12 +62,14 @@
                       <input type="text" readonly class="form-control" value="{{object.diametro}}" readonly>
                     </div>
                 </div>
+                {% if user.is_superuser %}
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Precio</label>
                     <div class="col-sm-6">
                       <input type="text" readonly class="form-control" value="{{object.precio}}" readonly>
                     </div>
                 </div>
+                {% endif %}
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Precio Venta</label>
                     <div class="col-sm-6">
@@ -79,7 +81,7 @@
           <div class="col-4">
             <div class="form-group row">
               <label class="col-2 col-form-label-fluid"><span class="badge bg-warning text-dark" style="font-size:30px">Stock</span></label>
-              <div class="col-sm-6 ml-4">
+              <div class="col-sm-6 ml-5">
                       <input type="text" readonly class="form-control" value="{{object.stock}}" readonly>
                     </div>
                 </div>
