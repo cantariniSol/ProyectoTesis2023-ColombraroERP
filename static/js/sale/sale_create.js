@@ -8,7 +8,27 @@ var ventas = {
         total: 0.00,
         productos: []
     },
+    calcular_factura: function () {
+        var subtotal = 0.00;
+        var iva = $('input[name="iva"]').val();
+        var descuento = $('input[name="descuento"]').val();
+        $.each(this.items.productos, (pos, dict) => {
+            dict.subtotal = dict.cantidad * parseFloat(dict.precio_venta);
+            subtotal += dict.subtotal;
+        });
+        this.items.subtotal = subtotal;
+        this.items.iva = (this.items.subtotal * parseFloat(iva) / 100);
+        this.items.total = this.items.subtotal + this.items.iva;
+
+        $('input[name="subtotal"]').val(this.items.subtotal.toFixed(2))
+        $('input[name="total"]').val(this.items.total.toFixed(2))
+    },
+    add: function (item) {
+        this.items.productos.push(item)
+        this.list();
+    },
     list: function () {
+        this.calcular_factura();
         $('#tblProducts').DataTable({
             responsive: true,
             autoWidth: false,
@@ -75,21 +95,27 @@ $(function () {
     $("input[name='iva']").TouchSpin({
         min: 0,
         max: 100,
-        step: 0.1,
+        step: 5,
         decimals: 2,
         boostat: 5,
         maxboostedstep: 10,
         postfix: '%'
-    })
+    }).on('change', () => {
+        ventas.calcular_factura();
+    }).val(0.00);
+
     $("input[name='descuento']").TouchSpin({
         min: 0,
         max: 100,
-        step: 0.1,
+        step: 5,
         decimals: 2,
         boostat: 5,
         maxboostedstep: 10,
         postfix: '%'
-    })
+    }).on('change', () => {
+        ventas.calcular_factura();
+    }).val(0.00);
+    
 
     //-------------Select2-----------------------
     $('.select2').select2({
@@ -117,14 +143,18 @@ $(function () {
             });
         },
         delay: 100,
+        autoFocus: true,
+        minLength: 0,
         select: function (event, ui) {
             event.preventDefault();
             ui.item.cantidad = 1;
             ui.item.subtotal = 0.00;
-            ventas.items.productos.push(ui.item);
+            ui.item.total = 0.00;
+            ui.item.iva = 0.00;
+            ui.item.descuento = 0.00;
+            ventas.add(ui.item);
             ventas.list();
             $(this).val('');
-
         }
     });
 });

@@ -31,7 +31,8 @@ class SaleCreateView(LoginRequiredMixin,CreateView):
             action = request.POST['action']
             if action == 'search_products':
                 data = []
-                productos = Productos.objects.filter(nombre__icontains=request.POST['term'])
+                productos = Productos.objects.filter(nombre__icontains=request.POST['term'])[0:5]
+                # print(productos)
                 for i in productos:
                     item = i.toJSON()
                     item['value'] = i.nombre
