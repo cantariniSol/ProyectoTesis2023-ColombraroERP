@@ -1,3 +1,5 @@
+var tblProducts;
+
 var ventas = {
     items: {
         cliente: '',
@@ -13,12 +15,15 @@ var ventas = {
         var iva = $('input[name="iva"]').val();
         var descuento = $('input[name="descuento"]').val();
         $.each(this.items.productos, (pos, dict) => {
+            dict.pos = pos;
             dict.subtotal = dict.cantidad * parseFloat(dict.precio_venta);
             subtotal += dict.subtotal;
         });
         this.items.subtotal = subtotal;
         this.items.iva = (this.items.subtotal * parseFloat(iva) / 100);
-        this.items.total = this.items.subtotal + this.items.iva;
+        this.items.descuento = (this.items.subtotal * parseFloat(descuento) / 100)
+        this.items.total = (this.items.subtotal + this.items.iva) - this.items.descuento;
+
 
         $('input[name="subtotal"]').val(this.items.subtotal.toFixed(2))
         $('input[name="total"]').val(this.items.total.toFixed(2))
@@ -29,7 +34,7 @@ var ventas = {
     },
     list: function () {
         this.calcular_factura();
-        $('#tblProducts').DataTable({
+        tblProducts = $('#tblProducts').DataTable({
             responsive: true,
             autoWidth: false,
             destroy: true,
@@ -64,7 +69,7 @@ var ventas = {
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<input type="text" name="cantidad" class="form-control form-control-sm" autocomplete="off" value="' + row.cantidad + '">';
+                        return '<input type="text" name="cantidad" class="form-control form-control-sm input-sm" autocomplete="off" value="' + row.cantidad + '">';
                     }
                 },
                 {
@@ -76,6 +81,13 @@ var ventas = {
                     }
                 },
             ],
+            rowCallback(row, data, displayNum, displayIndex, dataIndex) {
+                $(row).find('input[name="cantidad"]').TouchSpin({
+                    min: 1,
+                    max: 100000000,
+                    step: 1
+                });
+            },
             initComplete: function (settings, json) {
 
             }
@@ -100,9 +112,10 @@ $(function () {
         boostat: 5,
         maxboostedstep: 10,
         postfix: '%'
-    }).on('change', () => {
+    }).on('change', function () {
         ventas.calcular_factura();
-    }).val(0.00);
+    })
+
 
     $("input[name='descuento']").TouchSpin({
         min: 0,
@@ -112,10 +125,9 @@ $(function () {
         boostat: 5,
         maxboostedstep: 10,
         postfix: '%'
-    }).on('change', () => {
+    }).on('change', function () {
         ventas.calcular_factura();
-    }).val(0.00);
-    
+    })
 
     //-------------Select2-----------------------
     $('.select2').select2({
@@ -147,6 +159,7 @@ $(function () {
         minLength: 0,
         select: function (event, ui) {
             event.preventDefault();
+            console.clear();
             ui.item.cantidad = 1;
             ui.item.subtotal = 0.00;
             ui.item.total = 0.00;
@@ -157,4 +170,56 @@ $(function () {
             $(this).val('');
         }
     });
+
+
+    //---------------- Evento Eliminar --------------------
+    $('.btnRemoveAll').on('click', function () {
+        if (ventas.items.productos.length === 0) return false;
+        alert_action('Notificación', '¿Estas seguro de eliminar todos los items de tu detalle?', function () {
+            ventas.items.productos = [];
+            ventas.list();
+        });
+    });
+
+    //---------------- Evento Cantidad --------------------
+    $('#tblProducts tbody')
+        //---------- Eliminar Producto -----------------------------
+        .on('click', 'a[rel="remove"]', function () {
+            var tr = tblProducts.cell($(this).closest('td, li')).index();
+            alert_action('Notificación', '¿Estas seguro de eliminar el producto de tu detalle?', function () {
+                ventas.items.productos.splice(tr.row, 1);
+                ventas.list();
+            });
+        })
+        //--------- Agregar Cantidad de productos ---------------------
+        .on('change', "input[name='cantidad']", function () {
+            var cantidad = parseInt($(this).val());
+            var tr = tblProducts.cell($(this).closest('td, li')).index();
+            ventas.items.productos[tr.row].cantidad = cantidad;
+            ventas.calcular_factura();
+            $('td:eq(5)', tblProducts.row(tr.row).node()).html('$' + ventas.items.productos[tr.row].subtotal.toFixed(2));
+        });
+
+    //--------------Guardar Factura ---------------------
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        if (ventas.items.productos.length == 0) {
+            message_error('Debe al menos tener un item en su deatalle de venta');
+            return false;  
+        }
+        ventas.items.fecha_venta = $('input[name="fecha_venta"]').val();
+        ventas.items.cliente = $('select[name="cliente"]').val();
+
+        var parameters = new FormData();
+        parameters.append('action', $('input[name="action"]').val());
+        parameters.append('ventas', JSON.stringify(ventas.items));
+
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
+            location.href = '/erp/home/';
+        });
+    });
+
+    ventas.list();
 });
+
+

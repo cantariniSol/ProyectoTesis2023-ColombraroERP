@@ -161,7 +161,6 @@ class VentasForm(ModelForm):
             'cliente': Select(attrs={
                 'class': 'form-control select2',
                 'style': 'width:100%',
-                'autofocus': True,
                 'autocomplete': 'off'
             }),
             'fecha_venta': DateInput(
@@ -179,13 +178,19 @@ class VentasForm(ModelForm):
                 'readonly': True
             }
             ),
-            'iva': TextInput(),
-            'descuento': TextInput(),
-            'total': TextInput(attrs={
+            'iva': TextInput(attrs={
                 'class': 'form-control',
                 'readonly': True
             }
-            )
+            ),
+            'descuento': TextInput(attrs={
+                'class': 'form-control',
+                'readonly': True
+            }),
+            'total': TextInput(attrs={
+                'class': 'form-control',
+                'readonly': True
+            })
         }
 
 # --------------- TEST FORMS -----------------------
