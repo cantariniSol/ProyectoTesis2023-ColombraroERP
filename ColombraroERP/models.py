@@ -105,7 +105,6 @@ class Productos(models.Model):
         item['precio'] = format(self.precio, '.2f')
         item['precio_venta'] = format(self.precio_venta, '.2f')
         # item['stock'] = format(self.stock, '.2f')
-
         return item
 
     def get_imagen(self):
@@ -163,7 +162,7 @@ class Clientes(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
-        item['genero'] = self.get_gendero_display()
+        item['genero'] = self.get_genero_display()
         item['factura'] = self.get_factura_display()
         item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%Y-%m-%d')
         item['fecha_alta'] = self.fecha_alta.strftime('%Y-%m-%d')
@@ -189,6 +188,16 @@ class Ventas(models.Model):
 
     def __str__(self):
         return self.cliente.nombre
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['cliente'] = self.cliente.toJSON()
+        item['fecha_venta'] = self.fecha_venta.strftime('%Y-%m-%d')
+        item['subtotal'] = format(self.subtotal, '.2f')
+        item['iva'] = format(self.iva, '.2f')
+        item['descuento'] = format(self.descuento, '.2f')
+        item['total'] = format(self.total, '.2f')
+        return item
 
     class Meta:
         verbose_name = 'Ventas'
@@ -207,6 +216,13 @@ class DetallesVentas(models.Model):
 
     def __str__(self):
         return self.producto.nombre
+    
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['venta'])
+        item['producto'] = self.producto.toJSON()
+        item['precio'] = format(self.precio, '.2f')
+        item['subtotal'] = format(self.subtotal, '.2f')
+        return item
 
     class Meta:
         verbose_name = 'Detalle de Venta'

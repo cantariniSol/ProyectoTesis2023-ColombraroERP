@@ -84,7 +84,6 @@ class ClientCreateView(LoginRequiredMixin,CreateView):
         context['action'] = 'create'
         return context
 
-
 class ClientUpdateView(LoginRequiredMixin,UpdateView):
     model = Clientes
     form_class = ClientesForm
@@ -117,7 +116,6 @@ class ClientUpdateView(LoginRequiredMixin,UpdateView):
         context['list_url'] = reverse_lazy('erp:client_list')
         context['action'] = 'update'
         return context
-
 
 class ClientDeleteView(LoginRequiredMixin,DeleteView):
     model = Clientes

@@ -5,8 +5,8 @@ from .views.product.views import *
 from .views.client.views import *
 from .views.sale.views import *
 from .views.tests.views import TestView
-app_name = 'erp'
 
+app_name = 'erp'
 urlpatterns = [
     # ---------- DASHBOARD / PANEL DE ADMINISTRADOR ----------
     path('home/', DashboardView.as_view(), name='dashboard'),
@@ -37,7 +37,9 @@ urlpatterns = [
     path('client/delete/<int:pk>/',
          ClientDeleteView.as_view(), name='client_delete'),
     # ------------ SALE / VENTAS ----------------------------
+    path('sale/list/', SaleListView.as_view(), name='sale_list'),
     path('sale/create/', SaleCreateView.as_view(), name='sale_create'),
+    path('sale/delete/<int:pk>/', SaleDeleteView.as_view(), name='sale_delete'),
      #------------ TESTS  ------------------------------------
      path('test/', TestView.as_view(), name="test"),
 ]
