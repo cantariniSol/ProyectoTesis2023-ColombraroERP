@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'ColombraroERP.apps.ColombraroERPConfig',
     'ColombraroLogin.apps.ColombrarologinConfig',
     'ColombraroUser.apps.ColombrarouserConfig',
+    'ColombraroReports.apps.ColombraroreportsConfig',
     # Librerias
     'widget_tweaks',
-
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 # Decoradores
 from django.views.decorators.csrf import csrf_exempt
 # Mixines

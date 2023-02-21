@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('ColombraroLogin.urls')),
     path('erp/', include('ColombraroERP.urls')),
+    path('reports/', include('ColombraroReports.urls')),
     path('admin/', admin.site.urls),
 ]
 # Ruta para cargar archivos img
