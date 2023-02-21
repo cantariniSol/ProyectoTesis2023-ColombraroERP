@@ -207,7 +207,7 @@ $(function () {
         parameters.append('ventas', JSON.stringify(ventas.items));
 
         submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
-            location.href = '/erp/sale/sale_list';
+            location.href = '/erp/sale/list/';
         });
     });
 

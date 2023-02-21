@@ -197,6 +197,7 @@ class Ventas(models.Model):
         item['iva'] = format(self.iva, '.2f')
         item['descuento'] = format(self.descuento, '.2f')
         item['total'] = format(self.total, '.2f')
+        item['detalle_venta'] = [i.toJSON() for i in self.detallesventas_set.all()]
         return item
 
     class Meta:
