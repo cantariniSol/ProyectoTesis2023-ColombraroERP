@@ -1,6 +1,7 @@
 var tblSale;
 $(function () {
     tblSale = $('#tblDetailSale').DataTable({
+        order: [0, 'desc'],
         responsive: true,
         autoWidth: false,
         destroy: true,
@@ -39,8 +40,9 @@ $(function () {
                 class: 'text-center',
                 orderable: false,
                 render: function (data, type, row) {
-                    var buttons = '<a rel="details" class="btn btn-info btn-xs"><i class="fas fa-search"></i></a> ';
-                    buttons += '<a href="/erp/sale/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a> ';
+                    var buttons = '<a rel="details" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Detalle de Productos"><i class="fas fa-search"></i></a> ';
+                    buttons += '<a href="/erp/sale/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Eliminar"></i></a> ';
+                    buttons += '<a href="/erp/sale/invoice/pdf/' + row.id + '/" target="_blank" class="btn btn-warning text-white btn-xs" data-toggle="tooltip" data-placement="top" title="Factura PDF"><i class="fas fa-file-pdf"></i></a> ';
                     return buttons;
                 }
             },

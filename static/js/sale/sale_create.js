@@ -167,9 +167,12 @@ $(function () {
     //---------------- Evento Eliminar --------------------
     $('.btnRemoveAll').on('click', function () {
         if (ventas.items.productos.length === 0) return false;
-        alert_action('Notificación', '¿Estas seguro de eliminar todos los items de tu detalle?', function () {
+        alert_action('Notificación', '¿Estas seguro de eliminar todos los items de tu detalle?',
+            function () {
             ventas.items.productos = [];
             ventas.list();
+        }, function () {
+            
         });
     });
 
@@ -178,9 +181,12 @@ $(function () {
         //---------- Eliminar Producto -----------------------------
         .on('click', 'a[rel="remove"]', function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
-            alert_action('Notificación', '¿Estas seguro de eliminar el producto de tu detalle?', function () {
+            alert_action('Notificación', '¿Estas seguro de eliminar el producto de tu detalle?',
+                function () {
                 ventas.items.productos.splice(tr.row, 1);
                 ventas.list();
+            }, function () {
+                
             });
         })
         //--------- Agregar Cantidad de productos ---------------------
@@ -206,9 +212,15 @@ $(function () {
         parameters.append('action', $('input[name="action"]').val());
         parameters.append('ventas', JSON.stringify(ventas.items));
 
-        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
-            location.href = '/erp/sale/list/';
-        });
+        submit_with_ajax(window.location.pathname, 'Notificación',
+            '¿Estas seguro de realizar la siguiente acción?', parameters, function (response) {
+                alert_action('Notificación', '¿Desea imprimir la boleta de venta?', function () {
+                    window.open('/erp/sale/invoice/pdf/' + response.id + '/', '_blank');
+                    location.href = '/erp/sale/list/';
+                }, function () {
+                    location.href = '/erp/sale/list/';
+                });
+            });
     });
 
     //-------------Search-------------------------

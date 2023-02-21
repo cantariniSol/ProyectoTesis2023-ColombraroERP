@@ -106,6 +106,8 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
                         detalle_venta.precio = float(i['precio_venta'])
                         detalle_venta.subtotal = float(i['subtotal'])
                         detalle_venta.save()
+                        
+                    data = {'id': venta.id}
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -179,7 +181,7 @@ class SaleInvoicePdfView(View):
             context = {
                 'venta': Ventas.objects.get(pk=self.kwargs['pk']),
                 'comp': {'nombre': 'HIPER PLÁSTICOS COLOMBRARO', 'codigo': '1234542', 'direccion': 'Av. Libertar 627, Villa Carlos Paz - Córdoba'},
-                'icon': '{}{}'.format(settings.MEDIA_URL, 'colombraro-logo.png')
+                'icon': '{}{}'.format(settings.MEDIA_URL, 'logo/colombraro-logo.png')
             }
             html = template.render(context)
             response = HttpResponse(content_type='application/pdf')
