@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Mixines
 from ColombraroERP.mixins import IsSuperUserMixins
 from django.contrib.auth.mixins import LoginRequiredMixin
-# Listas basadas en Clases
+#  Clases Genericas
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 # Categorias
 from ColombraroERP.models import Categorias

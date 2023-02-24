@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import model_to_dict
 from django.contrib.auth.models import AbstractUser
 
 from ColombraroConfig.settings import MEDIA_URL, STATIC_URL
@@ -14,3 +15,12 @@ class User(AbstractUser):
         if self.imagen:
             return '{}{}'.format(MEDIA_URL, self.imagen)
         return '{}{}'.format(STATIC_URL, 'img/empty/empty.png')
+    
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['password', 'groups', 'user_permissions', 'last_login'])
+        if self.last_login:
+            item['last_login'] = self.last_login.strftime('%Y-%m-%d')
+        item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
+        item['imagen'] = self.get_imagen()
+        item['full_name'] = self.get_full_name()
+        return item

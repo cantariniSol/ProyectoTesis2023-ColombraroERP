@@ -8,7 +8,6 @@
             <br>
         <span class="text-light p-3"><b>Colombraro ERP</b></span>
     </div>
-    
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
@@ -65,20 +64,31 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'reports:reports_sale' %}" class="nav-link">
-                        <i class="fas fa-chart-bar"></i>
+                    <a href="{% url 'user:user_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-user-friends"></i>
                         <p>
-                            Reportes Ventas
+                            Usuarios
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'erp:test' %}" class="nav-link">
-                        <i class="nav-icon fas fa-plus"></i>
-                        <p>
-                            Test
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link ">
+                        <i class="fas fa-chart-bar"></i>
+                            <p>
+                            Reportes
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'reports:reports_sale' %}" class="nav-link">
+                                <p>
+                                <i class="nav-icon far fa-circle "></i>
+                                Ventas
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
