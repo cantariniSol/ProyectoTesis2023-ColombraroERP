@@ -41,6 +41,7 @@ class ProductListView(LoginRequiredMixin,ListView):
         context['create_url'] = reverse_lazy('erp:product_create')
         context['list_url'] = reverse_lazy('erp:product_list')
         context['entity'] = 'Productos'
+        context['action_entity'] = ''
         return context
 
 
@@ -52,6 +53,7 @@ class ProductDetailView(LoginRequiredMixin,DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Detalle de Producto'
         context['entity'] = 'Productos'
+        context['action_entity'] = 'Detalle'
         context['list_url'] = reverse_lazy('erp:product_list')
         return context
 
@@ -82,6 +84,7 @@ class ProductCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear Nuevo Producto'
         context['entity'] = 'Productos'
+        context['action_entity'] = 'Crear'
         context['list_url'] = reverse_lazy('erp:product_list')
         context['action'] = 'create'
         return context
@@ -114,6 +117,7 @@ class ProductUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editar Producto'
         context['entity'] = 'Productos'
+        context['action_entity'] = 'Editar'
         context['list_url'] = reverse_lazy('erp:product_list')
         context['action'] = 'update'
         return context
@@ -139,7 +143,9 @@ class ProductDeleteView(LoginRequiredMixin,IsSuperUserMixins,DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['prop'] = self.object.nombre
         context['title'] = 'Eliminar Producto'
         context['entity'] = 'Producto'
+        context['action_entity'] = 'Eliminar'
         context['list_url'] = reverse_lazy('erp:product_list')
         return context

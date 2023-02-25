@@ -41,6 +41,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
         context['create_url'] = reverse_lazy('erp:category_create')
         context['list_url'] = reverse_lazy('erp:category_list')
         context['entity'] = 'Categorías'
+        context['action_entity'] = ''
         return context
 
 
@@ -52,6 +53,7 @@ class CategoryDetailView(LoginRequiredMixin,DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Detalle de Categoría'
         context['entity'] = 'Categorías'
+        context['action_entity'] = 'Detalle'
         context['list_url'] = reverse_lazy('erp:category_list')
 
         return context
@@ -81,8 +83,9 @@ class CategoryCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear nueva Categoría'
+        context['title'] = 'Crear Nueva Categoría'
         context['entity'] = 'Categorías'
+        context['action_entity'] = 'Crear'
         context['list_url'] = reverse_lazy('erp:category_list')
         context['action'] = 'create'
         return context
@@ -118,6 +121,7 @@ class CategoryUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editar Categoría'
         context['entity'] = 'Categorías'
+        context['action_entity'] = 'Editar'
         context['list_url'] = reverse_lazy('erp:category_list')
         context['action'] = 'update'
         return context
@@ -143,7 +147,9 @@ class CategoryDeleteView(LoginRequiredMixin,IsSuperUserMixins,DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['prop'] = self.object.nombre
         context['title'] = 'Eliminar Categoría'
         context['entity'] = 'Categorías'
+        context['action_entity'] = 'Eliminar'
         context['list_url'] = reverse_lazy('erp:category_list')
         return context

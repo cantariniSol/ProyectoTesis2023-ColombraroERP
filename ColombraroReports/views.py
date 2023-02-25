@@ -36,7 +36,6 @@ class ReportSaleView(LoginRequiredMixin, IsSuperUserMixins, TemplateView):
                     search = search.filter(fecha_venta__range=[start_date, end_date])
                 for s in search:
                     data.append([
-                        s.id,
                         s.cliente.nombre,
                         s.cliente.apellido,
                         s.fecha_venta.strftime('%Y-%m-%d'),
@@ -53,8 +52,9 @@ class ReportSaleView(LoginRequiredMixin, IsSuperUserMixins, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Reporte de Ventas'
+        context['title'] = 'Reportes de Ventas'
         context['entity'] = 'Reportes'
+        context['action_entity'] = 'Ventas'
         context['list_url'] = reverse_lazy('reports:reports_sale')
         context['form'] = ReportsForm()
         return context

@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 # Decoradores
 from django.views.decorators.csrf import csrf_exempt
 # Clases Genéricas
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 # Mixines
 from ColombraroERP.mixins import IsSuperUserMixins
@@ -40,9 +40,9 @@ class UserListView(LoginRequiredMixin, ListView):
         context['title'] = 'Listado de Usuarios'
         context['create_url'] = reverse_lazy('user:user_create')
         context['list_url'] = reverse_lazy('user:user_list')
+        context['action_entity'] = ''
         context['entity'] = 'Usuarios'
         return context
-
 
 class UserCreateView(LoginRequiredMixin, IsSuperUserMixins, CreateView):
     model = User
@@ -69,12 +69,25 @@ class UserCreateView(LoginRequiredMixin, IsSuperUserMixins, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Creación de un Usuario'
+        context['title'] = 'Crear Nuevo Usuario'
         context['entity'] = 'Usuarios'
         context['list_url'] = self.success_url
         context['action'] = 'create'
+        context['action_entity'] = 'Crear'
         return context
 
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = "user_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Detalle de Usuario'
+        context['entity'] = 'Usuarios'
+        context['action_entity'] = 'Datalle'
+        context['list_url'] = reverse_lazy('user:user_list')
+
+        return context
 
 class UserUpdateView(LoginRequiredMixin, IsSuperUserMixins, UpdateView):
     model = User
@@ -104,10 +117,10 @@ class UserUpdateView(LoginRequiredMixin, IsSuperUserMixins, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editar Usuario'
         context['entity'] = 'Usuarios'
+        context['action_entity'] = 'Editar'
         context['list_url'] = self.success_url
         context['action'] = 'update'
         return context
-
 
 class UserDeleteView(LoginRequiredMixin, IsSuperUserMixins, DeleteView):
     model = User
@@ -130,7 +143,10 @@ class UserDeleteView(LoginRequiredMixin, IsSuperUserMixins, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['prop'] = self.object.username
         context['title'] = 'Eliminar Usuario'
         context['entity'] = 'Usuarios'
+        context['action_entity'] = 'Eliminar'
         context['list_url'] = self.success_url
         return context
+

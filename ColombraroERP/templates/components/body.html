@@ -19,6 +19,9 @@
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     Panel</a></li>
                                 <li class="breadcrumb-item"><a href="{{list_url}}">{{entity }}</a></li>
+                                {% if action_entity != '' %}
+                                <li class="breadcrumb-item"><a href="#">{{action_entity}}</a></li>
+                                {% endif%}
                             </ol>
                         </div>
                     </div>

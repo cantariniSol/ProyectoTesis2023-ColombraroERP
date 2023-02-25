@@ -59,6 +59,7 @@ class SaleListView(LoginRequiredMixin, ListView):
         context['create_url'] = reverse_lazy('erp:sale_create')
         context['list_url'] = reverse_lazy('erp:sale_list')
         context['entity'] = 'Ventas'
+        context['action_entity'] = ''
         return context
 
 class SaleCreateView(LoginRequiredMixin, CreateView):
@@ -118,6 +119,7 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear nueva Venta'
         context['entity'] = 'Ventas'
+        context['action_entity'] = 'Crear'
         context['list_url'] = reverse_lazy('erp:sale_list')
         context['action'] = 'create'
         return context
@@ -143,8 +145,10 @@ class SaleDeleteView(LoginRequiredMixin, IsSuperUserMixins, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['prop'] = 'Venta al cliente: ' + self.object.cliente.nombre + ' ' + self.object.cliente.apellido
         context['title'] = 'Eliminar Venta'
         context['entity'] = 'Ventas'
+        context['action_entity'] = 'Eliminar'
         context['list_url'] = self.success_url
         return context
 

@@ -39,6 +39,7 @@ class ClientListView(LoginRequiredMixin, ListView):
         context['create_url'] = reverse_lazy('erp:client_create')
         context['list_url'] = reverse_lazy('erp:client_list')
         context['entity'] = 'Clientes'
+        context['action_entity'] = ''
         return context
 
 class ClientDetailView(LoginRequiredMixin, DetailView):
@@ -49,6 +50,7 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Detalle de Cliente'
         context['entity'] = 'Cliente'
+        context['action_entity'] = 'Detalle'
         context['list_url'] = reverse_lazy('erp:client_list')
         return context
 
@@ -80,6 +82,7 @@ class ClientCreateView(LoginRequiredMixin,CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear nuevo Cliente'
         context['entity'] = 'Clientes'
+        context['action_entity'] = 'Crear'
         context['list_url'] = reverse_lazy('erp:client_list')
         context['action'] = 'create'
         return context
@@ -113,6 +116,7 @@ class ClientUpdateView(LoginRequiredMixin,UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editar Cliente'
         context['entity'] = 'Clientes'
+        context['action_entity'] = 'Editar'
         context['list_url'] = reverse_lazy('erp:client_list')
         context['action'] = 'update'
         return context
@@ -137,7 +141,9 @@ class ClientDeleteView(LoginRequiredMixin,DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['prop'] = self.object.nombre + ' ' + self.object.apellido
         context['title'] = 'Eliminar Cliente'
         context['entity'] = 'Clientes'
+        context['action_entity'] = 'Eliminar'
         context['list_url'] = reverse_lazy('erp:client_list')
         return context

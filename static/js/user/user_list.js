@@ -13,13 +13,11 @@ $(function () {
             dataSrc: ""
         },
         columns: [
-            { "data": "id" },
             { "data": "first_name" },
             { "data": "last_name" },
             { "data": "email" },
             { "data": "username" },
             { "data": "date_joined" },
-            { "data": "last_login" },
             { "data": "imagen" },
             { "data": "id" },
         ],
@@ -37,7 +35,8 @@ $(function () {
                 class: 'text-center',
                 orderable: false,
                 render: function (data, type, row) {
-                    var buttons = '<a href="/user/update/' + row.id + '/" class="btn btn-success btn-xs "><i class="fas fa-edit"></i></a> ';
+                    var buttons = '<a href="/user/detail/' + row.id + '/" class="btn btn-info btn-xs "><i class="fas fa-search"></i></a> ';
+                    buttons += '<a href="/user/update/' + row.id + '/" class="btn btn-success btn-xs "><i class="fas fa-edit"></i></a> ';
                     buttons += '<a href="/user/delete/' + row.id + '/" type="button" class="btn btn-danger btn-xs "><i class="fas fa-trash-alt"></i></a>';
                     return buttons;
                 }

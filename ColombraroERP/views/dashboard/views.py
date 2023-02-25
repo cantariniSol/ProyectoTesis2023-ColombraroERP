@@ -74,5 +74,6 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['grafico_ventas_anual'] = self.get_grafico_ventas_anual()
+        context['action_entity'] = ''
         return context
 

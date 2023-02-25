@@ -1,7 +1,13 @@
-#nav-sidebar .nav-link{
-    color:rgb(246, 246, 239);
+#nav-sidebar .nav-link {
+    color: rgb(246, 246, 239);
 }
 
+#nav-sidebar .nav-item a:hover {
+    color: #434242;
+    background-color: rgb(246, 246, 239);
+}
 
-
-
+#nav-sidebar .nav-item .nav-link.active {
+    color: rgb(246, 246, 239);
+    background-color: #EB1D36;
+}

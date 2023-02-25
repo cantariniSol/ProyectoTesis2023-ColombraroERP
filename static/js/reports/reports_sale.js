@@ -49,29 +49,29 @@ function generar_reporte() {
                 customize: function (doc) {
                     doc.styles = {
                         header: {
-                            fontSize: 18,
+                            fontSize: 15,
                             bold: true,
                             alignment: 'center'
                         },
                         subheader: {
-                            fontSize: 13,
+                            fontSize: 15,
                             bold: true
                         },
                         quote: {
                             italics: true
                         },
                         small: {
-                            fontSize: 8
+                            fontSize: 12
                         },
                         tableHeader: {
                             bold: true,
-                            fontSize: 11,
+                            fontSize: 18,
                             color: 'white',
                             fillColor: '#2d4154',
                             alignment: 'center'
                         }
                     };
-                    doc.content[1].table.widths = ['10%','10%', '10%',  '10%','15%', '15%', '15%', '15%'];
+                    doc.content[1].table.widths = [ '10%', '10%', '10%', '15%', '15%', '15%', '25%'];
                     doc.content[1].margin = [0, 35, 0, 0];
                     doc.content[1].layout = {};
                     doc['footer'] = (function (page, pages) {

@@ -15,9 +15,9 @@ $(function () {
             dataSrc: ""
         },
         columns: [
-            { "data": "id" },
             { "data": "fecha_venta" },
-            { "data": "cliente.nombre" },
+            { "data": "cliente.nombre"},
+            { "data": "cliente.apellido"},
             { "data": "cliente.razon_social" },
             { "data": "cliente.factura" },
             { "data": "subtotal" },
