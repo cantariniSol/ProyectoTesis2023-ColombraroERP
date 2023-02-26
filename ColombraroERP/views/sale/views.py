@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.http import HttpResponse
 # Mixines
 from django.contrib.auth.mixins import LoginRequiredMixin
-from ColombraroERP.mixins import IsSuperUserMixins
+from ColombraroERP.mixins import IsSuperUserMixins, ValidatePermissionRequiredMixin
 # Decoradores
 from django.views.decorators.csrf import csrf_exempt
 # Listas basadas en Clases
@@ -124,10 +124,12 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
         context['action'] = 'create'
         return context
 
-class SaleDeleteView(LoginRequiredMixin, IsSuperUserMixins, DeleteView):
+class SaleDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Ventas
     template_name = 'pages/sale/sale_delete.html'
     success_url = reverse_lazy('erp:sale_list')
+    url_redirect = success_url
+    permission_required = 'ColombraroERP.delete_ventas'
     url_redirect = success_url
 
     @csrf_exempt

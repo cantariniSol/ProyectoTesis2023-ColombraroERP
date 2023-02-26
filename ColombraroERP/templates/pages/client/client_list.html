@@ -1,4 +1,9 @@
 {% extends 'components/table.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'js/client/client_list.js' %}"></script>
+{% endblock %}
+
 
 {% block columns %}
     <tr>
@@ -14,33 +19,9 @@
 {% endblock %}
 
 {% block rows %}
-    {% for c in object_list %}
-        <tr>
-            <td>{{ c.nombre }}</td>
-            <td>{{ c.apellido }}</td>
-            <td>{{ c.tipo_documento }}</td>
-            <td>{{ c.num_documento }}</td>
-            <td>{{ c.num_telefono }}</td>
-            <td>{{ c.email }}</td>
-            <td>{{ c.fecha_alta | date:'d/m/Y' }}</td>
-            <td>
-                <a href="{% url 'erp:client_detail' c.id %}" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Detalle">
-                    <i class="fas fa-search"></i>
-                </a>
-                <a href="{% url 'erp:client_update' c.id %}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a href="{% url 'erp:client_delete' c.id %}" type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
-            </td>
-        </tr>
-    {% endfor %}
-    <script>
-        $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip({
-            delay: {show: 500, hide: 100}
-        });   
-        });
-    </script>
+
+{% endblock %}
+
+{% block javaScript %}
+
 {% endblock %}

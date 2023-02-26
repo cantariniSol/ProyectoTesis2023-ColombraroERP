@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 # Mixines
-from ColombraroERP.mixins import IsSuperUserMixins
+from ColombraroERP.mixins import IsSuperUserMixins, ValidatePermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from ColombraroUser.models import User
@@ -44,11 +44,12 @@ class UserListView(LoginRequiredMixin, ListView):
         context['entity'] = 'Usuarios'
         return context
 
-class UserCreateView(LoginRequiredMixin, IsSuperUserMixins, CreateView):
+class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = User
     form_class = UserForm
     template_name = 'user_create.html'
     success_url = reverse_lazy('user:user_list')
+    permission_required = 'ColombraroUser.add_user'
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
@@ -89,11 +90,12 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
         return context
 
-class UserUpdateView(LoginRequiredMixin, IsSuperUserMixins, UpdateView):
+class UserUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
     model = User
     form_class = UserForm
     template_name = 'user_create.html'
     success_url = reverse_lazy('user:user_list')
+    permission_required = 'ColombraroUser.change_user'
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
@@ -122,10 +124,11 @@ class UserUpdateView(LoginRequiredMixin, IsSuperUserMixins, UpdateView):
         context['action'] = 'update'
         return context
 
-class UserDeleteView(LoginRequiredMixin, IsSuperUserMixins, DeleteView):
+class UserDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = User
     template_name = 'user_delete.html'
     success_url = reverse_lazy('user:user_list')
+    permission_required = 'ColombraroUser.delete_user'
     url_redirect = success_url
 
     @csrf_exempt

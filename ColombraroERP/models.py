@@ -94,7 +94,6 @@ class Productos(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
-        # item['articulo'] = format(self.articulo, '.2f')
         item['categoria'] = self.categoria.toJSON()
         item['imagen'] = self.get_imagen()
         item['ancho'] = format(self.ancho, '.2f')
@@ -104,7 +103,6 @@ class Productos(models.Model):
         item['diametro'] = format(self.diametro, '.2f')
         item['precio'] = format(self.precio, '.2f')
         item['precio_venta'] = format(self.precio_venta, '.2f')
-        # item['stock'] = format(self.stock, '.2f')
         return item
 
     def get_imagen(self):

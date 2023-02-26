@@ -1,5 +1,8 @@
 {% extends 'components/table.html' %}
 {% load static %}
+{% block head_list %}
+    <script src="{% static 'js/category/category_list.js' %}"></script>
+{% endblock %}
 
 
 {% block columns %}
@@ -12,35 +15,11 @@
 {% endblock %}
 
 {% block rows %}
-{% for p in object_list %}
-        <tr>
-            <td>{{ p.nombre}}</td>
-            <td>{{ p.descripcion}}</td>
-            <td>
-                <img src="{{ p.get_imagen }}" class="img-fluid d-block" style="width: 80px; height: 80px;border-radius:10px;">
-            </td>
-            <td>
-                <a href="{% url 'erp:category_detail' p.id %}" type="button" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Detalle">
-                    <i class="fas fa-search"></i>
-                </a>
-                {% if user.is_superuser %}
-                <a href="{% url 'erp:category_update' p.id %}" type="button" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a href="{% url 'erp:category_delete' p.id %}" type="button" class="btn btn-danger  btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar">
-                    <i class="fas fa-trash"></i>
-                </a>
-                {% endif %}
-            </td>
-        </tr>
-    {% endfor %}
-    <script>
-        $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip({
-            delay: {show: 500, hide: 100}
-        });   
-        });
-    </script>
+
+{% endblock %}
+
+{% block javaScript %}
+
 {% endblock %}
 
 

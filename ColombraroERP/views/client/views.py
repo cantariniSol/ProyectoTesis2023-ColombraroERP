@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import JsonResponse
 # Mixines
-from ColombraroERP.mixins import IsSuperUserMixins
+from ColombraroERP.mixins import IsSuperUserMixins, ValidatePermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Decoradores
 from django.views.decorators.csrf import csrf_exempt
@@ -26,9 +26,10 @@ class ClientListView(LoginRequiredMixin, ListView):
         data = {}
         try:
             action = request.POST['action']
-            data = []
-            for i in Clientes.objects.all():
-                data.append(i.toJSON())
+            if action == 'searchdata':
+                data = []
+                for i in Clientes.objects.all():
+                    data.append(i.toJSON())
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)

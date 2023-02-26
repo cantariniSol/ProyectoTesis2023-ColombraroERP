@@ -34,7 +34,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'erp:category_list' %}" class="nav-link
-                    {% if request.path == '/erp/category/list/' %}active{% endif %}">
+                    {% if request.path == '/erp/category/list/' %}active
+
+                    {% endif %}">
                         <i class="nav-icon fas fa-truck-loading"></i>
                         <p>
                             Categorías
@@ -77,6 +79,7 @@
                         </p>
                     </a>
                 </li>
+                {% if user.is_superuser %}
                 <li class="nav-item
                 {% if request.path == '/reports/sale/' %}menu-open{% endif %}">
                     <a href="#" class="nav-link">
@@ -98,6 +101,7 @@
                         </li>
                     </ul>
                 </li>
+                {% endif %}
             </ul>
         </nav>
     </div>

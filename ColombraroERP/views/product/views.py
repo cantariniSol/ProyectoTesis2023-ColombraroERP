@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 # Mixines
 from django.contrib.auth.mixins import LoginRequiredMixin
-from ColombraroERP.mixins import IsSuperUserMixins
+from ColombraroERP.mixins import IsSuperUserMixins, ValidatePermissionRequiredMixin
 # Decoradores
 from django.views.decorators.csrf import csrf_exempt
 # Listas basadas en Clases
@@ -27,7 +27,7 @@ class ProductListView(LoginRequiredMixin,ListView):
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Product.objects.all():
+                for i in Productos.objects.all():
                     data.append(i.toJSON())
             else:
                 data['error'] = 'Ha ocurrido un error'
@@ -58,11 +58,13 @@ class ProductDetailView(LoginRequiredMixin,DetailView):
         return context
 
 
-class ProductCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
+class ProductCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin , CreateView):
     model = Productos
     form_class = ProductosForm
     template_name = 'pages/product/product_create.html'
     success_url = reverse_lazy('erp:product_list')
+    permission_required = 'ColombraroERP.add_productos'
+    url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -90,11 +92,13 @@ class ProductCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
         return context
 
 
-class ProductUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
     model = Productos
     form_class = ProductosForm
     template_name = 'pages/product/product_create.html'
     success_url = reverse_lazy('erp:product_list')
+    permission_required = 'ColombraroERP.change_productos'
+    url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -123,10 +127,12 @@ class ProductUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
         return context
 
 
-class ProductDeleteView(LoginRequiredMixin,IsSuperUserMixins,DeleteView):
+class ProductDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Productos
     template_name = 'pages/product/product_delete.html'
     success_url = reverse_lazy('erp:product_list')
+    permission_required = 'ColombraroERP.delete_productos'
+    url_redirect = success_url
 
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):

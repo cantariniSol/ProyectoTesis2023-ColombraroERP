@@ -4,7 +4,7 @@ from django.http import JsonResponse
 # Decoradores
 from django.views.decorators.csrf import csrf_exempt
 # Mixines
-from ColombraroERP.mixins import IsSuperUserMixins
+from ColombraroERP.mixins import IsSuperUserMixins, ValidatePermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 #  Clases Genericas
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -59,11 +59,13 @@ class CategoryDetailView(LoginRequiredMixin,DetailView):
         return context
 
 
-class CategoryCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
+class CategoryCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = Categorias
     form_class = CategoriasForm
     template_name = 'pages/category/category_create.html'
     success_url = reverse_lazy('erp:category_list')
+    permission_required = 'ColombraroERP.add_categorias'
+    url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -91,11 +93,13 @@ class CategoryCreateView(LoginRequiredMixin,IsSuperUserMixins,CreateView):
         return context
 
 
-class CategoryUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
+class CategoryUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
     model = Categorias
     form_class = CategoriasForm
     template_name = 'pages/category/category_create.html'
     success_url = reverse_lazy('erp:category_list')
+    permission_required = 'ColombraroERP.change_categorias'
+    url_redirect = success_url
 
     
     def dispatch(self, request, *args, **kwargs):
@@ -127,10 +131,12 @@ class CategoryUpdateView(LoginRequiredMixin,IsSuperUserMixins, UpdateView):
         return context
 
 
-class CategoryDeleteView(LoginRequiredMixin,IsSuperUserMixins,DeleteView):
+class CategoryDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Categorias
     template_name = 'pages/category/category_delete.html'
     success_url = reverse_lazy('erp:category_list')
+    permission_required = 'ColombraroERP.delete_categorias'
+    url_redirect = success_url
 
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
