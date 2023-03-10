@@ -13,15 +13,27 @@ $(function () {
             dataSrc: ""
         },
         columns: [
-            { "data": "first_name" },
-            { "data": "last_name" },
+            { "data": "full_name" },
             { "data": "email" },
             { "data": "username" },
             { "data": "date_joined" },
+            { "data": "groups" },
             { "data": "imagen" },
             { "data": "id" },
         ],
         columnDefs: [
+            {
+                targets: [-3],
+                class: 'text-center',
+                orderable: false,
+                render: function (data, type, row) {
+                    var html = '';
+                    $.each(row.groups, function (key, value) {
+                        html += '<span class="badge badge-secondary mr-1 mb-1">' + value.name + '</span>'
+                    });
+                    return html;
+                }
+            },
             {
                 targets: [-2],
                 class: 'text-center',

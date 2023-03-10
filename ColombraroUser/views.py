@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 # Clases Genéricas
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-
 # Mixines
 from ColombraroERP.mixins import IsSuperUserMixins, ValidatePermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin

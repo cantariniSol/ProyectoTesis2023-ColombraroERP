@@ -28,7 +28,7 @@ class UserForm(ModelForm):
             ),
             'username': TextInput(
                 attrs={
-                    'placeholder': 'Username',
+                    'placeholder': 'Nombre de Usuario',
                 }
             ),
             'password': PasswordInput(render_value=True,
@@ -37,13 +37,13 @@ class UserForm(ModelForm):
                                       }
                                       ),
             'imagen': FileInput(attrs={
-                                        'placeholder': 'Imagen',
-                                      }
-                                      ),
+                'placeholder': 'Imagen',
+            }),
             'groups': SelectMultiple(attrs={
                 'class': 'form-control select2',
                 'style': 'width: 100%',
-                'multiple': 'multiple'
+                'multiple': 'multiple',
+                'placeholder': 'Seleccionar Rol',
             })
         }
         exclude = ['user_permissions', 'last_login',
@@ -63,7 +63,7 @@ class UserForm(ModelForm):
                     if user.password != pwd:
                         u.set_password(pwd)
                 u.save()
-
+                u.groups.clear()
                 for g in self.cleaned_data['groups']:
                     u.groups.add(g)
             else:

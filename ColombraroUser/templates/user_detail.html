@@ -38,20 +38,30 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Fecha Registro</label>
+                    <label class="col-sm-2 col-form-label">Fecha Registro</label> 
                     <div class="col-sm-6">
                       <input type="text" readonly class="form-control" value="{{object.date_joined}}" readonly>
                     </div>
                 </div>
+                {% if object.last_login is not None %}
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Ultimo Acceso</label>
+                    <label class="col-sm-2 col-form-label">Último Acceso</label>
                     <div class="col-sm-6">
                       <input type="text" readonly class="form-control" value="{{object.last_login}}" readonly>
                     </div>
                 </div>
+                 {% endif %}
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Roles</label>
+                    <div class="col-sm-6">
+                      {% for g in object.groups.all %}
+                      <span class="badge badge-secondary mr-1 mb-1" style="font-size:20px">{{g.name}}</span>
+                      {% endfor %}
+                    </div>
+                </div>
           </form>
           </div>
-          <div class="col-4 mt-2">
+          <div class="col-4 mt-5">
               <img src="{{ object.get_imagen }}" class="img-fluid d-block" style="
               width:350px; 
               height: 350px;

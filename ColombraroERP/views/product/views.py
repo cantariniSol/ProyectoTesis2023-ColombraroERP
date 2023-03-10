@@ -13,14 +13,14 @@ from ColombraroERP.models import Productos
 from ColombraroERP.forms import ProductosForm
 
 
-class ProductListView(LoginRequiredMixin,ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Productos
     template_name = 'pages/product/product_list.html'
 
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -45,7 +45,7 @@ class ProductListView(LoginRequiredMixin,ListView):
         return context
 
 
-class ProductDetailView(LoginRequiredMixin,DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Productos
     template_name = 'pages/product/product_detail.html'
 
@@ -58,7 +58,7 @@ class ProductDetailView(LoginRequiredMixin,DetailView):
         return context
 
 
-class ProductCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin , CreateView):
+class ProductCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = Productos
     form_class = ProductosForm
     template_name = 'pages/product/product_create.html'

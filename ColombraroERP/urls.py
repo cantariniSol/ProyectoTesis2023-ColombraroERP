@@ -12,13 +12,14 @@ urlpatterns = [
     path('home/', DashboardView.as_view(), name='dashboard'),
     # ----------- CATEGORÍA / CATEGORY ----------------------
     path('category/list/', CategoryListView.as_view(), name='category_list'),
-    path('category/detail/<int:pk>/', CategoryDetailView.as_view(), name='category_detail'),
+    path('category/detail/<int:pk>/',
+         CategoryDetailView.as_view(), name='category_detail'),
     path('category/create/', CategoryCreateView.as_view(), name='category_create'),
     path('category/update/<int:pk>/',
          CategoryUpdateView.as_view(), name='category_update'),
     path('category/delete/<int:pk>/',
          CategoryDeleteView.as_view(), name='category_delete'),
-    #------------ PRODUCT / PRODUCTO ----------------------------
+    # ------------ PRODUCT / PRODUCTO ----------------------------
     path('product/list/', ProductListView.as_view(), name='product_list'),
     path('product/detail/<int:pk>/',
          ProductDetailView.as_view(), name='product_detail'),
@@ -27,7 +28,7 @@ urlpatterns = [
          ProductUpdateView.as_view(), name='product_update'),
     path('product/delete/<int:pk>/',
          ProductDeleteView.as_view(), name='product_delete'),
-    #------------ CLIENT / CLIENTES ----------------------------
+    # ------------ CLIENT / CLIENTES ----------------------------
     path('client/list/', ClientListView.as_view(), name='client_list'),
     path('client/detail/<int:pk>/',
          ClientDetailView.as_view(), name='client_detail'),
@@ -39,9 +40,8 @@ urlpatterns = [
     # ------------ SALE / VENTAS ----------------------------
     path('sale/list/', SaleListView.as_view(), name='sale_list'),
     path('sale/create/', SaleCreateView.as_view(), name='sale_create'),
-    path('sale/delete/<int:pk>/', SaleDeleteView.as_view(), name='sale_delete'),
     path('sale/invoice/pdf/<int:pk>/',
          SaleInvoicePdfView.as_view(), name='sale_invoice_pdf'),
-     #------------ TESTS  ------------------------------------
-     path('test/', TestView.as_view(), name="test"),
+    # ------------ TESTS  ------------------------------------
+    path('test/', TestView.as_view(), name="test"),
 ]
