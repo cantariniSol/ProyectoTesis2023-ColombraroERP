@@ -51,6 +51,7 @@
                     </div>
                 </div>
                  {% endif %}
+                 {% if object.groups.all %}
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Roles</label>
                     <div class="col-sm-6">
@@ -59,6 +60,7 @@
                       {% endfor %}
                     </div>
                 </div>
+                {% endif %}
           </form>
           </div>
           <div class="col-4 mt-5">

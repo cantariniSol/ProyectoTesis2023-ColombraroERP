@@ -14,12 +14,18 @@
                 <img src="{{request.user.get_imagen}}" class="img-circle elevation-2 bg-light p-1" alt="Imagen de Usuario">
             </div>
             <div class="info ">
-                {% if request.user.first_name == "" or request.user.last_name == "" %}
+                {% if request.user.first_name == '' or request.user.last_name == '' %}
                     <span class="d-block text-light">{{request.user.username}}</span>
                 {% else %}
                     <span class="d-block text-light">{{request.user.first_name}} {{request.user.last_name}}</span>
                 {% endif %}
-            </div>
+                {% if request.user.groups.all %}
+                      {% for g in request.user.groups.all %}
+                      <span class="badge badge-secondary">{{g.name}}</span>
+                      <br>
+                      {% endfor %}
+                {% endif %}
+            </div>  
         </div>
         <nav class="mt-2" id="nav-sidebar">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
