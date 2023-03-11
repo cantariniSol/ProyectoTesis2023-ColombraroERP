@@ -131,6 +131,18 @@ $(function () {
         locale: 'es',
         maxDate: moment().format('YYYY-MM-DD')
     });
+    $('#fecha_nacimiento').datetimepicker({
+        format: 'YYYY-MM-DD',
+        date: moment().format("YYYY-MM-DD"),
+        locale: 'es',
+        maxDate: moment().format('YYYY-MM-DD')
+    });
+    $('#fecha_alta').datetimepicker({
+        format: 'YYYY-MM-DD',
+        date: moment().format("YYYY-MM-DD"),
+        locale: 'es',
+        maxDate: moment().format('YYYY-MM-DD')
+    });
 
     //-------------TouchSpin-----------------------
     $("input[name='iva']").TouchSpin({
@@ -196,7 +208,7 @@ $(function () {
     //--------------Guardar Cliente ---------------------
     $('#frmClientes').on('submit', function (e) {
         e.preventDefault();
-        var parameters = new FormData(this);
+        var parameters = new FormData(this)
         parameters.append('action', 'create_client');
         submit_with_ajax(window.location.pathname, 'Notificación',
             '¿Esta segura/o de crear un nuevo cliente?', parameters, function (response) {
@@ -210,8 +222,6 @@ $(function () {
     // $('.btnAddClient').on('click', function () {
     //     $('#myModalClient').modal('show');
     // });
-
-    $('#myModalClient').modal('show');
     //---------------- Evento Eliminar --------------------
     $('.btnRemoveAll').on('click', function () {
         if (ventas.items.productos.length === 0) return false;

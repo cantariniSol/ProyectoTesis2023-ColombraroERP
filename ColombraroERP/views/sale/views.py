@@ -128,7 +128,7 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
                     data.append(item)
 
             elif action == 'create_client':
-                print(request.POST)
+                #print(request.POST)
                 with transaction.atomic():
                     frmCliente = ClientesForm(request.POST)
                     data = frmCliente.save()
