@@ -158,22 +158,70 @@ $(function () {
         ventas.calcular_factura();
     })
 
-    //-------------Select2-----------------------
-    $('.select2').select2({
+    //-------------Search Cliente--------------------
+    $('select[name="cliente"]').select2({
         theme: "bootstrap4",
-        language: 'es'
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: window.location.pathname,
+            data: function (params) {
+                var queryParameters = {
+                    term: params.term,
+                    action: 'search_clients'
+                }
+                return queryParameters;
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+        },
+        placeholder: 'Ingrese el nombre de un cliente',
+        minimumInputLength: 1
     });
 
+    //------------Modal Crear nuevo Cliente-----------------
+    $('.btnAddClient').on('click', function () {
+        $('#myModalClient').modal('show');
+    });
+
+    $('#myModalClient').on('hidden.bs.modal', function (e) {
+        $('#frmClientes').trigger('reset');
+    })
+
+    //--------------Guardar Cliente ---------------------
+    $('#frmClientes').on('submit', function (e) {
+        e.preventDefault();
+        var parameters = new FormData(this);
+        parameters.append('action', 'create_client');
+        submit_with_ajax(window.location.pathname, 'Notificación',
+            '¿Esta segura/o de crear un nuevo cliente?', parameters, function (response) {
+                //console.log(response);
+                var newOption = new Option(response.full_name, response.id, false, true);
+                $('select[name="cliente"]').append(newOption).trigger('change');
+                $('#myModalClient').modal('hide');
+            });
+    });
+
+    // $('.btnAddClient').on('click', function () {
+    //     $('#myModalClient').modal('show');
+    // });
+
+    $('#myModalClient').modal('show');
     //---------------- Evento Eliminar --------------------
     $('.btnRemoveAll').on('click', function () {
         if (ventas.items.productos.length === 0) return false;
         alert_action('Notificación', '¿Estas seguro de eliminar todos los items de tu detalle?',
             function () {
-            ventas.items.productos = [];
-            ventas.list();
-        }, function () {
-            
-        });
+                ventas.items.productos = [];
+                ventas.list();
+            }, function () {
+
+            });
     });
 
     //---------------- Evento Cantidad --------------------
@@ -183,11 +231,11 @@ $(function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
             alert_action('Notificación', '¿Estas seguro de eliminar el producto de tu detalle?',
                 function () {
-                ventas.items.productos.splice(tr.row, 1);
-                ventas.list();
-            }, function () {
-                
-            });
+                    ventas.items.productos.splice(tr.row, 1);
+                    ventas.list();
+                }, function () {
+
+                });
         })
         //--------- Agregar Cantidad de productos ---------------------
         .on('change', "input[name='cantidad']", function () {
@@ -199,7 +247,7 @@ $(function () {
         });
 
     //--------------Guardar Factura ---------------------
-    $('form').on('submit', function (e) {
+    $('#frmVentas').on('submit', function (e) {
         e.preventDefault();
         if (ventas.items.productos.length == 0) {
             message_error('Debe al menos tener un item en su deatalle de venta');

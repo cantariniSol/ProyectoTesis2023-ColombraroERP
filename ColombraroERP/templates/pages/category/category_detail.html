@@ -1,6 +1,4 @@
-{% extends 'components/body.html' %}
-
-{% block content %}
+{% extends 'components/body.html' %} {% block content %}
 
 <div class="card">
   <div class="card-header bg-info">
@@ -8,37 +6,66 @@
       <i class="fas fa-search"></i>
       {{title}}
     </h3>
-
-    </div>
+  </div>
   <div class="card-body">
-        <div class="row">
-          <div class="col-8 px-4">
-              <form action="." method='POST' enctype="multipart/form-data" class="mt-5">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Nombre</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.nombre}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Descripción</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.descripcion}}" readonly>
-                    </div>
-                </div>
-          </form>
+    <div class="row">
+      <div class="col-8 px-4">
+        <form
+          action="."
+          method="POST"
+          enctype="multipart/form-data"
+          class="mt-5"
+        >
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.nombre}}"
+                readonly
+              />
+            </div>
           </div>
-          <div class="col-4">
-              <img src="{{ object.get_imagen }}" class="img-fluid d-block" style="
-              width:300px; 
-              height: 300px;
-              border-radius:10px;border:15px solid #F6E6C2">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Descripción</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.descripcion}}"
+                readonly
+              />
+            </div>
           </div>
-        </div>
+        </form>
+      </div>
+      <div class="col-4">
+        <img
+          src="{{ object.get_imagen }}"
+          class="img-fluid d-block"
+          style="
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            border: 15px solid #f6e6c2;
+          "
+        />
+      </div>
+    </div>
   </div>
   <div class="card-footer">
-    <a href="{{list_url}}" type="submit" class="btn btn-success btnTest" data-toggle="tooltip" data-placement="right" title="Volver">
-        <i class="fas fa-arrow-left"></i> Volver
+    <a
+      href="{{list_url}}"
+      type="submit"
+      class="btn btn-success btnTest"
+      data-toggle="tooltip"
+      data-placement="right"
+      title="Volver"
+    >
+      <i class="fas fa-arrow-left"></i> Volver
     </a>
   </div>
 </div>

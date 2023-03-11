@@ -1,25 +1,27 @@
 {% extends 'components/table.html' %}
+<!-- static -->
 {% load static %}
-{% block head_list %}
-    <script src="{% static 'js/product/product_list.js' %}"></script>
+
+<!-- head_table -->
+{% block head_table %}
+<script src="{% static 'js/product/product_list.js' %}"></script>
 {% endblock %}
 
+<!-- Columnas -->
 {% block columns %}
-    <tr>
-        <th scope="col">Articulo</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Categoria</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Stock</th>
-        <th scope="col">Imagen</th>
-        <th scope="col">Opciones</th>
-    </tr>
+<tr>
+  <th scope="col">Articulo</th>
+  <th scope="col">Nombre</th>
+  <th scope="col">Categoria</th>
+  <th scope="col">Precio</th>
+  <th scope="col">Stock</th>
+  <th scope="col">Imagen</th>
+  <th scope="col">Opciones</th>
+</tr>
 {% endblock %}
 
-{% block rows %}
+<!-- Filas -->
+{% block rows %} {% endblock %}
 
-{% endblock %}
-
-{% block javaScript %}
-
-{% endblock %}
+<!-- script javascript-->
+{% block javaScript %} {% endblock %}

@@ -94,12 +94,13 @@ class ClientesForm(ModelForm):
             ),
             'fecha_nacimiento': DateInput(
                 format='%Y-%m-%d',
-                attrs={'value': datetime.now().strftime('%Y-%m-%d'),
-                       'class': 'form-control datetimepicker-input',
-                       'id': 'fecha_nacimiento',
-                       'data-target': '#fecha_nacimiento',
-                       'data-toggle': 'datetimepicker'
-                       }
+                attrs={
+                    'value': datetime.now().strftime('%Y-%m-%d'),
+                    'class': 'form-control datetimepicker-input',
+                    'id': 'fecha_nacimiento',
+                    'data-target': '#fecha_nacimiento',
+                    'data-toggle': 'datetimepicker'
+                }
             ),
             'pais': TextInput(
                 attrs={'placeholder': 'País'}
@@ -109,9 +110,6 @@ class ClientesForm(ModelForm):
             ),
             'localidad': TextInput(
                 attrs={'placeholder': 'Localidad'}
-            ),
-            'barrio': TextInput(
-                attrs={'placeholder': 'Barrio'}
             ),
             'genero': Select(),
             'direccion': TextInput(
@@ -140,7 +138,8 @@ class ClientesForm(ModelForm):
         form = super()
         try:
             if form.is_valid():
-                form.save()
+                instance = form.save()
+                data = instance.toJSON()
             else:
                 data['error'] = form.errors
         except Exception as e:
@@ -153,20 +152,20 @@ class ClientesForm(ModelForm):
 class VentasForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['cliente'].queryset = Clientes.objects.none()
 
     class Meta:
         model = Ventas
         fields = '__all__'
         widgets = {
             'cliente': Select(attrs={
-                'class': 'form-control select2',
-                'style': 'width:100%',
+                'class': 'custom-select select2',
                 'autocomplete': 'off'
             }),
             'fecha_venta': DateInput(
-                format='%Y/%m/%d',
+                format='%Y-%m-%d',
                 attrs={
-                    'value': datetime.now().strftime('%Y/%m/%d'),
+                    'value': datetime.now().strftime('%Y-%m-%d'),
                     'class': 'form-control datetimepicker-input',
                     'id': 'fecha_venta',
                     'data-target': '#fecha_venta',

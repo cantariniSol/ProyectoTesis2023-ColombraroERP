@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 from django.http import HttpResponse
+from django.db.models import Q
 # Mixines
 from django.contrib.auth.mixins import LoginRequiredMixin
 from ColombraroERP.mixins import IsSuperUserMixins, ValidatePermissionRequiredMixin
@@ -12,8 +13,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, V
 # Productos
 from ColombraroERP.models import Productos
 # Ventas
-from ColombraroERP.models import Ventas, DetallesVentas
+from ColombraroERP.models import Ventas, DetallesVentas, Clientes
 from ColombraroERP.forms import VentasForm
+# Clientes
+from ColombraroERP.forms import ClientesForm
 # JSON
 import json
 # Transaction
@@ -62,6 +65,7 @@ class SaleListView(LoginRequiredMixin, ListView):
         context['action_entity'] = ''
         return context
 
+
 class SaleCreateView(LoginRequiredMixin, CreateView):
     model = Ventas
     form_class = VentasForm
@@ -78,8 +82,9 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
             action = request.POST['action']
             if action == 'search_products':
                 data = []
-                productos = Productos.objects.filter(
-                    nombre__icontains=request.POST['term'])[0:5]
+                productos = Productos.objects.filter(Q
+                                                     (nombre__icontains=request.POST['term']) |
+                                                     Q(articulo__icontains=request.POST['term']))[0:5]
                 # print(productos)
                 for i in productos:
                     item = i.toJSON()
@@ -107,8 +112,26 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
                         detalle_venta.precio = float(i['precio_venta'])
                         detalle_venta.subtotal = float(i['subtotal'])
                         detalle_venta.save()
-                        
+
                     data = {'id': venta.id}
+
+            elif action == 'search_clients':
+                data = []
+                term = request.POST['term']
+                clientes = Clientes.objects.filter(Q(nombre__icontains=request.POST['term']) |
+                                                   Q(apellido__icontains=request.POST['term']) |
+                                                   Q(num_documento__icontains=request.POST['term']))[0:10]
+                # print(productos)
+                for i in clientes:
+                    item = i.toJSON()
+                    item['text'] = i.get_full_name()
+                    data.append(item)
+
+            elif action == 'create_client':
+                print(request.POST)
+                with transaction.atomic():
+                    frmCliente = ClientesForm(request.POST)
+                    data = frmCliente.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -122,7 +145,9 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
         context['action_entity'] = 'Crear'
         context['list_url'] = reverse_lazy('erp:sale_list')
         context['action'] = 'create'
+        context['frmCliente'] = ClientesForm()
         return context
+
 
 class SaleInvoicePdfView(View):
     def link_callback(self, uri, rel):
@@ -170,4 +195,3 @@ class SaleInvoicePdfView(View):
         except:
             pass
         return HttpResponseRedirect(reverse_lazy('erp:sale_list'))
-    

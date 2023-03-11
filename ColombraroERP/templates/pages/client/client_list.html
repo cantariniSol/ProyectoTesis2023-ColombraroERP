@@ -1,27 +1,26 @@
 {% extends 'components/table.html' %}
-{% load static %}
-{% block head_list %}
-    <script src="{% static 'js/client/client_list.js' %}"></script>
+<!-- static -->
+{% load static %} 
+<!-- head table -->
+{% block head_table %}
+<script src="{% static 'js/client/client_list.js' %}"></script>
 {% endblock %}
-
-
+<!-- columnas -->
 {% block columns %}
-    <tr>
-        <th scope="col" >Nombre</th>
-        <th scope="col" >Apellido</th>
-        <th scope="col" >Tipo Doc</th>
-        <th scope="col" >Núm Doc</th>
-        <th scope="col" >Teléfono</th>
-        <th scope="col" >Email</th>
-        <th scope="col" >Fecha Alta</th>
-        <th scope="col" >Opciones</th>
-    </tr>
-{% endblock %}
+<tr>
+  <th scope="col">Nombre</th>
+  <th scope="col">Apellido</th>
+  <th scope="col">Tipo Doc</th>
+  <th scope="col">Núm Doc</th>
+  <th scope="col">Teléfono</th>
+  <th scope="col">Email</th>
+  <th scope="col">Fecha Alta</th>
+  <th scope="col">Opciones</th>
+</tr>
+<!-- Filas -->
+{% endblock %} {% block rows %}
 
-{% block rows %}
-
-{% endblock %}
-
-{% block javaScript %}
+<!-- scripts javascript -->
+{% endblock %} {% block javaScript %}
 
 {% endblock %}

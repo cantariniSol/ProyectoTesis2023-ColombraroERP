@@ -1,79 +1,128 @@
-{% extends 'components/body.html' %}
-
-{% block content %}
+{% extends 'components/body.html' %} {% block content %}
 <div class="card">
   <div class="card-header bg-info">
     <h3 class="card-title">
       <i class="fas fa-search"></i>
       {{title}}
     </h3>
-
-    </div>
+  </div>
   <div class="card-body">
-        <div class="row">
-          <div class="col-8 px-4">
-              <form action="." method='POST' enctype="multipart/form-data">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Nombre</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.first_name}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Apellio</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.last_name}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Username</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.username}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.email}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Fecha Registro</label> 
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.date_joined}}" readonly>
-                    </div>
-                </div>
-                {% if object.last_login is not None %}
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Último Acceso</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.last_login}}" readonly>
-                    </div>
-                </div>
-                 {% endif %}
-                 {% if object.groups.all %}
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Roles</label>
-                    <div class="col-sm-6">
-                      {% for g in object.groups.all %}
-                      <span class="badge badge-secondary mr-1 mb-1" style="font-size:20px">{{g.name}}</span>
-                      {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-          </form>
+    <div class="row">
+      <div class="col-8 px-4">
+        <form action="." method="POST" enctype="multipart/form-data">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.first_name}}"
+                readonly
+              />
+            </div>
           </div>
-          <div class="col-4 mt-5">
-              <img src="{{ object.get_imagen }}" class="img-fluid d-block" style="
-              width:350px; 
-              height: 350px;
-              border-radius:10px;border:15px solid #F6E6C2">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Apellio</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.last_name}}"
+                readonly
+              />
+            </div>
           </div>
-        </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Username</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.username}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.email}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Fecha Registro</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.date_joined}}"
+                readonly
+              />
+            </div>
+          </div>
+          {% if object.last_login is not None %}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Último Acceso</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.last_login}}"
+                readonly
+              />
+            </div>
+          </div>
+          {% endif %} {% if object.groups.all %}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Roles</label>
+            <div class="col-sm-6">
+              {% for g in object.groups.all %}
+              <span
+                class="badge badge-secondary mr-1 mb-1"
+                style="font-size: 20px"
+                >{{g.name}}</span
+              >
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+        </form>
+      </div>
+      <div class="col-4 mt-5">
+        <img
+          src="{{ object.get_imagen }}"
+          class="img-fluid d-block"
+          style="
+            width: 350px;
+            height: 350px;
+            border-radius: 10px;
+            border: 15px solid #f6e6c2;
+          "
+        />
+      </div>
+    </div>
   </div>
   <div class="card-footer">
-    <a href="{{list_url}}" type="submit" class="btn btn-success btnTest" data-toggle="tooltip" data-placement="right" title="Volver">
-        <i class="fas fa-arrow-left"></i> Volver
+    <a
+      href="{{list_url}}"
+      type="submit"
+      class="btn btn-success btnTest"
+      data-toggle="tooltip"
+      data-placement="right"
+      title="Volver"
+    >
+      <i class="fas fa-arrow-left"></i> Volver
     </a>
   </div>
 </div>

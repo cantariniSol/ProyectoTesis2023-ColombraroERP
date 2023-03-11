@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 {% load static %}
 
-{% block head_table %}
+{% block head %}
 
     <!--  jQuery UI-->
     <link href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}" rel="stylesheet"/>
@@ -36,122 +36,172 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{{ action }}" method='POST' enctype="multipart/form-data" class="form">
-        <div class="card card-default">
-                <div class="card-header bg-info">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h3 class="card-title mt-2">
-                                {% if action == 'create' %}
-                                    <i class="fas fa-plus"></i>
-                                {% else %}
-                                    <i class="fas fa-edit"></i>
-                                {% endif %}
-                                    {{ title }}
-                            </h3>
-                        </div>
-                    </div> 
-                </div>
+<form action="{{ action }}" method='POST' enctype="multipart/form-data" class="form" id="frmVentas">
+  <div class="card card-default">
+    <div class="card-header bg-info">
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="card-title mt-2">
+                    {% if action == 'create' %}
+                        <i class="fas fa-plus"></i>
+                    {% else %}
+                        <i class="fas fa-edit"></i>
+                    {% endif %}
+                        {{ title }}
+                </h3>
+            </div>
+        </div> 
+    </div>
 
-                <div class="card-body">
-                    <!-- Tabla-->
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card card-dark">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <i class="fas fa-boxes"></i> 
-                                        Detalle de Productos
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <!-- Buscador -->
-                                    <div class="form-group">
-                                        <label>Buscador de productos:</label>
-                                        <div class="input-group">
-                                            <select class="form-control select2" style="width: 100%;" name="search">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- Fin Buscador -->
-                                    <hr>
-                                    <!-- Tabla -->
-                                        <table class="table" id="tblProducts">
-                                            <thead>
-                                                <button type="button" class="btn btn-danger btn-xs btnRemoveAll">
-                                                    Eliminar todo mis items
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                                <hr>
-                                                <tr>
-                                                    <th>Eliminar</th>
-                                                    <th>Producto</th>
-                                                    <th>Categoría</th>
-                                                    <th>Precio</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Subtotal</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                            </tbody>
-                                        </table>
-                                    <!-- Fin Tabla-->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="card card-success">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <i class="fas fa-shopping-cart"></i> 
-                                        Detalle de Factura
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <input type="hidden" name="action" value="{{action}}">
-                                        <div class="form-group">
-                                            <label>Fecha de venta: </label>
-                                            {{form.fecha_venta}}
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Cliente: </label>
-                                            {{form.cliente}}
-                                        </div>
-                                        <div class="form-group">
-                                            <label>SUBTOTAL: </label>
-                                            {{form.subtotal}}
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Recargo: </label>
-                                            {{form.iva}}
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Descuento: </label>
-                                            {{form.descuento}}
-                                        </div>
-                                        <div class="form-group">
-                                            <label>TOTAL: </label>
-                                            {{form.total}}
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <!--Fin tabla-->
+<div class="card-body">
+<!-- Tabla-->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card card-dark">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-boxes"></i> 
+                    Detalle de Productos
+                </h3>
+            </div>
+            <div class="card-body">
+                <!-- Buscador -->
+                <div class="form-group">
+                    <label>Buscador de productos:</label>
+                    <div class="input-group">
+                        <select class="form-control select2" style="width: 100%;" name="search">
+                        </select>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Guardar">
-                            <i class="fas fa-save"></i>
-                            Guardar
-                        </button>
-                        <a href="{{list_url}}" type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Cancelas">
-                            <i class="fas fa-times"></i>
-                            Cancelar
-                        </a>
-                </div>
+                <!-- Fin Buscador -->
+                <hr>
+                <!-- Tabla -->
+                    <table class="table" id="tblProducts">
+                        <thead>
+                            <button type="button" class="btn btn-danger btn-xs btnRemoveAll">
+                                Eliminar todo mis items
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <hr>
+                            <tr>
+                                <th>Eliminar</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                <!-- Fin Tabla-->
+            </div>
         </div>
+    </div>
+
+            <div class="col-lg-4">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-shopping-cart"></i> 
+                            Detalle de Factura
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" name="action" value="{{action}}">
+                            <div class="form-group">
+                                <label>Fecha de venta: </label>
+                                {{form.fecha_venta}}
+                            </div>
+                            <div class="form-group">
+                                <label>Cliente: </label>
+                                <div class="input-group">
+                                {{form.cliente}}
+                            <div class="input-group-append">
+        <button class="btn btn-success btnAddClient" type="button">
+                    <i class="fas fa-user-plus"></i>
+        </button>
+    </div>
+    </div>
+
+        </div>
+          <div class="form-group">
+              <label>SUBTOTAL: </label>
+              {{form.subtotal}}
+          </div>
+          <div class="form-group">
+              <label>Recargo: </label>
+              {{form.iva}}
+          </div>
+          <div class="form-group">
+              <label>Descuento: </label>
+              {{form.descuento}}
+          </div>
+          <div class="form-group">
+              <label>TOTAL: </label>
+              {{form.total}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin tabla-->
+  </div>
+  </div>
+          <div class="card-footer">
+              <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Guardar">
+                      <i class="fas fa-save"></i>
+                      Guardar
+                  </button>
+                  <a href="{{list_url}}" type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Cancelas">
+                      <i class="fas fa-times"></i>
+                      Cancelar
+                  </a>
+          </div>
+  </div>
 </form>
+
+   <!-- Modal -->
+<div class="modal fade" id="myModalClient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form id="frmClientes" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+        <div class="modal-content"> 
+        <div class="modal-header bg-success">
+            <h5 class="modal-title " id="exampleModalLabel">
+                <i class="fas fa-plus"></i> 
+                <b>Crear Cliente</b>
+            </h5>
+            <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">
+                <i class="fa fa-window-close" aria-hidden="true"></i>
+            </span>
+            </button>
+        </div>
+        <div class="modal-body"> 
+          {% for field in frmCliente.visible_fields %}
+          <div class="form-group">
+              <!--Labels -->  
+              <label for="nombre_cat" class="form-label px-1">{{field.label}}</label>
+                  <!-- Campos -->
+              <!--Libreria django-widget-tweaks -->
+              {{ field |add_class:"form-control" |attr:"autocomplete:off"}}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="modal-footer bg-light">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i>
+                Guardar 
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                <i class="fas fa-times"></i>
+                Cerrar
+            </button>
+        </div>
+        </div>
+    </div>
+    </form>
+</div>
 {% endblock %}

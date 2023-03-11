@@ -1,55 +1,79 @@
-{% extends 'components/body.html' %}
-{% load widget_tweaks %}
-
-{% block content %}
-    <form  action="." method='POST' enctype="multipart/form-data">
-        <div class="card card-default">
-            <div class="card-header bg-info">
-                <h3 class="card-title">
-                    <i class="fas fa-trash"></i>
-                    {{ title }}
-                </h3>
-            </div>
-            <div class="card-body">
-                <input type="hidden" name="action" value="{{ action }}">
-                {% csrf_token %}
-                {% if form.errors %}
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
-                        <ul>
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <li>{{ error }}</li>
-                                {% endfor %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-                <div class="alert alert-danger alert-dismissible">
-                    <h5><i class="icon fas fa-ban"></i>CUIDADO!!</h5>
-                    El registro "{{prop |upper}}" se está por eliminar.
-                    <br>
-                    ¿Estás segura/o?
-                </div>
-            </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-success btnTest" data-toggle="tooltip" data-placement="right" title="Aceptar">
-                    <i class="fas fa-save"></i> Si, aceptar!
-                </button>
-                <a href="{{list_url}}" type="submit" class="btn btn-danger btnTest" data-toggle="tooltip" data-placement="right" title="Cancelar">
-                    <i class="fas fa-times"></i> No, cancelar!
-                </a>
-            </div>
-        </div>
-    </form>
-    <script>
-        $('form').on('submit', function (e) {
-            e.preventDefault();
-            var parameters = $(this).serializeArray();
-            submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de eliminar el siguiente registro?', parameters, function () {
-                location.href = '{{ list_url }}';
-            });
-        });
-    </script>
+{% extends 'components/body.html' %} {% load widget_tweaks %} {% block content
+%}
+<form action="." method="POST" enctype="multipart/form-data">
+  <div class="card card-default">
+    <div class="card-header bg-info">
+      <h3 class="card-title">
+        <i class="fas fa-trash"></i>
+        {{ title }}
+      </h3>
+    </div>
+    <div class="card-body">
+      <input type="hidden" name="action" value="{{ action }}" />
+      {% csrf_token %} {% if form.errors %}
+      <div class="alert alert-danger alert-dismissible">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+        <h5>
+          <i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar
+          el registro
+        </h5>
+        <ul>
+          {% for field in form %} {% for error in field.errors %}
+          <li>{{ error }}</li>
+          {% endfor %} {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class="alert alert-danger alert-dismissible">
+        <h5><i class="icon fas fa-ban"></i>CUIDADO!!</h5>
+        El registro "{{prop |upper}}" se está por eliminar.
+        <br />
+        ¿Estás segura/o?
+      </div>
+    </div>
+    <div class="card-footer">
+      <button
+        type="submit"
+        class="btn btn-success btnTest"
+        data-toggle="tooltip"
+        data-placement="right"
+        title="Aceptar"
+      >
+        <i class="fas fa-save"></i> Si, aceptar!
+      </button>
+      <a
+        href="{{list_url}}"
+        type="submit"
+        class="btn btn-danger btnTest"
+        data-toggle="tooltip"
+        data-placement="right"
+        title="Cancelar"
+      >
+        <i class="fas fa-times"></i> No, cancelar!
+      </a>
+    </div>
+  </div>
+</form>
+<script>
+  $("form").on("submit", function (e) {
+    e.preventDefault();
+    var parameters = $(this).serializeArray();
+    submit_with_ajax(
+      window.location.pathname,
+      "Notificación",
+      "¿Estas seguro de eliminar el siguiente registro?",
+      parameters,
+      function () {
+        location.href = "{{ list_url }}";
+      }
+    );
+  });
+</script>
 {% endblock %}

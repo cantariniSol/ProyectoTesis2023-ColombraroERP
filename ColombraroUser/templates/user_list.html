@@ -1,23 +1,14 @@
-{% extends 'components/table.html' %}
-{% load static %}
-
-{% block head_list %}
+{% extends 'components/table.html' %} {% load static %} {% block head_table %}
 <!-- javaScript -->
-    <script src="{% static 'js/user/user_list.js' %}"></script>
-{% endblock %}
-
-{% block columns %}
-    <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Email</th>
-        <th scope="col">Nombre de Usuario</th>
-        <th scope="col">Fecha de Registro</th>
-        <th scope="col">Roles</th>
-        <th scope="col">Imágen</th>
-        <th scope="col">Opciones</th>
-    </tr>
-{% endblock %}
-
-{% block rows %}
-
-{% endblock %}
+<script src="{% static 'js/user/user_list.js' %}"></script>
+{% endblock %} {% block columns %}
+<tr>
+  <th scope="col">Nombre</th>
+  <th scope="col">Email</th>
+  <th scope="col">Nombre de Usuario</th>
+  <th scope="col">Fecha de Registro</th>
+  <th scope="col">Roles</th>
+  <th scope="col">Imágen</th>
+  <th scope="col">Opciones</th>
+</tr>
+{% endblock %} {% block rows %} {% endblock %}

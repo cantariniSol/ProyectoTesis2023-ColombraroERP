@@ -1,26 +1,19 @@
-{% extends 'components/table.html' %}
-{% load static %}
-{% block head_list %}
-    <script src="{% static 'js/category/category_list.js' %}"></script>
+{% extends 'components/table.html' %} {% load static %} {% block head_table %}
+<script src="{% static 'js/category/category_list.js' %}"></script>
 {% endblock %}
 
-
+<!-- Columnas -->
 {% block columns %}
-    <tr>
-        <th scope="col" style="width: 20%">Nombre</th>
-        <th scope="col" style="width: 20%">Descripción</th>
-        <th scope="col" style="width: 20%">Imagen</th>
-        <th scope="col" style="width: 20%">Opciones</th>
-    </tr>
+<tr>
+  <th scope="col" style="width: 20%">Nombre</th>
+  <th scope="col" style="width: 20%">Descripción</th>
+  <th scope="col" style="width: 20%">Imagen</th>
+  <th scope="col" style="width: 20%">Opciones</th>
+</tr>
 {% endblock %}
 
-{% block rows %}
+<!-- Filas -->
+{% block rows %} {% endblock %}
 
-{% endblock %}
-
-{% block javaScript %}
-
-{% endblock %}
-
-
-
+<!-- Script de javascript -->
+{% block javaScript %} {% endblock %}

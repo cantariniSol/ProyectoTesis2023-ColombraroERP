@@ -1,6 +1,4 @@
-{% extends 'components/body.html' %}
-
-{% block content %}
+{% extends 'components/body.html' %} {% block content %}
 
 <div class="card">
   <div class="card-header bg-info">
@@ -8,123 +6,210 @@
       <i class="fas fa-search"></i>
       {{title}}
     </h3>
-
-    </div>
+  </div>
   <div class="card-body">
-      <form action="." method='POST' enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-6 px-4">
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Fecha de Alta</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.fecha_alta | date:'d/m/Y' }}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Nombre</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.nombre}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Apellido</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.apellido}}" readonly>
-                    </div>
-                </div>
-                {% if object.razon_social != None %}
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Razón Social</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.razon_social}}" readonly>
-                    </div>
-                  </div>
-                {% endif%}
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Tipo de Documento</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.tipo_documento.nombre}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Núm de Documento</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.num_documento}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Fecha de Nacimiento</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.fecha_nacimiento | date:'d/m/Y' }}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Género</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.genero}}" readonly>
-                    </div>
-                </div>
+    <form action="." method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-6 px-4">
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Fecha de Alta</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.fecha_alta | date:'d/m/Y' }}"
+                readonly
+              />
             </div>
-
-            <div class="col-6 px-4">
-              <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">País</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.pais}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Provincia</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.provincia}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Localidad</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.localidad}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Barrio</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.barrio}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Dirección</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.direccion}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Número de teléfono</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.num_telefono}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Email</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.email}}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Tipo de Factura</label>
-                    <div class="col-sm-6">
-                      <input type="text" readonly class="form-control" value="{{object.factura}}" readonly>
-                    </div>
-                </div>
           </div>
-                
-                
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Nombre</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.nombre}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Apellido</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.apellido}}"
+                readonly
+              />
+            </div>
+          </div>
+          {% if object.razon_social != None %}
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Razón Social</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.razon_social}}"
+                readonly
+              />
+            </div>
+          </div>
+          {% endif%}
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Tipo de Documento</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.tipo_documento.nombre}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Núm de Documento</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.num_documento}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Fecha de Nacimiento</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.fecha_nacimiento | date:'d/m/Y' }}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Género</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.genero}}"
+                readonly
+              />
+            </div>
+          </div>
         </div>
+
+        <div class="col-6 px-4">
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">País</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.pais}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Provincia</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.provincia}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Localidad</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.localidad}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Dirección</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.direccion}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Número de teléfono</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.num_telefono}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Email</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.email}}"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Tipo de Factura</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                readonly
+                class="form-control"
+                value="{{object.factura}}"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
-          
   </div>
   <div class="card-footer">
-    <a href="{{list_url}}" type="submit" class="btn btn-success btnTest" data-toggle="tooltip" data-placement="right" title="Volver">
-        <i class="fas fa-arrow-left"></i> Volver
+    <a
+      href="{{list_url}}"
+      type="submit"
+      class="btn btn-success btnTest"
+      data-toggle="tooltip"
+      data-placement="right"
+      title="Volver"
+    >
+      <i class="fas fa-arrow-left"></i> Volver
     </a>
   </div>
 </div>

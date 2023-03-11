@@ -1,114 +1,126 @@
 {% load static %}
 <aside class="main-sidebar sidebar-light-primary elevation-4 bg-dark">
-    <div class="brand-link">
-        <img src="{% static 'img/logo/colombraro-logo.png' %}"
-            alt="Colombraro Logo"
-            class="brand-image elevation-2 mx-5"
-            style="width:85px; border-radius:34%">
-            <br>
-        <span class="text-light p-3"><b>Colombraro ERP</b></span>
+  <div class="brand-link">
+    <img
+      src="{% static 'img/logo/colombraro-logo.png' %}"
+      alt="Colombraro Logo"
+      class="brand-image elevation-2 mx-5"
+      style="width: 85px; border-radius: 34%"
+    />
+    <br />
+    <span class="text-light p-3"><b>Colombraro ERP</b></span>
+  </div>
+  <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img
+          src="{{request.user.get_imagen}}"
+          class="img-circle elevation-2 bg-light p-1"
+          alt="Imagen de Usuario"
+        />
+      </div>
+      <div class="info">
+        {% if request.user.first_name == '' or request.user.last_name == '' %}
+        <span class="d-block text-light">{{request.user.username}}</span>
+        {% else %}
+        <span class="d-block text-light">{{request.user.get_full_name}}</span>
+        {% endif %} 
+        {% if request.user.groups.all %} 
+          {% for g in request.user.groups.all %}
+          <span class="badge badge-secondary">{{g.name}}</span>
+          <br />
+          {% endfor %} 
+        {% endif %}
+      </div>
     </div>
-    <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="{{request.user.get_imagen}}" class="img-circle elevation-2 bg-light p-1" alt="Imagen de Usuario">
-            </div>
-            <div class="info ">
-                {% if request.user.first_name == '' or request.user.last_name == '' %}
-                    <span class="d-block text-light">{{request.user.username}}</span>
-                {% else %}
-                    <span class="d-block text-light">{{request.user.first_name}} {{request.user.last_name}}</span>
-                {% endif %}
-                {% if request.user.groups.all %}
-                      {% for g in request.user.groups.all %}
-                      <span class="badge badge-secondary">{{g.name}}</span>
-                      <br>
-                      {% endfor %}
-                {% endif %}
-            </div>  
-        </div>
-        <nav class="mt-2" id="nav-sidebar">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a href="{% url 'erp:dashboard' %}" class="nav-link 
-                    {% if request.path == '/erp/home/' %}active{% endif %}">
-                        <i class="fa fa-home"></i>
-                        <p>
-                            Panel
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'erp:category_list' %}" class="nav-link
-                    {% if request.path == '/erp/category/list/' %}active
-
-                    {% endif %}">
-                        <i class="nav-icon fas fa-truck-loading"></i>
-                        <p>
-                            Categorías
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'erp:product_list' %}" class="nav-link
-                    {% if request.path == '/erp/product/list/' %}active{% endif %}">
-                        <i class="nav-icon fas fa-boxes"></i>
-                        <p>
-                            Productos
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'erp:client_list' %}" class="nav-link
-                    {% if request.path == '/erp/client/list/' %}active{% endif %}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Clientes
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'erp:sale_list' %}" class="nav-link
-                    {% if request.path == '/erp/sale/list/' %}active{% endif %}">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
-                        <p>
-                            Ventas
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'user:user_list' %}" class="nav-link
-                    {% if request.path == '/user/list/' %}active{% endif %}">
-                        <i class="nav-icon fas fa-user-friends"></i>
-                        <p>
-                            Usuarios
-                        </p>
-                    </a>
-                </li>
-                {% if user.is_superuser %}
-                <li class="nav-item
-                {% if request.path == '/reports/sale/' %}menu-open{% endif %}">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-chart-bar"></i>
-                            <p>
-                            Reportes            
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'reports:reports_sale' %}" class="nav-link
-                            {% if request.path == '/reports/sale/' %}active{% endif %}">
-                                <p>
-                                <i class="nav-icon far fa-circle "></i>
-                                Ventas
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+    <nav class="mt-2" id="nav-sidebar">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <li class="nav-item">
+          <a
+            href="{% url 'erp:dashboard' %}"
+            class="nav-link {% if request.path == '/erp/home/' %}active{% endif %}"
+          >
+            <i class="fa fa-home"></i>
+            <p>Panel</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="{% url 'erp:category_list' %}"
+            class="nav-link {% if request.path == '/erp/category/list/' %}active {% endif %}"
+          >
+            <i class="nav-icon fas fa-truck-loading"></i>
+            <p>Categorías</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="{% url 'erp:product_list' %}"
+            class="nav-link {% if request.path == '/erp/product/list/' %}active{% endif %}"
+          >
+            <i class="nav-icon fas fa-boxes"></i>
+            <p>Productos</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="{% url 'erp:client_list' %}"
+            class="nav-link {% if request.path == '/erp/client/list/' %}active{% endif %}"
+          >
+            <i class="nav-icon fas fa-users"></i>
+            <p>Clientes</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="{% url 'erp:sale_list' %}"
+            class="nav-link {% if request.path == '/erp/sale/list/' %}active{% endif %}"
+          >
+            <i class="nav-icon fas fa-shopping-cart"></i>
+            <p>Ventas</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="{% url 'user:user_list' %}"
+            class="nav-link {% if request.path == '/user/list/' %}active{% endif %}"
+          >
+            <i class="nav-icon fas fa-user-friends"></i>
+            <p>Usuarios</p>
+          </a>
+        </li>
+        {% if user.is_superuser %}
+        <li
+          class="nav-item {% if request.path == '/reports/sale/' %}menu-open{% endif %}"
+        >
+          <a href="#" class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            <p>
+              Reportes
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a
+                href="{% url 'reports:reports_sale' %}"
+                class="nav-link {% if request.path == '/reports/sale/' %}active{% endif %}"
+              >
+                <p>
+                  <i class="nav-icon far fa-circle"></i>
+                  Ventas
+                </p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
 </aside>

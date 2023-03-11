@@ -6,14 +6,16 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from django.db.models import FloatField
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from ColombraroERP.models import Ventas, Productos, DetallesVentas
 
 from random import randint
 
 
-class DashboardView(TemplateView):
-    template_name = 'pages/dashboard/dashboard.html'
-    
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'components/dashboard.html'
+
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -35,13 +37,13 @@ class DashboardView(TemplateView):
                     'colorByPoint': True,
                     'data': self.get_grafico_productos_vendidos()
                 }
-                
+
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-    
+
     def get_grafico_ventas_anual(self):
         data = []
         try:
@@ -53,7 +55,7 @@ class DashboardView(TemplateView):
         except:
             pass
         return data
-        
+
     def get_grafico_productos_vendidos(self):
         data = []
         year = datetime.now().year
@@ -70,10 +72,9 @@ class DashboardView(TemplateView):
         except:
             pass
         return data
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['grafico_ventas_anual'] = self.get_grafico_ventas_anual()
         context['action_entity'] = ''
         return context
-

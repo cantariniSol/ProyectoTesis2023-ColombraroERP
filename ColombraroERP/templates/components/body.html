@@ -1,64 +1,67 @@
-{% extends 'components/head.html' %}
-{% block body %}
-    <body class="bg-light">
-    <div class="wrapper">
-        <!-- Sidebar -->
-        {% include 'components/sidebar.html' %}
-        <!-- Header -->
-        {% include 'components/navbar.html' %}
+{% extends 'components/head.html' %} {% block body %}
+<body class="bg-light">
+  <div class="wrapper">
+    <!-- Sidebar -->
+    {% include 'components/sidebar.html' %}
+    <!-- Header -->
+    {% include 'components/navbar.html' %}
 
-        
-        <!-- Content -->
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container bg-white p-2">
-                    <div class="row">
-                        <div class="col-sm-12">
-                             <ol class="breadcrumb float-sm-left">
-                                <li class="breadcrumb-item"><a href="{% url 'erp:dashboard' %}">
-                                    <i class="fa fa-home" aria-hidden="true"></i>
-                                    Panel</a></li>
-                                <li class="breadcrumb-item"><a href="{{list_url}}">{{entity }}</a></li>
-                                {% if action_entity != '' %}
-                                <li class="breadcrumb-item"><a href="#">{{action_entity}}</a></li>
-                                {% endif%}
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+    <!-- Content -->
+    <div class="content-wrapper">
+      <div class="content-header">
+        <div class="container bg-white p-2">
+          <div class="row">
+            <div class="col-sm-12">
+              <ol class="breadcrumb float-sm-left">
+                <li class="breadcrumb-item">
+                  <a href="{% url 'erp:dashboard' %}">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    Panel</a
+                  >
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="{{list_url}}">{{entity }}</a>
+                </li>
+                {% if action_entity != '' %}
+                <li class="breadcrumb-item">
+                  <a href="#">{{action_entity}}</a>
+                </li>
+                {% endif%}
+              </ol>
             </div>
-            <div class="content">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            {% block content %}
-
-                            {% endblock %}
-                        </div>
-                    </div>
-                
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--  ---------- Content -------- -->
+              {% block content %} 
+              
+              {% endblock %}
             </div>
         </div>
-        <!-- Footer -->
-        {% include 'components/footer.html' %}
+      </div>
     </div>
-    <!--Block JavaScript para Datable-->
-    {% block javaScript %}
+    <!-- Footer -->
+    {% include 'components/footer.html' %}
+  </div>
+  <!--Block JavaScript para Datable-->
+  {% block javaScript %} {% endblock %}
+  <script>
+    {% if messages %}
+        var html = '<p>';
+        {% for message in messages %}
+            html += '{{ message }}<br>';
+        {% endfor %}
+        html += '</p>';
+        Swal.fire({
+            title: 'Info!',
+            html: html,
+            icon: 'info'
+        });
+    {% endif %}
+  </script>
+</body>
 
-    {% endblock %}
-    <script>
-        {% if messages %}
-            var html = '<p>';
-            {% for message in messages %}
-                html += '{{ message }}<br>';
-            {% endfor %}
-            html += '</p>';
-            Swal.fire({
-                title: 'Info!',
-                html: html,
-                icon: 'info'
-            });
-        {% endif %}
-    </script>
-    </body>
-     
 {% endblock %}

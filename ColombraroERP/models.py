@@ -8,6 +8,8 @@ from ColombraroConfig.settings import MEDIA_URL, STATIC_URL
 # Create your models here.
 
 # ================== Modelo: TIPO DE DOCUMENTOS ===========================================
+
+
 class TipoDocumentos(models.Model):
     TIPO_DOCUMENTOS = (
         ('DNI', 'Documento Nacional de Identidad'),
@@ -59,6 +61,8 @@ class Categorias(models.Model):
         ordering = ['nombre']
 
 # ================== Modelo: PRODUCTOS ============================
+
+
 class Productos(models.Model):
     articulo = models.IntegerField(verbose_name="Artículo")
     nombre = models.CharField(
@@ -117,6 +121,8 @@ class Productos(models.Model):
         ordering = ['articulo']
 
 # ================== Modelo: CLIENTES =============================
+
+
 class Clientes(models.Model):
     GENERO = (
         ('F', 'Femenimo'),
@@ -145,7 +151,6 @@ class Clientes(models.Model):
     pais = models.CharField(max_length=25, verbose_name='País')
     provincia = models.CharField(max_length=25, verbose_name='Provincia')
     localidad = models.CharField(max_length=25, verbose_name='Localidad')
-    barrio = models.CharField(max_length=25, verbose_name='Barrio')
     direccion = models.CharField(max_length=30, verbose_name='Dirección')
     num_telefono = models.DecimalField(
         max_digits=12, decimal_places=0, verbose_name="Número de Teléfono")
@@ -158,12 +163,16 @@ class Clientes(models.Model):
     def __str__(self):
         return self.nombre + ' ' + self.apellido
 
+    def get_full_name(self):
+        return '{} {} / {}'.format(self.nombre, self.apellido, self.num_documento)
+
     def toJSON(self):
         item = model_to_dict(self)
         item['genero'] = self.get_genero_display()
         item['factura'] = self.get_factura_display()
         item['fecha_nacimiento'] = self.fecha_nacimiento.strftime('%Y-%m-%d')
         item['fecha_alta'] = self.fecha_alta.strftime('%Y-%m-%d')
+        item['full_name'] = self.get_full_name()
         return item
 
     class Meta:
@@ -173,6 +182,8 @@ class Clientes(models.Model):
         ordering = ['nombre']
 
 # ================== Modelo: VENTAS ===============================
+
+
 class Ventas(models.Model):
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     fecha_venta = models.DateField(
@@ -186,7 +197,7 @@ class Ventas(models.Model):
 
     def __str__(self):
         return self.cliente.nombre
-    
+
     def toJSON(self):
         item = model_to_dict(self)
         item['cliente'] = self.cliente.toJSON()
@@ -195,7 +206,8 @@ class Ventas(models.Model):
         item['iva'] = format(self.iva, '.2f')
         item['descuento'] = format(self.descuento, '.2f')
         item['total'] = format(self.total, '.2f')
-        item['detalle_venta'] = [i.toJSON() for i in self.detallesventas_set.all()]
+        item['detalle_venta'] = [i.toJSON()
+                                 for i in self.detallesventas_set.all()]
         return item
 
     class Meta:
@@ -205,6 +217,8 @@ class Ventas(models.Model):
         ordering = ['id']
 
 # ================== Modelo: DetallesVentas =======================
+
+
 class DetallesVentas(models.Model):
     venta = models.ForeignKey(Ventas, on_delete=models.CASCADE)
     producto = models.ForeignKey(Productos, on_delete=models.CASCADE)
@@ -215,7 +229,7 @@ class DetallesVentas(models.Model):
 
     def __str__(self):
         return self.producto.nombre
-    
+
     def toJSON(self):
         item = model_to_dict(self, exclude=['venta'])
         item['producto'] = self.producto.toJSON()

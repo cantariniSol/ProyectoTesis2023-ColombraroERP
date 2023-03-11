@@ -37,15 +37,15 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Categorías'
+        context['title'] = 'Lista de Categorías'
         context['create_url'] = reverse_lazy('erp:category_create')
         context['list_url'] = reverse_lazy('erp:category_list')
-        context['entity'] = 'Categorías'
+        context['entity'] = 'Lista de Categorías'
         context['action_entity'] = ''
         return context
 
 
-class CategoryDetailView(LoginRequiredMixin,DetailView):
+class CategoryDetailView(LoginRequiredMixin, DetailView):
     model = Categorias
     template_name = 'pages/category/category_detail.html'
 
@@ -101,7 +101,6 @@ class CategoryUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Up
     permission_required = 'ColombraroERP.change_categorias'
     url_redirect = success_url
 
-    
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
