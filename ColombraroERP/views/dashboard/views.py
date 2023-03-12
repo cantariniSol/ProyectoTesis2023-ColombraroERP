@@ -77,4 +77,5 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['grafico_ventas_anual'] = self.get_grafico_ventas_anual()
         context['action_entity'] = ''
+        context['entity'] = 'Dashboard'
         return context

@@ -45,8 +45,8 @@
       <b>FACTURA N°:</b> {{ venta.id }}<br />
       <b>TIPO DE FACTURA:</b> {{ venta.cliente.factura }}<br />
       <b>FECHA DE VENTA:</b> {{ venta.fecha_venta | date:'d/m/Y' }}<br />
-      <b>CLIENTE:</b> {{ venta.cliente.nombre|upper }} {{
-      venta.cliente.apellido|upper }}<br />
+      <b>CLIENTE:</b> {{ venta.cliente.nombre | upper }}
+      {{venta.cliente.apellido | upper }}<br />
       <b>RAZÓN SOCIAL:</b> {{ venta.cliente.razon_social|upper }}<br />
       <b>TIPO DOCUEMENTO:</b> {{ venta.cliente.tipo_documento|upper }}<br />
       <b>NÚMERO DE DOCUMENTO:</b> {{ venta.cliente.num_documento }}<br />

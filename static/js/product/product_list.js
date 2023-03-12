@@ -16,7 +16,7 @@ $(function () {
             { "data": "articulo" },
             { "data": "nombre" },
             { "data": "categoria.nombre" },
-            { "data": "precio" },
+            { "data": "precio_venta" },
             { "data": "stock" },
             { "data": "imagen" },
             { "data": "id" },

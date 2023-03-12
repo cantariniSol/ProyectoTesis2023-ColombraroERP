@@ -40,7 +40,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
         context['title'] = 'Lista de Categorías'
         context['create_url'] = reverse_lazy('erp:category_create')
         context['list_url'] = reverse_lazy('erp:category_list')
-        context['entity'] = 'Lista de Categorías'
+        context['entity'] = 'Categorías'
         context['action_entity'] = ''
         return context
 
