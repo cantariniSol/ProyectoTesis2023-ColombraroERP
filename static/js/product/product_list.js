@@ -23,6 +23,20 @@ $(function () {
         ],
         columnDefs: [
             {
+                targets: [-3],
+                class: 'text-center',
+                orderable: false,
+                render: function (data, type, row) {
+                    if(row.stock >= 20 ){
+                        return '<span class="badge badge-success">'+data+'</span>'
+                    }
+                    else if (row.stock < 20 && row.stock >= 10) {
+                        return '<span class="badge badge-warning">'+data+'</span>'
+                    }
+                    return '<span class="badge badge-danger">'+data+'</span>'
+                }
+            },
+            {
                 targets: [-2],
                 class: 'text-center',
                 orderable: false,

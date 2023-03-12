@@ -82,11 +82,16 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
             action = request.POST['action']
             if action == 'search_products':
                 data = []
-                productos = Productos.objects.filter(Q
-                                                     (nombre__icontains=request.POST['term']) |
-                                                     Q(articulo__icontains=request.POST['term']))[0:5]
+                ids_exclude = json.loads(request.POST['ids'])
+                term = request.POST['term'].strip()
+                productos = Productos.objects.filter(stock__gt=0)
+                if len(term):
+                    productos = productos.filter(Q(nombre__icontains=term) |
+                                                 Q(articulo__icontains=term))
+
                 # print(productos)
-                for i in productos:
+
+                for i in productos.exclude(id__in=ids_exclude)[0:10]:
                     item = i.toJSON()
                     item['text'] = i.nombre
                     data.append(item)
@@ -113,6 +118,9 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
                         detalle_venta.subtotal = float(i['subtotal'])
                         detalle_venta.save()
 
+                        detalle_venta.producto.stock -= detalle_venta.cantidad
+                        detalle_venta.producto.save()
+
                     data = {'id': venta.id}
 
             elif action == 'search_clients':
@@ -128,7 +136,7 @@ class SaleCreateView(LoginRequiredMixin, CreateView):
                     data.append(item)
 
             elif action == 'create_client':
-                #print(request.POST)
+                # print(request.POST)
                 with transaction.atomic():
                     frmCliente = ClientesForm(request.POST)
                     data = frmCliente.save()

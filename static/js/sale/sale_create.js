@@ -10,6 +10,13 @@ var ventas = {
         total: 0.00,
         productos: []
     },
+    get_ids: function () {
+        var ids = [];
+        $.each(this.items.productos, function (key, value) {
+            ids.push(value.id);
+        });
+        return ids;
+    },
     calcular_factura: function () {
         var subtotal = 0.00;
         var iva = $('input[name="iva"]').val();
@@ -43,11 +50,27 @@ var ventas = {
                 { "data": "id" },
                 { "data": "nombre" },
                 { "data": "categoria.nombre" },
+                { "data": "stock" },
                 { "data": "precio_venta" },
                 { "data": "cantidad" },
                 { "data": "subtotal" },
             ],
             columnDefs: [
+            
+                {
+                    targets: [-4],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        if(row.stock >= 20 ){
+                        return '<span class="badge badge-success">'+data+'</span>'
+                    }
+                    else if (row.stock < 20 && row.stock >= 10) {
+                        return '<span class="badge badge-warning">'+data+'</span>'
+                    }
+                    return '<span class="badge badge-danger">'+data+'</span>'
+                    }
+                },
                 {
                     targets: [0],
                     class: 'text-center',
@@ -69,7 +92,7 @@ var ventas = {
                     class: 'text-center',
                     orderable: false,
                     render: function (data, type, row) {
-                        return '<input type="text" name="cantidad" class="form-control form-control-sm input-sm" autocomplete="off" value="' + row.cantidad + '">';
+                        return '<input type="text" name="cantidad" class="form-control form-control-sm input-sm" style="width:10px" autocomplete="off" value="' + row.cantidad + '">';
                     }
                 },
                 {
@@ -84,7 +107,7 @@ var ventas = {
             rowCallback(row, data, displayNum, displayIndex, dataIndex) {
                 $(row).find('input[name="cantidad"]').TouchSpin({
                     min: 1,
-                    max: 100000000,
+                    max: data.stock,
                     step: 1
                 });
             },
@@ -92,6 +115,9 @@ var ventas = {
 
             }
         });
+        console.clear();
+        // console.log(this.items);
+        // console.log(this.get_ids());
     }
 };
 
@@ -109,8 +135,8 @@ function formatRepo(repo) {
         '<div class="col-lg-11 text-left shadow-sm">' +
         //'<br>' +
         '<p style="margin-bottom: 0;">' +
-        '<b>Artículo:</b> ' + repo.articulo + '<br>' +
-        '<b>Nombre:</b> ' + repo.nombre + '<br>' +
+        '<b>Producto:</b> Art: ' + repo.articulo + ' - '+ repo.nombre +  '<br>' +
+        '<b>Stock:</b> ' + repo.stock + '<br>' +
         '<b>Precio Venta:</b> <span class="badge badge-warning">$' + repo.precio_venta + '</span>' +
         '</p>' +
         '</div>' +
@@ -253,7 +279,7 @@ $(function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
             ventas.items.productos[tr.row].cantidad = cantidad;
             ventas.calcular_factura();
-            $('td:eq(5)', tblProducts.row(tr.row).node()).html('$' + ventas.items.productos[tr.row].subtotal.toFixed(2));
+            $('td:eq(6)', tblProducts.row(tr.row).node()).html('$' + ventas.items.productos[tr.row].subtotal.toFixed(2));
         });
 
     //--------------Guardar Factura ---------------------
@@ -293,7 +319,8 @@ $(function () {
             data: function (params) {
                 var queryParameters = {
                     term: params.term,
-                    action: 'search_products'
+                    action: 'search_products',
+                    ids: JSON.stringify(ventas.get_ids())  
                 }
                 return queryParameters;
             },

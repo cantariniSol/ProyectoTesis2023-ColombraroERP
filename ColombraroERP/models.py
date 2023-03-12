@@ -84,7 +84,7 @@ class Productos(models.Model):
     precio = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     precio_venta = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
-    stock = models.IntegerField(verbose_name="Stock")
+    stock = models.IntegerField(default=0, verbose_name="Stock")
 
     def __str__(self):
         return str(self.articulo) + ' ' + self.nombre
